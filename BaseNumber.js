@@ -137,6 +137,14 @@ class BaseNumber {
     new BaseNumber(parseFloat(this.parseBase()) / parseFloat(target.parseBase())).parseBase(resultBase) :
     new BaseNumber(parseFloat(this.parseBase()) / parseFloat(new BaseNumber(target, base).parseBase())).parseBase(resultBase);
   }
+  pow(target, base = 10, resultBase = this.#base) {
+  	return target instanceof BaseNumber ?
+    new BaseNumber(Math.pow(parseFloat(this.parseBase()), parseFloat(target.parseBase()))).parseBase(resultBase) :
+    new BaseNumber(Math.pow(parseFloat(this.parseBase()) , parseFloat(new BaseNumber(target, base).parseBase()))).parseBase(resultBase);
+  }
+  root(target, base = 10, resultBase = this.#base) {
+  	return this.pow(1 / (target instanceof BaseNumber ? target.parseBase() : new BaseNumber(target, base).parseBase()), 10, resultBase);
+  }
   
   toDec() {	return this.parseBase();	}
   toHex() {	return this.parseBase(16);}
@@ -146,7 +154,3 @@ class BaseNumber {
   value() { return this.#number;	}
   base() { return this.#base;	}
 }
-
-const dec = new BaseNumber(10);
-
-console.log(dec.higherThan(5));

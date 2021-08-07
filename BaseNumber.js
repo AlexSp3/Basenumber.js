@@ -90,7 +90,7 @@ class BaseNumber {
   }
   
   newValue(n, base = this.#base) {
-    const temp = this;
+    const temp = new BaseNumber(this.#number, this.#base);
     if (n instanceof BaseNumber) {
     	Object.assign(this, n);
     }else{

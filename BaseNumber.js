@@ -57,17 +57,17 @@ class BaseNumber {
   }
   
   higherThan(target, base = 10) {
-    const targetVal = parseFloat(target instanceof BaseNumber ? target.parseBase() : (new BaseNumber(target, base)));
+    const targetVal = parseFloat(target instanceof BaseNumber ? target.parseBase() : (new BaseNumber(target, base)).parseBase());
     return parseFloat(this.parseBase()) > targetVal;
   }
   
   lowerThan(target, base = 10) {
-    const targetVal = parseFloat(target instanceof BaseNumber ? target.parseBase() : (new BaseNumber(target, base)));
+    const targetVal = parseFloat(target instanceof BaseNumber ? target.parseBase() : (new BaseNumber(target, base)).parseBase());
     return parseFloat(this.parseBase()) < targetVal;
   }
   
   equalTo(target, base = 10) {
-  	const targetVal = parseFloat(target instanceof BaseNumber ? target.parseBase() : (new BaseNumber(target, base)));
+  	const targetVal = parseFloat(target instanceof BaseNumber ? target.parseBase() : (new BaseNumber(target, base)).parseBase());
     return parseFloat(this.parseBase()) === targetVal;
   }
   
@@ -146,3 +146,7 @@ class BaseNumber {
   value() { return this.#number;	}
   base() { return this.#base;	}
 }
+
+const dec = new BaseNumber(10);
+
+console.log(dec.higherThan(5));

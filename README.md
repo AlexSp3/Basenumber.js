@@ -48,7 +48,7 @@ const dec = new BaseNumber(10);
 
 const oldValue = dec.newValue(5);  // base argument is by default dec.base()
 
-console.log(oldValue.value());   //  prints "10"
+oldValue.value();   //  returns "10"
 ```
 ### Modify number base
 Similar to its value, you can also modify the number base using the `newBase()` method:
@@ -99,6 +99,25 @@ const dec = new BaseNumber(10.0625);
 dec.newBase(2);   // returns "1010.0001"
 
 dec.value();       // returns "1010.0001"
+```
+### Fixed precision
+BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **36**. Using the method `fixed()`, similar to the `toFixed()` in js, it fixes the number of decimals of the number, rounding up or down depending the number (and user parameters). The method returns a new string witht the decimals fixed:
+```JavaScript
+dec.fixed(precision[, exclusive]);
+```
+`precision` argument must be higher than 0 to avoid errors. `exclusive` argument allows user to decide how to fixed the middle number between 0 and the base. E.g: suppose a **base 9** number:
+```JavaScript
+const dec = new BaseNumber(10.04, 9);
+```
+The *4* digit is the middle number because base is an odd number (9), and the the possible symbols in the base are `[0, 1, 2, 3, (4), 5, 6, 7, 8]`.
+```JavaScript
+const dec = new BaseNumber(10.04, 9);
+
+// by default, exclusive is false, so the middle number would be fixed up
+dec.fixed(1);     // returns "10.1"
+
+// exclusive is true, so the middle number would be fixed down
+dec.fixed(1, true);     // returns "10.0"
 ```
 ## Simple Math Operations
 BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*:

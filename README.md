@@ -51,7 +51,43 @@ dec1.add(dec2, null, 16);   // returns "f"
 
 /* Notice that the null parameter in base doesn´t affect the
    result since dec2 is a BaseNumber instance with its own base */
+```
+For string/float:
+```JavaScript
+const dec = new BaseNumber(10);
 
+dec.add(5);   // returns "15"
+
+dec.add(5, 10, 16);   // returns "f"
+
+/* Notice that when using the resultBase argument
+   you need to specify base since you are not using
+   a BaseNumber instance */
+```
+The remaining Math operations works exactly the same:
+### Subtract
+```JavaScript
+const dec = new BaseNumber(10);
+
+dec.subtract(5);   // returns "5"
+
+dec.subtract(5, 10, 16);   // returns "5"
+```
+### Multiply
+```JavaScript
+const dec = new BaseNumber(10);
+
+dec.multiply(5);   // returns "50"
+
+dec.multiply(5, 10, 16);   // returns "32"
+```
+### Divide
+```JavaScript
+const dec = new BaseNumber(10);
+
+dec.divide(5);   // returns "2"
+
+dec.divide(5, 10, 16);   // returns "2"
 ```
 
 

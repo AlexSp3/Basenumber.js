@@ -50,6 +50,56 @@ const oldValue = dec.newValue(5);  // base argument is by default dec.base()
 
 console.log(oldValue.value());   //  prints "10"
 ```
+### Modify number base
+Similar to its value, you can also modify the number base using the `newBase()` method:
+```JavaScript
+const dec = new BaseNumber(15);
+
+dec.newBase(16);   // returns "f" (15 in hexadecimal)
+
+dec.value();       // returns "f"
+```
+## Base operations
+### Parse Base
+BaseNumber.js has its own method to parse a number into a new base without modifying the instance itself. Using the `parseBase()` method:
+```JavaScript
+const dec = new BaseNumber(15);
+
+dec.parseBase(16);   // returns "f" (15 in hexadecimal)
+
+dec.value();         // returns "15"
+```
+If base parameter is omitted, number would be parse in base **10** by default.
+### Parse decimal
+Similar to the parseBase(), returns a value parsed withouth modifying the instance. It´s a way to improve code readlibility:
+```JavaScript
+const hex = new BaseNumber("f");
+hex.toDec();   // returns "15"
+```
+### Parse hexadecimal
+```JavaScript
+const dec = new BaseNumber(15);
+hex.toHex();   // returns "f"
+```
+### Parse Octal
+```JavaScript
+const dec = new BaseNumber(10);
+hex.toOct();   // returns "12"
+```
+### Parse Binary
+```JavaScript
+const dec = new BaseNumber(10);
+hex.toBin();   // returns "1010"
+```
+## Working with float numbers
+All above functions can be also used with float numbers. E.g:
+```JavaScript
+const dec = new BaseNumber(10.0625);
+
+dec.newBase(2);   // returns "1010.0001"
+
+dec.value();       // returns "1010.0001"
+```
 ## Simple Math Operations
 BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*:
 ### Addition
@@ -116,7 +166,40 @@ dec.divide(5);   // returns "2"
 
 dec.divide(5, 10, 16);   // returns "2"
 ```
+## Comparing numbers with different bases
+BaseNumber.js allows user to make comparisons between instances or variables. Although following examples show only integer numbers, *all comparing operation are also available for float numbers*:
+### Checking equality:
+Call the `equalTo()` method to check equality between values. It has two parameters, second is optional. It can return true or false.
+```JavaScript
+dec.equalTo(number[, base]);
+```
+The `number` argument can be either a string/float variable or another BaseNumber instance. In case it´s a BaseNumber instance, `base` parameter would be equal to the number instance's `base`. E.g:
+```JavaScript
+const dec = new BaseNumber(15); 
+const hex = new BaseNumber("f", 16);
 
+dec.equalTo(hex);   // returns true (base is hex.base())
 
+hex.equalTo(dec);   // returns true (base is dec.base())
+```
+In case number argument is a string/float variable, the `base` parameter would be **10** by default, unless you specify it:
+```JavaScript
+const dec = new BaseNumber(15); 
+const hex = new BaseNumber("f", 16);
 
+dec.equalTo(15);   // returns true (base is 10 by default)
 
+hex.equalTo(15, 16);   // returns false (base is 16)
+```
+### Higher Than
+Call the `higherThan()` method to check if an element is higher than the argument number. It has two parameters, second is optional. It can return true or false.
+```JavaScript
+dec.higherThan(number[, base]);
+```
+It works the same as the `equalTo()` method.
+### Lower Than
+Call the `lowerThan()` method to check if an element is lower than the argument number. It has two parameters, second is optional. It can return true or false.
+```JavaScript
+dec.lowerThan(number[, base]);
+```
+It works the same as the `equalTo()` method.

@@ -23,8 +23,35 @@ Number base is save as an integer
 dec.base();   // returns 10
 hex.base();   // returns 16
 ```
+## Modify number instance
+Once a BaseNumber object is created, you can modify it dynamically:
+### Modify value
+The `newValue` method allows user to modify the value of an instance. It takes two parameters, second is optional, and returns the old instance:
+```JavaScript
+dec.newValue(number[, base]);
+```
+The `number` argument can be either a string/float variable or another BaseNumber instance. In case it´s a BaseNumber instance, `base` parameter would be equal to the number instance's `base`. E.g:
+```JavaScript
+dec.newValue(hex);  // base argument is by default hex.base()
+
+// Now 'dec' is a copy of 'hex' instance (same value and same base)
+```
+In case number argument is a string/float variable, the `base` parameter would be equal to the **instance base** by default, unless you specify it:
+```JavaScript
+dec.newValue(5);  // base argument is by default dec.base()
+
+// New value is 5 in base 10
+```
+Also you can get the old instance as a return value:
+```JavaScript
+const dec = new BaseNumber(10);
+
+const oldValue = dec.newValue(5);  // base argument is by default dec.base()
+
+console.log(oldValue.value());   //  prints "10"
+```
 ## Simple Math Operations
-BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance:
+BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*:
 ### Addition
 The addition method takes three arguments, two of them optional:
 ```JavaScript

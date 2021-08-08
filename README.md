@@ -101,7 +101,7 @@ dec.newBase(2);   // returns "1010.0001"
 dec.value();       // returns "1010.0001"
 ```
 ### Fixed precision
-BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **36**. Using the method `fixed()`, similar to the `toFixed()` in js, it fixes the number of decimals of the number, rounding up or down depending the number (and user parameters). The method returns a new string witht the decimals fixed:
+BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **36**. Using the method `fixed()`, similar to the `toFixed()` in js, it fixes the precision of the number, rounding up or down depending the number (and user parameters). The method returns a new string with precision fixed:
 ```JavaScript
 dec.fixed(precision[, exclusive]);
 ```

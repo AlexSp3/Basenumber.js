@@ -73,7 +73,7 @@ If base parameter is omitted, number would be parse in base **10** by default.
 ### Parse decimal
 Similar to the parseBase(), returns a value parsed withouth modifying the instance. It´s a way to improve code readlibility:
 ```JavaScript
-const hex = new BaseNumber("f");
+const hex = new BaseNumber("f", 16);
 hex.toDec();   // returns "15"
 ```
 ### Parse hexadecimal

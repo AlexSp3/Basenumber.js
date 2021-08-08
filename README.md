@@ -185,6 +185,22 @@ dec.divide(5);   // returns "2"
 
 dec.divide(5, 10, 16);   // returns "2"
 ```
+### Exponent
+```JavaScript
+const dec = new BaseNumber(10);
+
+dec.pow(2);   // returns "100"
+
+dec.pow(2, 10, 16);   // returns "64"
+```
+### Root
+```JavaScript
+const dec = new BaseNumber(10);
+
+dec.root(2);   // returns "3.16227766...."
+
+dec.root(2, 10, 16);   // returns "3.298b075b4b6a5dffff8"
+```
 ## Comparing numbers with different bases
 BaseNumber.js allows user to make comparisons between instances or variables. Although following examples show only integer numbers, *all comparing operation are also available for float numbers*:
 ### Checking equality:

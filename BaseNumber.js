@@ -1,14 +1,17 @@
 const getNumber = e => isNaN(e) ? e.charCodeAt(0) - 87 : parseInt(e);
 const Normalize = s => {
   s = s.toString().toLowerCase().split(",").join(".");
+  s = s.split(" ").join("");
   s.indexOf(".") + 1 == s.length && (s = s.substring(0, s.length - 1));
+  !s.indexOf("+") && (s = s.substring(1, s.length));
   return s;
 }
 const checkIncompatible = (n, base) => {
   let digits = n.split("");
   if (n === "" || digits.reduce((a, d) => d == "." ? ++a : a, 0) > 1 || 
-      (digits.some(d => isNaN(d) && (getNumber(d) < 10 || getNumber(d) > 35) && d != ".")))   return "Invalid number";
-  if (digits.some(d => getNumber(d) >= base  && d != "."))    return "Number doesn´t match base";
+      digits.reduce((a, d) => d == "-" ? ++a : a, 0) > 1 || 
+      (digits.some(d => isNaN(d) && (getNumber(d) < 10 || getNumber(d) > 35) && d != "." && d != "-")))   return "Invalid number";
+  if (digits.some(d => getNumber(d) >= base))    return "Number doesn´t match base";
   if (isNaN(base))	return "Target base is Not A Number"; 
   if (base < 2 || base > 36)  return "Invalid base argument";
   return false;
@@ -106,7 +109,7 @@ class BaseNumber {
   }
   
   newBase(base) {
-  	base = parseInt(base);
+    base = parseInt(base);
     const state = checkIncompatible("0", base);
     if (state) throw "error parsing number: " + state; 
     this.#number = this.parseBase(base);

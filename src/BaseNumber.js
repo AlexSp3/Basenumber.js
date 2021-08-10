@@ -171,6 +171,7 @@ class BaseNumber {
   }
   
   divide(target, base = 10) {
+    if ((target instanceof BaseNumber ? target.#number : target) == 0)	throw "error: cannot divide by 0";
   	const holdBase = this.#base;
     return this.newValue(parseFloat(this.parseBase().#number) / 
     parseFloat((target instanceof BaseNumber ? target.clone() : 
@@ -183,7 +184,9 @@ class BaseNumber {
     parseFloat((target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().#number)), 10).parseBase(holdBase);
   }
   root(target, base = 10) {
-  	if (this.#isNegative && !((target instanceof BaseNumber ? target.#number : target) % 2))	throw "error: cannot take the even root of a negative number";
+  	const targetVal = (target instanceof BaseNumber ? target.#number : target);
+    if (targetVal == 0)	throw "error: root argument cannot be 0";
+  	if (this.#isNegative && !(targetVal % 2))	throw "error: cannot take the even root of a negative number";
     this.#isNegative && (this.#number = this.#number.substring(1, this.#number.length));
   	return this.newValue((this.#isNegative ? "-" : "") + 
     this.pow(1 / (target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().#number, 10).#number);

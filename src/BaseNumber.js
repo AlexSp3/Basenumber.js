@@ -122,7 +122,7 @@ class BaseNumber {
     let dec = this.#isFloat ? this.#number.split(".")[1].split("").reduce((a, d, i) => a + getNumber(d) * Math.pow(this.#base, -(i + 1)), 0) : 0;
     let timeout = 100, parsedDec = [];
     while (timeout && (dec - Math.floor(dec))) {
-      dec = parseFloat(((dec - Math.floor(dec)) * base).toFixed(14));
+      dec = (dec - Math.floor(dec)) * base;
       const toPush = Math.floor(dec);
       parsedDec.push(toPush > 9 ? String.fromCharCode(toPush + 87) : toPush);
     	timeout--;

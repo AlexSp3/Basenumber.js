@@ -48,7 +48,7 @@ const checkIncompatible = (n, base) => {
 };
 
 class BaseNumber {
-	#number; #base; #isFloat;
+	#number; #base; #isFloat; #isNegative;
   constructor(n, base = 10) {  
     n = Normalize(n);
     base = parseInt(base);
@@ -59,6 +59,7 @@ class BaseNumber {
     this.#number = n;
     this.#base = base;
     this.#isFloat = !(digits.reduce((a, d) => d == "." ? ++a : a, 0) < 1);
+    this.#isNegative = (this.#number.split("")[0] === "-");
   }
   
   fixed(precision, exclusive = false) {
@@ -73,9 +74,10 @@ class BaseNumber {
       }
     };
 
+		const sign = (this.#isNegative ? "-" : "");
     const base = this.#base;
-    let n = this.#number;
-    let digits = n.split("");
+    let digits = this.#number.split("");
+    sign === "-" && digits.shift();
     precision = parseInt(precision);
     if (precision < 0 || isNaN(precision)) throw "error rounding number: precision argument should be an integer higher than 0"; 
     
@@ -86,27 +88,27 @@ class BaseNumber {
     && add(digits.indexOf(".") + precision);
     digits.splice(digits.indexOf(".") + 1 + precision);
     !precision && digits.splice(-1);
-    return this.newValue(digits.join(""));
+    return this.newValue(sign + digits.join(""));
   }
   
   higherThan(target, base = 10) {
-    const targetVal = parseFloat((target instanceof BaseNumber ? target.clone() : (new BaseNumber(target, base))).parseBase().value());
-    return parseFloat(this.clone().parseBase().value()) > targetVal;
+    const targetVal = parseFloat((target instanceof BaseNumber ? target.clone() : (new BaseNumber(target, base))).parseBase().#number);
+    return parseFloat(this.clone().parseBase().#number) > targetVal;
   }
   
   lowerThan(target, base = 10) {
-    const targetVal = parseFloat((target instanceof BaseNumber ? target.clone() : (new BaseNumber(target, base))).parseBase().value());
-    return parseFloat(this.clone().parseBase().value()) < targetVal;
+    const targetVal = parseFloat((target instanceof BaseNumber ? target.clone() : (new BaseNumber(target, base))).parseBase().#number);
+    return parseFloat(this.clone().parseBase().#number) < targetVal;
   }
   
   equalTo(target, base = 10) {
-  	const targetVal = parseFloat((target instanceof BaseNumber ? target.clone() : (new BaseNumber(target, base))).parseBase().value());
-    return parseFloat(this.clone().parseBase().value()) === targetVal;
+  	const targetVal = parseFloat((target instanceof BaseNumber ? target.clone() : (new BaseNumber(target, base))).parseBase().#number);
+    return parseFloat(this.clone().parseBase().#number) === targetVal;
   }
   
   parseBase(base = 10) {
     base = parseInt(base);
-    const sign = (this.#number.split("")[0] === "-" ? "-" : "");
+    const sign = (this.#isNegative ? "-" : "");
     const state = checkIncompatible("0", base);
     if (state) throw "error parsing number: " + state; 
   	const int = parseInt(this.#isFloat ? this.#number.split(".")[0] : this.#number, this.#base).toString(base);
@@ -126,6 +128,7 @@ class BaseNumber {
     	this.#number = n.#number;
       this.#base = n.#base;
       this.#isFloat = n.#isFloat;
+      this.#isNegative = n.#isNegative;
     }else{
       n = Normalize(n);
       base = parseInt(base);
@@ -134,45 +137,49 @@ class BaseNumber {
       this.#number = n;
       this.#base = base;
       this.#isFloat = !(n.split("").reduce((a, d) => d == "." ? ++a : a, 0) < 1);
+      this.#isNegative = (n.split("")[0] === "-");
     }
     return this;
   }
   
   add(target, base = 10) {
   	const holdBase = this.#base;
-    return this.newValue(parseFloat(this.parseBase().value()) + 
+    return this.newValue(parseFloat(this.parseBase().#number) + 
     parseFloat((target instanceof BaseNumber ? target.clone() : 
-    new BaseNumber(target, base)).parseBase().value()), 10).parseBase(holdBase);
+    new BaseNumber(target, base)).parseBase().#number), 10).parseBase(holdBase);
   }
   
   subtract(target, base = 10) {
   	const holdBase = this.#base;
-    return this.newValue(parseFloat(this.parseBase().value()) - 
+    return this.newValue(parseFloat(this.parseBase().#number) - 
     parseFloat((target instanceof BaseNumber ? target.clone() : 
-    new BaseNumber(target, base)).parseBase().value()), 10).parseBase(holdBase);
+    new BaseNumber(target, base)).parseBase().#number), 10).parseBase(holdBase);
   }
   
   multiply(target, base = 10) {
   	const holdBase = this.#base;
-    return this.newValue(parseFloat(this.parseBase().value()) * 
+    return this.newValue(parseFloat(this.parseBase().#number) * 
     parseFloat((target instanceof BaseNumber ? target.clone() : 
-    new BaseNumber(target, base)).parseBase().value()), 10).parseBase(holdBase);
+    new BaseNumber(target, base)).parseBase().#number), 10).parseBase(holdBase);
   }
   
   divide(target, base = 10) {
   	const holdBase = this.#base;
-    return this.newValue(parseFloat(this.parseBase().value()) / 
+    return this.newValue(parseFloat(this.parseBase().#number) / 
     parseFloat((target instanceof BaseNumber ? target.clone() : 
-    new BaseNumber(target, base)).parseBase().value()), 10).parseBase(holdBase);
+    new BaseNumber(target, base)).parseBase().#number), 10).parseBase(holdBase);
   }
   pow(target, base = 10) {
     const holdBase = this.#base;
-    return this.newValue((this.value().indexOf("-") >= 0 ? "-" : "") + Math.pow(
-    Math.abs(parseFloat(this.clone().parseBase().value())), 
-    parseFloat((target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().value())), 10).parseBase(holdBase);
+    return this.newValue(Math.pow(
+    parseFloat(this.clone().parseBase().#number), 
+    parseFloat((target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().#number)), 10).parseBase(holdBase);
   }
   root(target, base = 10) {
-  	return this.pow(1 / (target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().value(), 10);
+  	if (this.#isNegative && !((target instanceof BaseNumber ? target.#number : target) % 2))	throw "error: cannot take the even root of a negative number";
+    this.#isNegative && (this.#number = this.#number.substring(1, this.#number.length));
+  	return this.newValue((this.#isNegative ? "-" : "") + 
+    this.pow(1 / (target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().#number, 10).#number);
   }
   
   toDec() {	return this.parseBase();	}
@@ -184,12 +191,12 @@ class BaseNumber {
   base() { return this.#base;	}
   
   toIEEE754(bits64 = false) {
-  	const bin = this.clone().parseBase(2).value().split(""), mantL = (bits64 ? 52 : 23), expL = (bits64 ? 11 : 8);
+  	const bin = this.clone().parseBase(2).#number.split(""), mantL = (bits64 ? 52 : 23), expL = (bits64 ? 11 : 8);
     let sign = "0";
     bin[0] === "-" && (sign = "1") && bin.shift();
     const dot = (this.#isFloat ? bin.indexOf(".") : bin.length);
     bin.splice(dot, 1);
-    const exp = new BaseNumber(bin.indexOf("1") >= 0 ? dot - bin.indexOf("1") - 1 + (bits64 ? 1023 : 127) : 0).parseBase(2).value().split("");
+    const exp = new BaseNumber(bin.indexOf("1") >= 0 ? dot - bin.indexOf("1") - 1 + (bits64 ? 1023 : 127) : 0).parseBase(2).#number.split("");
     while (bin.indexOf("1") > 0) bin.shift();
     bin.shift();
     while (bin.length < mantL) 	bin.push("0");	 

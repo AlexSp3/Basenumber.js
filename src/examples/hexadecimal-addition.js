@@ -2,7 +2,7 @@
  * @Example: add two hexadecimal numbers and transform the result in decimal base
  * 
  * @Author: Alexandro Palacios 
- * @Last edit: 10/08/2021
+ * @Last_edit: 10/08/2021
  */
 
 const num1 = prompt("Write first hexadecimal number");

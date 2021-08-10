@@ -290,6 +290,12 @@ let result = dec.clone().add(5).value();   // Now result is equal to "15"
 
 dec.value();   // dec value is still equal to "10" in base 10
 ```
+It can also be used to make a copy of the instance on another variable, so you can work with two instance that have the same value, but different references, it means that you can modify one without modifying the other:
+```JavaScript
+const dec = new BaseNumber(10);
+
+const copy = dec.clone();
+```
 ## Comparing numbers with different bases
 BaseNumber.js allows user to make comparisons between instances or variables. Although following examples show only integer numbers, *all comparing operations are also available for float numbers*:
 ### Checking equality:

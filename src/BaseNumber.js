@@ -123,7 +123,9 @@ class BaseNumber {
   
   newValue(n, base = this.#base) {
     if (n instanceof BaseNumber) {
-    	Object.assign(this, n);
+    	this.#number = n.#number;
+      this.#base = n.#base;
+      this.#isFloat = n.#isFloat;
     }else{
       n = Normalize(n);
       base = parseInt(base);
@@ -137,32 +139,37 @@ class BaseNumber {
   }
   
   add(target, base = 10) {
-    return new BaseNumber(parseFloat(this.parseBase().value()) + 
+  	const holdBase = this.#base;
+    return this.newValue(parseFloat(this.parseBase().value()) + 
     parseFloat((target instanceof BaseNumber ? target.clone() : 
-    new BaseNumber(target, base)).parseBase().value())).parseBase(this.#base);
+    new BaseNumber(target, base)).parseBase().value()), 10).parseBase(holdBase);
   }
   
   subtract(target, base = 10) {
-  	return new BaseNumber(parseFloat(this.parseBase().value()) - 
+  	const holdBase = this.#base;
+    return this.newValue(parseFloat(this.parseBase().value()) - 
     parseFloat((target instanceof BaseNumber ? target.clone() : 
-    new BaseNumber(target, base)).parseBase().value())).parseBase(this.#base);
+    new BaseNumber(target, base)).parseBase().value()), 10).parseBase(holdBase);
   }
   
   multiply(target, base = 10) {
-  	return new BaseNumber(parseFloat(this.parseBase().value()) * 
+  	const holdBase = this.#base;
+    return this.newValue(parseFloat(this.parseBase().value()) * 
     parseFloat((target instanceof BaseNumber ? target.clone() : 
-    new BaseNumber(target, base)).parseBase().value())).parseBase(this.#base);
+    new BaseNumber(target, base)).parseBase().value()), 10).parseBase(holdBase);
   }
   
   divide(target, base = 10) {
-  	return new BaseNumber(parseFloat(this.parseBase().value()) / 
+  	const holdBase = this.#base;
+    return this.newValue(parseFloat(this.parseBase().value()) / 
     parseFloat((target instanceof BaseNumber ? target.clone() : 
-    new BaseNumber(target, base)).parseBase().value())).parseBase(this.#base);
+    new BaseNumber(target, base)).parseBase().value()), 10).parseBase(holdBase);
   }
   pow(target, base = 10) {
-    return new BaseNumber((this.value().indexOf("-") >= 0 ? "-" : "") + Math.pow(
+    const holdBase = this.#base;
+    return this.newValue((this.value().indexOf("-") >= 0 ? "-" : "") + Math.pow(
     Math.abs(parseFloat(this.clone().parseBase().value())), 
-    parseFloat((target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().value()))).parseBase(this.#base);
+    parseFloat((target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().value())), 10).parseBase(holdBase);
   }
   root(target, base = 10) {
   	return this.pow(1 / (target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().value(), 10);

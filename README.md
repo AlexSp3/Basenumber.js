@@ -119,6 +119,21 @@ dec.fixed(1);     // returns "10.1"
 // exclusive is true, so the middle number would be fixed down
 dec.fixed(1, true);     // returns "10.0"
 ```
+### Scientific notation
+BaseNumber.js also allows scientific notation within your numbers. You can init an instance this way:
+```JavaScript
+const dec = new BaseNumber("10e-2");  // equals to "0.1" in base 10
+
+const oct = new BaseNumber(10e+2, 8);  // equals to "1000" in base 8
+
+const hex = new BaseNumber("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
+```
+Notice that e- / e+ is refer to scientific notation. **Omitting** the sign (+ or -) may cause *errors or unexpected results*:
+```JavaScript
+const hex1 = new BaseNumber("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
+
+const hex2 = new BaseNumber("ff.e10e2", 16);  // equals to "ff.e10e2" in base 16, no scientific notation here
+```
 ## Simple Math Operations
 BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*:
 ### Addition

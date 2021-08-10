@@ -227,12 +227,12 @@ dec.add(77);     // Base by default is 10
 
 dec.add(77, 8);  // Base is 8
 ```
-Last argument `resultBase` specify the base in which the result will be parsed.
+Last argument `resultBase` specify the base in which the result will be parsed. It is by default equal to the **instance base**:
 ```JavaScript
 const dec1 = new BaseNumber(10);
 const dec2 = new BaseNumber(5);
 
-dec1.add(dec2);   // returns "15"
+dec1.add(dec2);   // returns "15" in base 10 ( = dec1 base)
 
 dec1.add(dec2, null, 16);   // returns "f"
 
@@ -293,13 +293,13 @@ dec.root(2);   // returns "3.16227766...."
 dec.root(2, 10, 16);   // returns "3.298b075b4b6a5dffff8"
 ```
 ## Comparing numbers with different bases
-BaseNumber.js allows user to make comparisons between instances or variables. Although following examples show only integer numbers, *all comparing operation are also available for float numbers*:
+BaseNumber.js allows user to make comparisons between instances or variables. Although following examples show only integer numbers, *all comparing operations are also available for float numbers*:
 ### Checking equality:
 Call the `equalTo()` method to check equality between values. It has two parameters, second is optional. It can return true or false.
 ```JavaScript
 dec.equalTo(number[, base]);
 ```
-The `number` argument can be either a string/float variable or another BaseNumber instance. In case it´s a BaseNumber instance, `base` parameter would be equal to the number instance's `base`. E.g:
+The `number` argument can be either a string/number variable or another BaseNumber instance. In case it´s a BaseNumber instance, `base` parameter would be equal to the number instance's `base`. E.g:
 ```JavaScript
 const dec = new BaseNumber(15); 
 const hex = new BaseNumber("f", 16);
@@ -308,7 +308,7 @@ dec.equalTo(hex);   // returns true (base is hex.base())
 
 hex.equalTo(dec);   // returns true (base is dec.base())
 ```
-In case number argument is a string/float variable, the `base` parameter would be **10** by default, unless you specify it:
+In case number argument is a string/number variable, the `base` parameter would be **10** by default, unless you specify it:
 ```JavaScript
 const dec = new BaseNumber(15); 
 const hex = new BaseNumber("f", 16);

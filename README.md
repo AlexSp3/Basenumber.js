@@ -11,6 +11,15 @@ BaseNumber.js works with decimal base numers by default, so you can omit the bas
 ```JavaScript
 const dec = new BaseNumber(10);
 ```
+## Signed numbers
+This library allows to create signed numbers. Just specify the sign in the argument of the instance:
+```JavaScript
+const dec = new BaseNumber(-10);
+
+const oct = new BaseNumber("--++10", 8);  // transform to 10 in base 8
+
+const hex = new BaseNumber("-+10", 2);  // transform to -10 in base 2
+```
 ### Obtain number value
 Since BaseNumber allows user to create up to base 36 number, number value is an string that may contain letters and numbers:
 ```JavaScript
@@ -122,7 +131,7 @@ dec.fixed(1, true);     // returns "10.0"
 ### Scientific notation
 BaseNumber.js also allows scientific notation within your numbers. You can init an instance this way:
 ```JavaScript
-const dec = new BaseNumber("10e-2");  // equals to "0.1" in base 10
+const dec = new BaseNumber(10e-2);  // equals to "0.1" in base 10
 
 const oct = new BaseNumber(10e+2, 8);  // equals to "1000" in base 8
 
@@ -132,7 +141,7 @@ Notice that e- / e+ is refer to scientific notation. **Omitting** the sign (+ or
 ```JavaScript
 const hex1 = new BaseNumber("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
 
-const hex2 = new BaseNumber("ff.e10e2", 16);  // equals to "ff.e10e2" in base 16, no scientific notation here
+const hex2 = new BaseNumber("ff.e10e2", 16);   // equals to "ff.e10e2" in base 16, no scientific notation here
 ```
 ## Simple Math Operations
 BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*:

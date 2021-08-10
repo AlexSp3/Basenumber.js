@@ -137,11 +137,13 @@ const oct = new BaseNumber(10e+2, 8);  // equals to "1000" in base 8
 
 const hex = new BaseNumber("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
 ```
-Notice that e- / e+ is refer to scientific notation. **Omitting** the sign (+ or -) may cause *errors or unexpected results*:
+Notice that `e-` / `e+` is refer to scientific notation. **Omitting** the sign (`+` or `-`) may cause *errors or unexpected results*:
 ```JavaScript
 const hex1 = new BaseNumber("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
 
 const hex2 = new BaseNumber("ff.e10e2", 16);   // equals to "ff.e10e2" in base 16, no scientific notation here
+
+const dec = new BaseNumber("10e2");   // Error, number doesn´t match base
 ```
 ## Simple Math Operations
 BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*:

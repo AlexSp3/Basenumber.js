@@ -29,6 +29,7 @@ A cool library that allows you to work with numbers in different bases from 2 to
    - [Checking equality](README.md/#checking-equality)
    - [Higher Than](README.md/#higher-than)
    - [Lower Than](README.md/#lower-than)
+- [Error debugging](README.md/#error-debugging)   
 ---
 ## Create a BaseNumber object:
 Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
@@ -333,7 +334,17 @@ Call the `lowerThan()` method to check if an element is lower than the argument 
 dec.lowerThan(number[, base]);
 ```
 It works the same as the `equalTo()` method.
-
+## Error debugging
+| Error                     | Detail   |
+| ---                       | ---      | 
+| `Invalid number (n)`        | There may be an strange extra character in your number that wasn´t expected, your number is `NaN`  |
+| `Number doesn´t match base` | Your number is in fact a number, but it has a symbol that is not valid in the base you are working |
+| `Target base is Not A Number` | base argument may be **null**, **undefined**, or contains a character that is not a valid digit |
+| `Base argument should be an integer between 2 and 36` |  |
+| `Precision argument should be an integer higher than 0` |  |
+| `Root argument cannot be 0` | Check if your root argument is **null**, **undefined** or **zero** |
+| `Cannot take the even root of a negative number` | If your root argument is even and your number instance is negative, the result would be an imaginary number. The library allows real numbers |
+| `Cannot divide by 0` |  |
 ---
 
 - Open source [MIT License](LICENSE)

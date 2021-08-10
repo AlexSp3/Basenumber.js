@@ -7,12 +7,11 @@ A cool library that allows you to work with numbers in different bases from 2 to
    - [Obtain number base](README.md/#obtain-number-base)
 - [Modify number instance](README.md/#modify-number-instance)
    - [Modify value](README.md/#modify-value)
-   - [Base operations](README.md/#base-operations)
-      - [Parse Base](README.md/#parse-base)
-      - [Parse decimal](README.md/#parse-decimal)
-      - [Parse hexadecimal](README.md/#parse-hexadecimal)
-      - [Parse Octal](README.md/#parse-octal)
-      - [Parse Binary](README.md/#parse-binary)
+   - [Parse Base](README.md/#parse-base)
+   - [Parse decimal](README.md/#parse-decimal)
+   - [Parse hexadecimal](README.md/#parse-hexadecimal)
+   - [Parse Octal](README.md/#parse-octal)
+   - [Parse Binary](README.md/#parse-binary)
 - [Working with float numbers](README.md/#working-with-float-numbers)
    - [Fixed precision](README.md/#fixed-precision)
    - [Scientific notation](README.md/#scientific-notation)
@@ -98,8 +97,7 @@ dec.newValue(5).value();  // returns "5" in base 10
 
 dec.value() // returns "5" in base 10
 ```
-### Base operations
-#### Parse Base
+### Parse Base
 BaseNumber.js has its own method to parse a number into a new base. The instance is modified after using this function. Use the `parseBase()` method:
 ```JavaScript
 const dec = new BaseNumber(15);
@@ -109,23 +107,23 @@ dec.parseBase(16);   // now base is 16
 dec.value();         // returns "f" (15 in hexadecimal)
 ```
 If base parameter is omitted, number would be parse in base **10** by default.
-#### Parse decimal
+### Parse decimal
 Similar to the parseBase(), returns a value parsed in decimal base. It does modify the instance itself. It´s a way to improve code readlibility:
 ```JavaScript
 const hex = new BaseNumber("f", 16);
 hex.toDec().value();   // returns "15"
 ```
-#### Parse hexadecimal
+### Parse hexadecimal
 ```JavaScript
 const dec = new BaseNumber(15);
 dec.toHex().value();   // returns "f"
 ```
-#### Parse Octal
+### Parse Octal
 ```JavaScript
 const dec = new BaseNumber(10);
 dec.toOct().value();   // returns "12"
 ```
-#### Parse Binary
+### Parse Binary
 ```JavaScript
 const dec = new BaseNumber(10);
 dec.toBin().value();   // returns "1010"

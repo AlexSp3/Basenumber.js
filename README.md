@@ -21,6 +21,7 @@ A cool library that allows you to work with numbers in different bases from 2 to
 - [Simple Math Operations](README.md/#simple-math-operations)
    - [Addition](README.md/#addition)
    - [Subtract](README.md/#subtract)
+   - [Multiply](README.md/#multiply)
    - [Divide](README.md/#divide)
    - [Exponent](README.md/#exponent)
    - [Root](README.md/#root)

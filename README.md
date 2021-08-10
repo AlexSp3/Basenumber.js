@@ -279,7 +279,7 @@ E.g:
 ```JavaScript
 const dec = new BaseNumber(10);
 
-dec.add(5).subtract("f", 16).subtract(1).pow(2).toBin().value();
+dec.add(5).subtract("f", 16).subtract(1).pow(2).toBin().value();   // returns "1"
 ```
 ## Clone numbers
 In order to make an operation without modifying the original instance, you can make use of the `clone()` method, which returns a new BaseNumber instance, remaining the original:

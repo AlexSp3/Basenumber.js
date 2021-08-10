@@ -7,7 +7,7 @@
 
 const getNumber = e => isNaN(e) ? e.charCodeAt(0) - 87 : parseInt(e);
 const Normalize = s => {
-  s = s.toString().toLowerCase().split(",").join(".");
+  s = s.toString().split(",").join(".");
   s = s.split(" ").join("");
   s.indexOf(".") + 1 == s.length && (s = s.substring(0, s.length - 1));
   while (!s.indexOf("+") || !s.indexOf("-")){
@@ -47,10 +47,10 @@ const fixNotation = n => {
 const checkIncompatible = (n, base) => {
   let digits = n.split("e+").join("").split("e-").join("").split("");
   if (n === "" || digits.reduce((a, d) => d == "." ? ++a : a, 0) > 1 || digits.reduce((a, d) => d == "-" ? ++a : a, 0) > 1 || 
-      (digits.some(d => isNaN(d) && (getNumber(d) < 10 || getNumber(d) > 35) && d != "." && d != "-")))   return "invalid number " + n;
+      (digits.some(d => isNaN(d) && (getNumber(d) < 10 || getNumber(d) > 63) && d != "." && d != "-")))   return "invalid number " + n;
   if (digits.some(d => getNumber(d) >= base))    return "number doesn´t match base";
   if (isNaN(base))	return "target base is Not A Number"; 
-  if (base < 2 || base > 36)  return "base argument should be an integer between 2 and 36";
+  if (base < 2 || base > 64)  return "base argument should be an integer between 2 and 64";
   return false;
 };
 

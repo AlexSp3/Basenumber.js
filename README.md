@@ -12,13 +12,13 @@ BaseNumber.js works with decimal base numers by default, so you can omit the bas
 const dec = new BaseNumber(10);
 ```
 ## Signed numbers
-This library allows to create signed numbers. Just specify the sign in the argument of the instance:
+The library allows user to create signed numbers. Specify the sign in the first argument of the instance:
 ```JavaScript
 const dec = new BaseNumber(-10);
 
-const oct = new BaseNumber("--++10", 8);  // transform to 10 in base 8
+const oct = new BaseNumber("--++10", 8);  // it´s "10" in base 8
 
-const hex = new BaseNumber("-+10", 2);  // transform to -10 in base 2
+const hex = new BaseNumber("-+10", 2);    // it´s "-10" in base 2
 ```
 ### Obtain number value
 Since BaseNumber allows user to create up to base 36 number, number value is an string that may contain letters and numbers:
@@ -144,6 +144,24 @@ const hex1 = new BaseNumber("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
 const hex2 = new BaseNumber("ff.e10e2", 16);   // equals to "ff.e10e2" in base 16, no scientific notation here
 
 const dec = new BaseNumber("10e2");   // Error, number doesn´t match base
+```
+### IEEE754 Floating point
+BaseNumber.js includes a method in which a number in any base can be transfromed to IEEE754 representation. Call the `toIEEE754()` method, it returns an object with three keys: `exponent`, `mantissa` and `sign`:
+```JavaScript
+dec.toIEEE754([bits64]);
+```
+The `bits64` argument allows to change the 32 bit floating point representation into a 64 bit representation. It´s by default `false` (32 bits).
+```JavaScript
+const dec = new BaseNumber(10.625);
+
+dec.toIEEE754();
+
+/* returns
+{
+   exponent: "10000010",
+   mantissa: "01010100000000000000000",
+   sign: "0"
+} */
 ```
 ## Simple Math Operations
 BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*:

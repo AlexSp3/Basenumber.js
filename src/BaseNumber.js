@@ -80,28 +80,28 @@ class BaseNumber {
     if (precision < 0 || isNaN(precision)) throw "error rounding number: precision argument should be an integer higher than 0"; 
     
     if (typeof digits[digits.indexOf(".") + 1 + precision] === "undefined" ||
-        !this.#isFloat)   return n;
+        !this.#isFloat)   return this;
 
     (base - !!exclusive) - getNumber(digits[digits.indexOf(".") + 1 + precision]) <= (base - !!exclusive) / 2 
     && add(digits.indexOf(".") + precision);
     digits.splice(digits.indexOf(".") + 1 + precision);
     !precision && digits.splice(-1);
-    return digits.join("");
+    return this.newValue(digits.join(""));
   }
   
   higherThan(target, base = 10) {
-    const targetVal = parseFloat((target instanceof BaseNumber ? target : (new BaseNumber(target, base))).parseBase());
-    return parseFloat(this.parseBase()) > targetVal;
+    const targetVal = parseFloat((target instanceof BaseNumber ? target.clone() : (new BaseNumber(target, base))).parseBase().value());
+    return parseFloat(this.clone().parseBase().value()) > targetVal;
   }
   
   lowerThan(target, base = 10) {
-    const targetVal = parseFloat((target instanceof BaseNumber ? target : (new BaseNumber(target, base))).parseBase());
-    return parseFloat(this.parseBase()) < targetVal;
+    const targetVal = parseFloat((target instanceof BaseNumber ? target.clone() : (new BaseNumber(target, base))).parseBase().value());
+    return parseFloat(this.clone().parseBase().value()) < targetVal;
   }
   
   equalTo(target, base = 10) {
-  	const targetVal = parseFloat((target instanceof BaseNumber ? target : (new BaseNumber(target, base))).parseBase());
-    return parseFloat(this.parseBase()) === targetVal;
+  	const targetVal = parseFloat((target instanceof BaseNumber ? target.clone() : (new BaseNumber(target, base))).parseBase().value());
+    return parseFloat(this.clone().parseBase().value()) === targetVal;
   }
   
   parseBase(base = 10) {
@@ -118,11 +118,10 @@ class BaseNumber {
       parsedDec.push(toPush > 9 ? String.fromCharCode(toPush + 87) : toPush);
     	timeout--;
     }
-    return ((sign === "-" && int.split("")[0] !== sign) ? sign : "") + int + (parsedDec.length ? "." + parsedDec.join("") : "");
+    return this.newValue(((sign === "-" && int.split("")[0] !== sign) ? sign : "") + int + (parsedDec.length ? "." + parsedDec.join("") : ""), base);
   }
   
   newValue(n, base = this.#base) {
-    const temp = new BaseNumber(this.#number, this.#base);
     if (n instanceof BaseNumber) {
     	Object.assign(this, n);
     }else{
@@ -134,48 +133,39 @@ class BaseNumber {
       this.#base = base;
       this.#isFloat = !(n.split("").reduce((a, d) => d == "." ? ++a : a, 0) < 1);
     }
-    return temp;
+    return this;
   }
   
-  newBase(base) {
-  	base = parseInt(base);
-    const state = checkIncompatible("0", base);
-    if (state) throw "error parsing number: " + state; 
-    this.#number = this.parseBase(base);
-    this.#base = base;
-    return this.#number;
+  add(target, base = 10) {
+    return new BaseNumber(parseFloat(this.parseBase().value()) + 
+    parseFloat((target instanceof BaseNumber ? target.clone() : 
+    new BaseNumber(target, base)).parseBase().value())).parseBase(this.#base);
   }
   
-  add(target, base = 10, resultBase = this.#base) {
-    return new BaseNumber(parseFloat(this.parseBase()) + 
-    parseFloat((target instanceof BaseNumber ? target : new BaseNumber(target, base))
-    .parseBase())).parseBase(resultBase);
+  subtract(target, base = 10) {
+  	return new BaseNumber(parseFloat(this.parseBase().value()) - 
+    parseFloat((target instanceof BaseNumber ? target.clone() : 
+    new BaseNumber(target, base)).parseBase().value())).parseBase(this.#base);
   }
   
-  subtract(target, base = 10, resultBase = this.#base) {
-  	return new BaseNumber(parseFloat(this.parseBase()) - 
-    parseFloat((target instanceof BaseNumber ? target : new BaseNumber(target, base))
-    .parseBase())).parseBase(resultBase);
+  multiply(target, base = 10) {
+  	return new BaseNumber(parseFloat(this.parseBase().value()) * 
+    parseFloat((target instanceof BaseNumber ? target.clone() : 
+    new BaseNumber(target, base)).parseBase().value())).parseBase(this.#base);
   }
   
-  multiply(target, base = 10, resultBase = this.#base) {
-  	return new BaseNumber(parseFloat(this.parseBase()) * 
-    parseFloat((target instanceof BaseNumber ? target : new BaseNumber(target, base))
-    .parseBase())).parseBase(resultBase);
+  divide(target, base = 10) {
+  	return new BaseNumber(parseFloat(this.parseBase().value()) / 
+    parseFloat((target instanceof BaseNumber ? target.clone() : 
+    new BaseNumber(target, base)).parseBase().value())).parseBase(this.#base);
   }
-  
-  divide(target, base = 10, resultBase = this.#base) {
-  	return new BaseNumber(parseFloat(this.parseBase()) / 
-    parseFloat((target instanceof BaseNumber ? target : new BaseNumber(target, base))
-    .parseBase())).parseBase(resultBase);
+  pow(target, base = 10) {
+    return new BaseNumber((this.value().indexOf("-") >= 0 ? "-" : "") + Math.pow(
+    Math.abs(parseFloat(this.clone().parseBase().value())), 
+    parseFloat((target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().value()))).parseBase(this.#base);
   }
-  pow(target, base = 10, resultBase = this.#base) {
-    return new BaseNumber(Math.pow(parseFloat(this.parseBase()), 
-    parseFloat((target instanceof BaseNumber ? target : new BaseNumber(target, base))
-    .parseBase()))).parseBase(resultBase);
-  }
-  root(target, base = 10, resultBase = this.#base) {
-  	return this.pow(1 / (target instanceof BaseNumber ? target : new BaseNumber(target, base)).parseBase(), 10, resultBase);
+  root(target, base = 10) {
+  	return this.pow(1 / (target instanceof BaseNumber ? target.clone() : new BaseNumber(target, base)).parseBase().value(), 10);
   }
   
   toDec() {	return this.parseBase();	}
@@ -187,16 +177,18 @@ class BaseNumber {
   base() { return this.#base;	}
   
   toIEEE754(bits64 = false) {
-  	const bin = this.parseBase(2).split(""), mantL = (bits64 ? 52 : 23), expL = (bits64 ? 11 : 8);
+  	const bin = this.clone().parseBase(2).value().split(""), mantL = (bits64 ? 52 : 23), expL = (bits64 ? 11 : 8);
     let sign = "0";
     bin[0] === "-" && (sign = "1") && bin.shift();
     const dot = (this.#isFloat ? bin.indexOf(".") : bin.length);
     bin.splice(dot, 1);
-    const exp = new BaseNumber(bin.indexOf("1") >= 0 ? dot - bin.indexOf("1") - 1 + (bits64 ? 1023 : 127) : 0).parseBase(2).split("");
+    const exp = new BaseNumber(bin.indexOf("1") >= 0 ? dot - bin.indexOf("1") - 1 + (bits64 ? 1023 : 127) : 0).parseBase(2).value().split("");
     while (bin.indexOf("1") > 0) bin.shift();
     bin.shift();
     while (bin.length < mantL) 	bin.push("0");	 
     while (exp.length < expL) 	exp.unshift("0");	   
     return {	sign: sign, exponent: exp.join("").substring(0, expL), mantissa: bin.join("").substring(0, mantL)};
   }
+  
+  clone() { return new BaseNumber(this.#number, this.#base);	}
 }

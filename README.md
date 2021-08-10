@@ -3,10 +3,10 @@ A library that allows you to work with numbers in different bases from 2 to 36.
 
 ## Create a BaseNumber object:
 Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
-| Argument     | Type                     | Detail   |
-| ---          | ---                      | ---      | 
-| number       | Object / String / Number | Required |
-| base         | Number                   | Optional |
+| Argument | Type                     | Detail   |
+| ---      | ---                      | ---      | 
+| `number` | Object / String / Number | Required |
+| `base`   | Number                   | Optional |
 ```JavaScript
 const dec = new BaseNumber(10, 10);  // new BaseNumber(number, base);
 
@@ -41,10 +41,14 @@ hex.base();   // returns 16
 Once a BaseNumber object is created, you can modify it dynamically:
 ### Modify value
 The `newValue` method allows user to modify the value of an instance. It takes two parameters, second is optional, and returns the old instance:
+| Argument | Type                     | Detail   |
+| ---      | ---                      | ---      | 
+| `number` | Object / String / Number | Required |
+| `base`   | Number                   | Optional |
 ```JavaScript
 dec.newValue(number[, base]);
 ```
-The `number` argument can be either a string/float variable or another BaseNumber instance. In case it´s a BaseNumber instance, `base` parameter would be equal to the number instance's `base`. E.g:
+The `number` argument can be either a string/number variable or another BaseNumber instance. In case it´s a BaseNumber instance, `base` parameter would be equal to the instance's `base`. E.g:
 ```JavaScript
 dec.newValue(hex);  // base argument is by default hex.base()
 
@@ -116,6 +120,10 @@ dec.value();       // returns "1010.0001"
 ```
 ### Fixed precision
 BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **36**. Using the method `fixed()`, similar to the `toFixed()` in js, it fixes the precision of the number, rounding up or down depending the number (and user parameters). The method returns a new string with precision fixed:
+| Argument    | Type    | Detail   |
+| ---         | ---     | ---      | 
+| `precision` | Number  | Required |
+| `exclusive` | Boolean | Optional |
 ```JavaScript
 dec.fixed(precision[, exclusive]);
 ```
@@ -172,6 +180,11 @@ dec.toIEEE754();
 BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*:
 ### Addition
 The addition method takes three arguments, two of them optional:
+| Argument     | Type                     | Detail   |
+| ---          | ---                      | ---      | 
+| `number`     | Object / String / Number | Required |
+| `base`       | Number                   | Optional |
+| `resultBase` | Number                   | Optional |
 ```JavaScript
 dec.add(number[, base[, resultBase]]);
 ```

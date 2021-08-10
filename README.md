@@ -7,13 +7,12 @@ A cool library that allows you to work with numbers in different bases from 2 to
    - [Obtain number base](README.md/#obtain-number-base)
 - [Modify number instance](README.md/#modify-number-instance)
    - [Modify value](README.md/#modify-value)
-   - [Modify number base](README.md/#modify-number-base)
-- [Base operations](README.md/#base-operations)
-   - [Parse Base](README.md/#parse-base)
-   - [Parse decimal](README.md/#parse-decimal)
-   - [Parse hexadecimal](README.md/#parse-hexadecimal)
-   - [Parse Octal](README.md/#parse-octal)
-   - [Parse Binary](README.md/#parse-binary)
+   - [Base operations](README.md/#base-operations)
+      - [Parse Base](README.md/#parse-base)
+      - [Parse decimal](README.md/#parse-decimal)
+      - [Parse hexadecimal](README.md/#parse-hexadecimal)
+      - [Parse Octal](README.md/#parse-octal)
+      - [Parse Binary](README.md/#parse-binary)
 - [Working with float numbers](README.md/#working-with-float-numbers)
    - [Fixed precision](README.md/#fixed-precision)
    - [Scientific notation](README.md/#scientific-notation)
@@ -25,6 +24,8 @@ A cool library that allows you to work with numbers in different bases from 2 to
    - [Divide](README.md/#divide)
    - [Exponent](README.md/#exponent)
    - [Root](README.md/#root)
+- [Chaining methods](README.md/#chaining-methods)
+- [Clone numbers](README.md/#clone-numbers)
 - [Comparing numbers with different bases](README.md/#comparing-numbers-with-different-bases)   
    - [Checking equality](README.md/#checking-equality)
    - [Higher Than](README.md/#higher-than)
@@ -89,66 +90,57 @@ dec.newValue(5);  // base argument is by default dec.base()
 
 // New value is 5 in base 10
 ```
-Also you can get the old instance as a return value:
+This method returns the updated instance:
 ```JavaScript
 const dec = new BaseNumber(10);
 
-const oldValue = dec.newValue(5);  // base argument is by default dec.base()
+dec.newValue(5).value();  // returns "5" in base 10
 
-oldValue.value();   //  returns "10"
+dec.value() // returns "5" in base 10
 ```
-### Modify number base
-Similar to its value, you can also modify the number base using the `newBase()` method:
+### Base operations
+#### Parse Base
+BaseNumber.js has its own method to parse a number into a new base. The instance is modified after using this function. Use the `parseBase()` method:
 ```JavaScript
 const dec = new BaseNumber(15);
 
-dec.newBase(16);   // returns "f" (15 in hexadecimal)
+dec.parseBase(16);   // now base is 16
 
-dec.value();       // returns "f"
-```
-## Base operations
-### Parse Base
-BaseNumber.js has its own method to parse a number into a new base without modifying the instance itself. Using the `parseBase()` method:
-```JavaScript
-const dec = new BaseNumber(15);
-
-dec.parseBase(16);   // returns "f" (15 in hexadecimal)
-
-dec.value();         // returns "15"
+dec.value();         // returns "f" (15 in hexadecimal)
 ```
 If base parameter is omitted, number would be parse in base **10** by default.
-### Parse decimal
-Similar to the parseBase(), returns a value parsed withouth modifying the instance. It´s a way to improve code readlibility:
+#### Parse decimal
+Similar to the parseBase(), returns a value parsed in decimal base. It does modify the instance itself. It´s a way to improve code readlibility:
 ```JavaScript
 const hex = new BaseNumber("f", 16);
-hex.toDec();   // returns "15"
+hex.toDec().value();   // returns "15"
 ```
-### Parse hexadecimal
+#### Parse hexadecimal
 ```JavaScript
 const dec = new BaseNumber(15);
-hex.toHex();   // returns "f"
+dec.toHex().value();   // returns "f"
 ```
-### Parse Octal
+#### Parse Octal
 ```JavaScript
 const dec = new BaseNumber(10);
-hex.toOct();   // returns "12"
+dec.toOct().value();   // returns "12"
 ```
-### Parse Binary
+#### Parse Binary
 ```JavaScript
 const dec = new BaseNumber(10);
-hex.toBin();   // returns "1010"
+dec.toBin().value();   // returns "1010"
 ```
 ## Working with float numbers
 All above functions can be also used with float numbers. E.g:
 ```JavaScript
 const dec = new BaseNumber(10.0625);
 
-dec.newBase(2);   // returns "1010.0001"
+dec.toBin();   // new base is 2
 
 dec.value();       // returns "1010.0001"
 ```
 ### Fixed precision
-BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **36**. Using the method `fixed()`, similar to the [`toFixed()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) in js, it fixes the precision of the number, rounding up or down depending the number (and user parameters). The method returns a new string with precision fixed:
+BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **36**. Using the method `fixed()`, similar to the [`toFixed()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) in js, it fixes the precision of the number, rounding up or down depending the number (and user parameters). The method returns the modified instance:
 | Argument    | Type    | Detail   |
 | ---         | ---     | ---      | 
 | `precision` | Number  | Required |
@@ -165,10 +157,10 @@ The *4* digit is the middle number because base is an odd number (9), and the th
 const dec = new BaseNumber(10.04, 9);
 
 // by default, exclusive is false, so the middle number would be fixed up
-dec.fixed(1);     // returns "10.1"
+dec.fixed(1).value();     // returns "10.1"
 
 // exclusive is true, so the middle number would be fixed down
-dec.fixed(1, true);     // returns "10.0"
+dec.fixed(1, true).value();     // returns "10.0"
 ```
 ### Scientific notation
 BaseNumber.js also allows scientific notation within your numbers. You can init an instance this way:
@@ -188,7 +180,7 @@ const hex2 = new BaseNumber("ff.e10e2", 16);   // equals to "ff.e10e2" in base 1
 const dec = new BaseNumber("10e2");   // Error, number doesn´t match base
 ```
 ### IEEE754 Floating point
-BaseNumber.js includes a method in which a number in any base can be transfromed to IEEE754 representation. Call the `toIEEE754()` method, it returns an object with three keys: `exponent`, `mantissa` and `sign`:
+BaseNumber.js includes a method in which a number in any base can be transfromed to IEEE754 representation. Call the `toIEEE754()` method, it returns an object with three keys: `exponent`, `mantissa` and `sign`. The instance remains with no modifications:
 ```JavaScript
 dec.toIEEE754([bits64]);
 ```
@@ -206,20 +198,24 @@ dec.toIEEE754();
 } */
 ```
 ## Simple Math Operations
-BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*:
+BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*. When using math operations in BaseNumber.js, you are modifying the instance:
 ### Addition
-The addition method takes three arguments, two of them optional:
+The addition method takes two arguments, last optional:
 | Argument     | Type                     | Detail   |
 | ---          | ---                      | ---      | 
 | `number`     | Object / String / Number | Required |
 | `base`       | Number                   | Optional |
-| `resultBase` | Number                   | Optional |
 ```JavaScript
-dec.add(number[, base[, resultBase]]);
+dec.add(number[, base]);
 ```
-The `number` argument can be either a string/float variable or another BaseNumber instance. In case it´s a BaseNumber instance, `base` parameter would be equal to the number instance's `base`. E.g:
+The `number` argument can be either a string/number variable or another BaseNumber instance. In case it´s a BaseNumber instance, `base` parameter would be equal to the number instance's `base`. E.g:
 ```JavaScript
+const dec = new BaseNumber(10); 
+const hex = new BaseNumber("ff", 16); 
+
 dec.add(hex);  // base argument is by default hex.base()
+
+dec.add(hex, 10);  // base argument is by default hex.base(), doesn´t matter if there is a base argument
 ```
 In case number argument is a string/float variable, the `base` parameter would be **10** by default, unless you specify it:
 ```JavaScript
@@ -227,75 +223,79 @@ dec.add(77);     // Base by default is 10
 
 dec.add(77, 8);  // Base is 8
 ```
-Last argument `resultBase` specify the base in which the result will be parsed. It is by default equal to the **instance base**:
+Since the return value of the math functions is the modified instance, in order to take the value you need to add the `.value()` method at the end of the operation.
 ```JavaScript
-const dec1 = new BaseNumber(10);
-const dec2 = new BaseNumber(5);
+dec.add(77).value()   // returns the new value
 
-dec1.add(dec2);   // returns "15" in base 10 ( = dec1 base)
-
-dec1.add(dec2, null, 16);   // returns "f"
-
-/* Notice that the null parameter in base doesn´t affect the
-   result since dec2 is a BaseNumber instance with its own base */
-```
-For string/number:
-```JavaScript
-const dec = new BaseNumber(10);
-
-dec.add(5);   // returns "15"
-
-dec.add(5, 10, 16);   // returns "f"
-
-/* Notice that when using the resultBase argument
-   you need to specify base since you are not using
-   a BaseNumber instance */
+dec.value()   // returns the new value
 ```
 The remaining Math operations works exactly the same:
 ### Subtract
 ```JavaScript
 const dec = new BaseNumber(10);
 
-dec.subtract(5);   // returns "5"
-
-dec.subtract(5, 10, 16);   // returns "5"
+dec.subtract(5).value();   // returns "5"
 ```
 ### Multiply
 ```JavaScript
 const dec = new BaseNumber(10);
 
-dec.multiply(5);   // returns "50"
-
-dec.multiply(5, 10, 16);   // returns "32"
+dec.multiply(5).value();   // returns "50"
 ```
 ### Divide
 ```JavaScript
 const dec = new BaseNumber(10);
 
-dec.divide(5);   // returns "2"
-
-dec.divide(5, 10, 16);   // returns "2"
+dec.divide(5).value();   // returns "2"
 ```
 ### Exponent
 ```JavaScript
 const dec = new BaseNumber(10);
 
-dec.pow(2);   // returns "100"
-
-dec.pow(2, 10, 16);   // returns "64"
+dec.pow(2).value();   // returns "100"
 ```
 ### Root
 ```JavaScript
 const dec = new BaseNumber(10);
 
-dec.root(2);   // returns "3.16227766...."
+dec.root(2).value();   // returns "3.16227766...."
+```
+## Chaining methods
+BaseNumber.js allows user to chain math and other operators. The list of operators that can be chained is the following:
+- `fixed()`
+- `newValue()`
+- `parseBase()`
+- `toDec()`
+- `toHex()`
+- `toBin()`
+- `toOct()`
+- `add()`
+- `subtract()`
+- `multiply()`
+- `divide()`
+- `pow()`
+- `root()`
+- `clone()`
 
-dec.root(2, 10, 16);   // returns "3.298b075b4b6a5dffff8"
+E.g:
+```JavaScript
+const dec = new BaseNumber(10);
+
+dec.add(5).subtract("f", 16).subtract(1).pow(2).toBin().value();
+```
+## Clone numbers
+In order to make an operation without modifying the original instance, you can make use of the `clone()` method, which returns a new BaseNumber instance, remaining the original:
+```JavaScript
+const dec = new BaseNumber(10);
+
+let result = dec.clone().add(5).value();   // Now result is equal to "15"
+
+dec.value();   // dec value is still equal to "10" in base 10
 ```
 ## Comparing numbers with different bases
 BaseNumber.js allows user to make comparisons between instances or variables. Although following examples show only integer numbers, *all comparing operations are also available for float numbers*:
 ### Checking equality:
-Call the `equalTo()` method to check equality between values. It has two parameters, second is optional. It can return true or false.
+Call the `equalTo()` method to check equality between values. It has two parameters, second is optional. It may return true or false.
 ```JavaScript
 dec.equalTo(number[, base]);
 ```
@@ -318,13 +318,13 @@ dec.equalTo(15);   // returns true (base is 10 by default)
 hex.equalTo(15, 16);   // returns false (base is 16)
 ```
 ### Higher Than
-Call the `higherThan()` method to check if an element is higher than the argument number. It has two parameters, second is optional. It can return true or false.
+Call the `higherThan()` method to check if an element is higher than the argument number. It has two parameters, second is optional. It may return true or false.
 ```JavaScript
 dec.higherThan(number[, base]);
 ```
 It works the same as the `equalTo()` method.
 ### Lower Than
-Call the `lowerThan()` method to check if an element is lower than the argument number. It has two parameters, second is optional. It can return true or false.
+Call the `lowerThan()` method to check if an element is lower than the argument number. It has two parameters, second is optional. It may return true or false.
 ```JavaScript
 dec.lowerThan(number[, base]);
 ```

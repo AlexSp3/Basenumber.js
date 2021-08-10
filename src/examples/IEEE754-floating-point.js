@@ -13,3 +13,6 @@ let bin = oct.clone().root(2).fixed(1).toBin().toIEEE754();
 
 console.log(  bin );
 console.log( "Original number: " + oct.value() );
+
+
+

@@ -11,6 +11,9 @@ const num2 = prompt("Write second hexadecimal number");
 
 const hex = new BaseNumber(num1, 16);
 
-const result = new BaseNumber(  hex.add(num2, 16, 10) );   // base 10 number
+const result = hex.add(num2, 16).toDec().value()   // base 10 number
 
-console.log(result.value());
+console.log(  result  );
+
+
+

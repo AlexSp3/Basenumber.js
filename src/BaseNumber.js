@@ -1,3 +1,11 @@
+/* 
+ * @Version: v0.1-alpha
+ *
+ * 
+ * @Author: Alexandro Palacios 
+ * @Last_edit: 10/08/2021
+ */
+
 const getNumber = e => isNaN(e) ? e.charCodeAt(0) - 87 : parseInt(e);
 const Normalize = s => {
   s = s.toString().toLowerCase().split(",").join(".");

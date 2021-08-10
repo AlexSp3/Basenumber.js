@@ -2,6 +2,11 @@
 A library that allows you to work with numbers in different bases from 2 to 36.
 
 ## Create a BaseNumber object:
+Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
+| Argument     | Type                     | Detail   |
+| ---          | ---                      | ---      | 
+| number       | Object / String / Number | Required |
+| base         | Number                   | Optional |
 ```JavaScript
 const dec = new BaseNumber(10, 10);  // new BaseNumber(number, base);
 
@@ -192,7 +197,7 @@ dec1.add(dec2, null, 16);   // returns "f"
 /* Notice that the null parameter in base doesn´t affect the
    result since dec2 is a BaseNumber instance with its own base */
 ```
-For string/float:
+For string/number:
 ```JavaScript
 const dec = new BaseNumber(10);
 

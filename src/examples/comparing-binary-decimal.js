@@ -2,7 +2,7 @@
  * @Example: check if a number in base 2 with scientific notation is higher, equal or lower than a number in base decimal
  * 
  * @Author: Alexandro Palacios 
- * @Last edit: 10/08/2021
+ * @Last_edit: 10/08/2021
  */
 
 const bin = new BaseNumber("1011e+10", 2);

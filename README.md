@@ -1,6 +1,9 @@
 # BaseNumber
-A library that allows you to work with numbers in different bases from 2 to 36.
+A cool library that allows you to work with numbers in different bases from 2 to 36.
 
+- [Create a BaseNumber object](README.md/#create-a-basenumber-object)
+
+---
 ## Create a BaseNumber object:
 Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
 | Argument | Type                     | Detail   |
@@ -300,5 +303,7 @@ Call the `lowerThan()` method to check if an element is lower than the argument 
 dec.lowerThan(number[, base]);
 ```
 It works the same as the `equalTo()` method.
+
+---
 
 - Open source [MIT License](LICENSE)

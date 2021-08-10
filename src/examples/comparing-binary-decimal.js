@@ -14,3 +14,6 @@ const dec = new BaseNumber(num1);
 console.log("Your number is higher than " + bin.value() + "(2): ", dec.higherThan(bin));
 console.log("Your number is equal to " + bin.value() + "(2): ", dec.equalTo(bin));
 console.log("Your number is lower than " + bin.value() + "(2): ", dec.lowerThan(bin));
+
+
+

@@ -2,7 +2,32 @@
 A cool library that allows you to work with numbers in different bases from 2 to 36.
 
 - [Create a BaseNumber object](README.md/#create-a-basenumber-object)
-
+   - [Signed numbers](README.md/#signed-numbers)
+   - [Obtain number value](README.md/#obtain-number-value)
+   - [Obtain number base](README.md/#obtain-number-base)
+- [Modify number instance](README.md/#modify-number-instance)
+   - [Modify value](README.md/#modify-value)
+   - [Modify number base](README.md/#modify-number-base)
+- [Base operations](README.md/#base-operations)
+   - [Parse Base](README.md/#parse-base)
+   - [Parse decimal](README.md/#parse-decimal)
+   - [Parse hexadecimal](README.md/#parse-hexadecimal)
+   - [Parse Octal](README.md/#parse-octal)
+   - [Parse Binary](README.md/#parse-binary)
+- [Working with float numbers](README.md/#working-with-float-numbers)
+   - [Fixed precision](README.md/#fixed-precision)
+   - [Scientific notation](README.md/#scientific-notation)
+   - [IEEE754 Floating point](README.md/#ieee754-floating-point)
+- [Simple Math Operations](README.md/#simple-math-operations)
+   - [Addition](README.md/#addition)
+   - [Subtract](README.md/#subtract)
+   - [Divide](README.md/#divide)
+   - [Exponent](README.md/#exponent)
+   - [Root](README.md/#root)
+- [Comparing numbers with different bases](README.md/#comparing-numbers-with-different-bases)   
+   - [Checking equality](README.md/#checking-equality)
+   - [Higher Than](README.md/#higher-than)
+   - [Lower Than](README.md/#lower-than)
 ---
 ## Create a BaseNumber object:
 Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
@@ -19,7 +44,7 @@ BaseNumber.js works with decimal base numers by default, so you can omit the bas
 ```JavaScript
 const dec = new BaseNumber(10);
 ```
-## Signed numbers
+### Signed numbers
 The library allows user to create signed numbers. Specify the sign in the first argument of the instance:
 ```JavaScript
 const dec = new BaseNumber(-10);

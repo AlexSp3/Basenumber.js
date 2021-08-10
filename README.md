@@ -119,7 +119,7 @@ dec.newBase(2);   // returns "1010.0001"
 dec.value();       // returns "1010.0001"
 ```
 ### Fixed precision
-BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **36**. Using the method `fixed()`, similar to the `toFixed()` in js, it fixes the precision of the number, rounding up or down depending the number (and user parameters). The method returns a new string with precision fixed:
+BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **36**. Using the method `fixed()`, similar to the [`toFixed()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) in js, it fixes the precision of the number, rounding up or down depending the number (and user parameters). The method returns a new string with precision fixed:
 | Argument    | Type    | Detail   |
 | ---         | ---     | ---      | 
 | `precision` | Number  | Required |
@@ -300,3 +300,5 @@ Call the `lowerThan()` method to check if an element is lower than the argument 
 dec.lowerThan(number[, base]);
 ```
 It works the same as the `equalTo()` method.
+
+- Open source [MIT License](LICENSE)

@@ -1,5 +1,5 @@
 # BaseNumber
-A cool library that allows you to work with numbers in different bases from 2 to 64.
+A cool library that allows you to work with numbers in different bases from 2 to 36.
 
 - [Create a BaseNumber object](README.md/#create-a-basenumber-object)
    - [Signed numbers](README.md/#signed-numbers)
@@ -56,7 +56,7 @@ const oct = new BaseNumber("--++10", 8);  // it´s "10" in base 8
 const hex = new BaseNumber("-+10", 2);    // it´s "-10" in base 2
 ```
 ### Obtain number value
-Since BaseNumber allows user to create up to base 64 number, number value is an string that may contain letters and numbers:
+Since BaseNumber allows user to create up to base 36 number, number value is an string that may contain letters and numbers:
 ```JavaScript
 dec.value();  // returns "10"
 hex.value();  // returns "f2"
@@ -139,7 +139,7 @@ dec.toBin();   // new base is 2
 dec.value();       // returns "1010.0001"
 ```
 ### Fixed precision
-BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **64**. Using the method `fixed()`, similar to the [`toFixed()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) in js, it fixes the precision of the number, rounding up or down depending the number (and user parameters). The method returns the modified instance:
+BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **36**. Using the method `fixed()`, similar to the [`toFixed()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) in js, it fixes the precision of the number, rounding up or down depending the number (and user parameters). The method returns the modified instance:
 | Argument    | Type    | Detail   |
 | ---         | ---     | ---      | 
 | `precision` | Number  | Required |
@@ -340,7 +340,7 @@ It works the same as the `equalTo()` method.
 | `Invalid number (n)`        | There may be an strange extra character in your number that wasn´t expected, your number is `NaN`  |
 | `Number doesn´t match base` | Your number is in fact a number, but it has a symbol that is not valid in the base you are working |
 | `Target base is Not A Number` | base argument may be **null**, **undefined**, or contains a character that is not a valid digit |
-| `Base argument should be an integer between 2 and 64` |  |
+| `Base argument should be an integer between 2 and 36` |  |
 | `Precision argument should be an integer higher than 0` |  |
 | `Root argument cannot be 0` | Check if your root argument is **null**, **undefined** or **zero** |
 | `Cannot take the even root of a negative number` | If your root argument is even and your number instance is negative, the result would be an imaginary number. The library allows real numbers |

@@ -7,7 +7,7 @@
 
 const getNumber = e => isNaN(e) ? e.charCodeAt(0) - 87 : parseInt(e);
 const Normalize = s => {
-  s = s.toString().split(",").join(".");
+  s = s.toString().toLowerCase().split(",").join(".");
   s = s.split(" ").join("");
   s.indexOf(".") + 1 == s.length && (s = s.substring(0, s.length - 1));
   while (!s.indexOf("+") || !s.indexOf("-")){

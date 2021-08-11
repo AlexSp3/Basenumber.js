@@ -47,10 +47,10 @@ const fixNotation = n => {
 const checkIncompatible = (n, base) => {
   let digits = n.split("e+").join("").split("e-").join("").split("");
   if (n === "" || digits.reduce((a, d) => d == "." ? ++a : a, 0) > 1 || digits.reduce((a, d) => d == "-" ? ++a : a, 0) > 1 || 
-      (digits.some(d => isNaN(d) && (getNumber(d) < 10 || getNumber(d) > 63) && d != "." && d != "-")))   return "invalid number " + n;
+      (digits.some(d => isNaN(d) && (getNumber(d) < 10 || getNumber(d) > 36) && d != "." && d != "-")))   return "invalid number " + n;
   if (digits.some(d => getNumber(d) >= base))    return "number doesn´t match base";
   if (isNaN(base))	return "target base is Not A Number"; 
-  if (base < 2 || base > 64)  return "base argument should be an integer between 2 and 64";
+  if (base < 2 || base > 36)  return "base argument should be an integer between 2 and 36";
   return false;
 };
 
@@ -116,9 +116,16 @@ class BaseNumber {
   parseBase(base = 10) {
     base = parseInt(base);
     const sign = (this.#isNegative ? "-" : "");
+    this.#isNegative && (this.#number = this.#number.substring(1, this.#number.length));
     const state = checkIncompatible("0", base);
     if (state) throw "error parsing number: " + state; 
-  	const int = parseInt(this.#isFloat ? this.#number.split(".")[0] : this.#number, this.#base).toString(base);
+  	let int = this.#number.split(".")[0].split("").reverse().reduce((a, d, i) => a + getNumber(d) * Math.pow(this.#base, i), 0), parsedInt = [];
+    while(int >= base) {
+    	const toPush = int % base;
+      parsedInt.unshift(toPush > 9 ? String.fromCharCode(toPush + 87) : toPush);
+      int = Math.floor(int / base);
+    }
+    parsedInt.unshift(int > 9 ? String.fromCharCode(int + 87) : int);
     let dec = this.#isFloat ? this.#number.split(".")[1].split("").reduce((a, d, i) => a + getNumber(d) * Math.pow(this.#base, -(i + 1)), 0) : 0;
     let timeout = 100, parsedDec = [];
     while (timeout && (dec - Math.floor(dec))) {
@@ -127,7 +134,7 @@ class BaseNumber {
       parsedDec.push(toPush > 9 ? String.fromCharCode(toPush + 87) : toPush);
     	timeout--;
     }
-    return this.newValue(((sign === "-" && int.split("")[0] !== sign) ? sign : "") + int + (parsedDec.length ? "." + parsedDec.join("") : ""), base);
+    return this.newValue(sign + parsedInt.join("") + (parsedDec.length ? "." + parsedDec.join("") : ""), base);
   }
   
   newValue(n, base = this.#base) {

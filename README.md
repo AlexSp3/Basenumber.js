@@ -245,6 +245,7 @@ x.round(1, true).valueOf();     // returns "10"
 | ---         | ---     | ---      | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
+
 Returns a string showing the number with `precision` decimals.
 ```JavaScript
 dec.toFixed(precision[, exclusive]);
@@ -264,6 +265,7 @@ x.toFixed(2);             // '4.54'
 | ---         | ---     | ---      | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
+
 Returns a string showing the number rounded with `precision` digits.
 ```JavaScript
 dec.toPrecision(precision[, exclusive]);
@@ -283,6 +285,7 @@ x.toPrecision(2);             // '4.8 e+6'
 | ---         | ---     | ---      | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
+
 Returns a new BaseNumber whose value is the value of this instance rounded to `precision` significant digits.
 ```JavaScript
 dec.toSignificantDigits(precision[, exclusive]);
@@ -331,6 +334,7 @@ z.ceil().valueOf()        // '79'
 | ---         | ---         | ---      | 
 | `min`       | BaseNumber  | Required |
 | `max`       | BaseNumber  | Optional |
+
 Returns a new BaseNumber whose value is the value of this instance clamped to the range delineated by min and max.
 ```JavaScript
 x = Base(5)
@@ -382,6 +386,7 @@ The addition method takes two arguments, last optional:
 | ---          | ---                      | ---      | 
 | `number`     | Object / String / Number | Required |
 | `base`       | Number                   | Optional |
+
 ```JavaScript
 dec.add(number[, base]);
 ```

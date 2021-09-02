@@ -1,5 +1,5 @@
 # BaseNumber
-A cool library that allows you to work with numbers in different bases from 2 to 36.
+A cool BigDecimal library that allows you to work with numbers in different bases from 2 to 36.
 
 - [Create a BaseNumber object](README.md/#create-a-basenumber-object)
    - [Signed numbers](README.md/#signed-numbers)

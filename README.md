@@ -42,7 +42,7 @@ const dec = Base(10, 10);  // Base(number, base);
 
 const hex = Base("f2", 16);
 ```
-BaseNumber.js works with decimal base numers by default, so you can omit the base argument:
+BaseNumber.js works with decimal base numbers by default, so you can omit the base argument:
 ```JavaScript
 const dec = Base(10);
 ```
@@ -55,22 +55,73 @@ const oct = Base("--++10", 8);  // it´s "10" in base 8
 
 const hex = Base("-+10", 2);    // it´s "-10" in base 2
 ```
-### Obtain number value
-Since BaseNumber allows user to create up to base 36 number, number value is an string that may contain letters and numbers:
+### Scientific notation
+BaseNumber.js also allows scientific notation within your numbers. You can init an instance this way:
 ```JavaScript
-dec.value();  // returns "10"
-hex.value();  // returns "f2"
+const dec = Base(10e-2);  // equals to "0.1" in base 10
+
+const oct = Base(10e+2, 8);  // equals to "1000" in base 8
+
+const hex = Base("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
 ```
-### Obtain number base
+Notice that `e-` / `e+` is refer to scientific notation. **Omitting** the sign (`+` or `-`) may cause *errors or unexpected results*:
+```JavaScript
+const hex1 = Base("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
+
+const hex2 = Base("ff.e10e2", 16);   // equals to "ff.e10e2" in base 16, no scientific notation here
+
+const dec = Base("10e2");   // Error, number doesn´t match base
+```
+### valueOf()
+Returns an String that may contain letters and numbers, `0` is a signed number :
+```JavaScript
+const x = Base(-0);
+const y = Base(0);
+const z = Base("3a0", 16);
+
+x.valueOf();  // returns "-0" in base 10
+y.valueOf();  // returns "0" in base 10
+z.valueOf();  // returns "3a0" in base 16
+```
+### toString()
+Same as _valueOf()_ but 0 is not signed :
+```JavaScript
+const x = Base(-0);
+const y = Base(0);
+
+x.valueOf();  // returns "0" in base 10
+y.valueOf();  // returns "0" in base 10
+```
+### toNumber()
+Returns the number representation of the instance. If the instance is in base different than **10**, the method would return the decimal representation of the instance
+```JavaScript
+const dec = Base(10); 
+const hex = Base("a", 16);
+const pi = Base("3.1415926535897932384626433832795028841"); 
+
+dec.toNumber();   // returns 10
+hex.toNumber();   // returns 10
+pi.toNumber();    // returns 3.141592653589793
+```
+### base()
 Number base is save as an integer
 ```JavaScript
+const dec = Base(10); 
+const hex = Base("f2", 16);
+
 dec.base();   // returns 10
 hex.base();   // returns 16
 ```
-## Modify number instance
-Once a BaseNumber object is created, you can modify it dynamically:
-### Modify value
-The `newValue` method allows user to modify the value of an instance. It takes two parameters, second is optional, and returns the old instance:
+### sign()
+Returns a value representinf the sign of the instance:
+| Sign  | Return |
+| `+`   | _1_    |
+| `-`   | _-1_   |
+| `+0`  | 0      |
+| `-0`  | _-0_   |
+| `NaN` | _NaN_  |
+### newValue()
+The `newValue` method allows user to modify the value of an instance. It takes two parameters, second is optional, and returns the same BaseNumber instance:
 | Argument | Type                     | Detail   |
 | ---      | ---                      | ---      | 
 | `number` | Object / String / Number | Required |
@@ -94,92 +145,177 @@ This method returns the updated instance:
 ```JavaScript
 const dec = Base(10);
 
-dec.newValue(5).value();  // returns "5" in base 10
+dec.newValue(5).valueOf();  // returns "5" in base 10
 
-dec.value() // returns "5" in base 10
+dec.valueOf() // returns "5" in base 10
 ```
-### Parse Base
-BaseNumber.js has its own method to parse a number into a new base. The instance is modified after using this function. Use the `parseBase()` method:
+### toBase()
+BaseNumber.js has its own method to parse a number into a new base. It returns a new BaseNumber:
 ```JavaScript
 const dec = Base(15);
 
-dec.parseBase(16);   // now base is 16
-
-dec.value();         // returns "f" (15 in hexadecimal)
+dec.toBase(16).valueOf();  // returns "f" (15 in hexadecimal)
 ```
 If base parameter is omitted, number would be parse in base **10** by default.
-### Parse decimal
+### toDec()
 Similar to the parseBase(), returns a value parsed in decimal base. It does modify the instance itself. It´s a way to improve code readlibility:
 ```JavaScript
 const hex = Base("f", 16);
-hex.toDec().value();   // returns "15"
+hex.toDec().valueOf();   // returns "15"
 ```
-### Parse hexadecimal
+### toHex()
 ```JavaScript
 const dec = Base(15);
-dec.toHex().value();   // returns "f"
+dec.toHex().valueOf();   // returns "f"
 ```
-### Parse Octal
+### toOct()
 ```JavaScript
 const dec = Base(10);
-dec.toOct().value();   // returns "12"
+dec.toOct().valueOf();   // returns "12"
 ```
-### Parse Binary
-```JavaScript
-const dec = Base(10);
-dec.toBin().value();   // returns "1010"
-```
-## Working with float numbers
-All above functions can be also used with float numbers. E.g:
+### toBin()
 ```JavaScript
 const dec = Base(10.0625);
-
-dec.toBin();   // new base is 2
-
-dec.value();       // returns "1010.0001"
+dec.toBin().valueOf();       // returns "1010.0001"
 ```
-### Fixed precision
-BaseNumber.js allows user to round or fixed decimal numbers in any base from **2** to **36**. Using the method `fixed()`, similar to the [`toFixed()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) in js, it fixes the precision of the number, rounding up or down depending the number (and user parameters). The method returns the modified instance:
+### trunc()
+Returns a new BaseNumber only with the integer part, similar to `parseInt()`
+```JavaScript
+const dec = Base(10.0625);
+dec.trunc().valueOf();       // returns "10"
+```
+### round()
+It rounds a number according to the precision passed as an argument, rounding up or down depending the number (and user parameters). The method returns a new instance with decimals rounded:
 | Argument    | Type    | Detail   |
 | ---         | ---     | ---      | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
 ```JavaScript
-dec.fixed(precision[, exclusive]);
+dec.round(precision[, exclusive]);
 ```
-`precision` argument must be higher than 0 to avoid errors. `exclusive` argument allows user to decide how to fixed the middle number between 0 and the base. E.g: suppose a **base 9** number:
+`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would be **1** by default. `exclusive` argument allows user to decide how to round the middle number between 0 and the base. E.g: suppose a **base 9** number:
 ```JavaScript
-const dec = Base(10.04, 9);
+const x = Base(10.04, 9);
 ```
 The *4* digit is the middle number because base is an odd number (9), and the the possible symbols in the base are `[0, 1, 2, 3, (4), 5, 6, 7, 8]`.
 ```JavaScript
-const dec = Base(10.04, 9);
+const x = Base(10.04, 9);
 
-// by default, exclusive is false, so the middle number would be fixed up
-dec.fixed(1).value();     // returns "10.1"
+// by default, exclusive is false, so the middle number would be round up
+x.round(1).valueOf();     // returns "10.1"
 
-// exclusive is true, so the middle number would be fixed down
-dec.fixed(1, true).value();     // returns "10.0"
+// exclusive is true, so the middle number would be round down
+x.round(1, true).valueOf();     // returns "10"
 ```
-### Scientific notation
-BaseNumber.js also allows scientific notation within your numbers. You can init an instance this way:
+## toFixed()
+| Argument    | Type    | Detail   |
+| ---         | ---     | ---      | 
+| `precision` | Number  | Required |
+| `exclusive` | Boolean | Optional |
+Returns a string showing the number with `precision` decimals.
 ```JavaScript
-const dec = Base(10e-2);  // equals to "0.1" in base 10
-
-const oct = Base(10e+2, 8);  // equals to "1000" in base 8
-
-const hex = Base("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
+dec.toFixed(precision[, exclusive]);
 ```
-Notice that `e-` / `e+` is refer to scientific notation. **Omitting** the sign (`+` or `-`) may cause *errors or unexpected results*:
+`precision` argument must be higher or equal to 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](README.md/#valueOf()).
+`exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#round()) for more info about this parameter.
 ```JavaScript
-const hex1 = Base("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
 
-const hex2 = Base("ff.e10e2", 16);   // equals to "ff.e10e2" in base 16, no scientific notation here
+x = Base("4.5394)
 
-const dec = Base("10e2");   // Error, number doesn´t match base
+x.toFixed();              // '4.5394'
+x.toFixed(10);            // '4.5394000000'
+x.toFixed(2);             // '4.54'
 ```
-### IEEE754 Floating point
-BaseNumber.js includes a method in which a number in any base can be transfromed to IEEE754 representation. Call the `toIEEE754()` method, it returns an object with three keys: `exponent`, `mantissa` and `sign`. The instance remains with no modifications:
+## toPrecision()
+| Argument    | Type    | Detail   |
+| ---         | ---     | ---      | 
+| `precision` | Number  | Required |
+| `exclusive` | Boolean | Optional |
+Returns a string showing the number rounded with `precision` digits.
+```JavaScript
+dec.toPrecision(precision[, exclusive]);
+```
+`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](README.md/#valueOf()). If `precision` is less than the number of digits necessary to represent the integer part of the value in normal notation, then exponential notation is used.
+`exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#round()) for more info about this parameter.
+```JavaScript
+
+x = Base("4765456.5394)
+
+x.toPrecision();              // '4765456.5394'
+x.toPrecision(15);             // '4765456.53940000'
+x.toPrecision(2);             // '4.8 e+6'
+```
+### toSignificantDigits() / toSD()
+| Argument    | Type    | Detail   |
+| ---         | ---     | ---      | 
+| `precision` | Number  | Required |
+| `exclusive` | Boolean | Optional |
+Returns a new BaseNumber whose value is the value of this instance rounded to `precision` significant digits.
+```JavaScript
+dec.toSignificantDigits(precision[, exclusive]);
+```
+`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](README.md/#valueOf()).
+`exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#round()) for more info about this parameter.
+```JavaScript
+dec = Base(9876.54321)
+
+dec.toSignificantDigits()                          // '9876.54321'
+dec.toSignificantDigits(6)                         // '9876.54'
+dec.toSD(2)                                        // '9900'
+```
+### abs()
+Returns a new BaseNumber whose value is the absolute value the instance.
+```JavaScript
+dec = Base(-99);
+dec.abs().valueOf()       // '99'
+```
+### ceil()
+Returns a new BaseNumber whose value is the value of the instance rounded to a whole number in the direction of positive [Infinity](README.md/#Special values).
+```JavaScript
+x = Base(1.3)
+x.ceil().valueOf()        // '2'
+
+y = Base(-1.8)
+y.ceil().valueOf()        // '-1'
+
+z = Base("7a.2", 16)
+z.ceil().valueOf()        // '7b'
+```
+### floor()
+Returns a new BaseNumber whose value is the value of the instance rounded to a whole number in the direction of negative [Infinity](README.md/#Special values).
+```JavaScript
+x = Base(1.3)
+x.ceil().valueOf()        // '1'
+
+y = Base(-1.8)
+y.ceil().valueOf()        // '-2'
+
+z = Base("7a.2", 16)
+z.ceil().valueOf()        // '79'
+```
+### clamp()
+| Argument    | Type        | Detail   |
+| ---         | ---         | ---      | 
+| `min`       | BaseNumber  | Required |
+| `max`       | BaseNumber  | Optional |
+Returns a new BaseNumber whose value is the value of this Decimal clamped to the range delineated by min and max.
+```JavaScript
+x = Base(5)
+min = Base(100)
+max = Base(150)
+x.clamp(min, max).valueOf()    // '100'
+```
+### toExp()
+Returns a string representing the value of the instance rounded in exponential notation.
+```JavaScript
+dec = Base(9876.54321)
+hex = Base("0.0f4ee21", 16)
+
+dec.toExp()                          // '9.87654321 e+3'
+hex.toExp()                          // 'f.4ee21 e-2'
+```
+### toIEEE754() Floating point representation
+BaseNumber.js includes a method in which a number in any base can be transfromed to IEEE754 representation. Call the `toIEEE754()` method, it returns an object with three keys: `exponent`, `mantissa` and `sign`:
 ```JavaScript
 dec.toIEEE754([bits64]);
 ```
@@ -196,9 +332,9 @@ dec.toIEEE754();
    sign: "0"
 } */
 ```
-## Simple Math Operations
-BaseNumber allows you to make some simple math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*. When using math operations in BaseNumber.js, you are modifying the instance:
-### Addition
+## Math Operations
+BaseNumber allows you to make math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*.:
+### add()
 The addition method takes two arguments, last optional:
 | Argument     | Type                     | Detail   |
 | ---          | ---                      | ---      | 
@@ -222,84 +358,145 @@ dec.add(77);     // Base by default is 10
 
 dec.add(77, 8);  // Base is 8
 ```
-Since the return value of the math functions is the modified instance, in order to take the value you need to add the `.value()` method at the end of the operation.
+Since the return value of the math functions is the modified instance, in order to take the value you need to add the [valueOf()](README.md/#valueOf()) method at the end of the operation.
 ```JavaScript
-dec.add(77).value()   // returns the new value
-
-dec.value()   // returns the new value
+dec.add(77).valueOf()   // returns the new value
 ```
 The remaining Math operations works exactly the same:
 ### Subtract
 ```JavaScript
 const dec = Base(10);
 
-dec.subtract(5).value();   // returns "5"
+dec.subtract(5).valueOf();   // returns "5"
 ```
 ### Multiply
 ```JavaScript
 const dec = Base(10);
 
-dec.multiply(5).value();   // returns "50"
+dec.multiply(5).valueOf();   // returns "50"
 ```
 ### Divide
 ```JavaScript
 const dec = Base(10);
 
-dec.divide(5).value();   // returns "2"
+dec.divide(5).valueOf();   // returns "2"
 ```
-### Exponent
+### Power
 ```JavaScript
 const dec = Base(10);
 
-dec.pow(2).value();   // returns "100"
+dec.pow(2).valueOf();   // returns "100"
 ```
 ### Root
 ```JavaScript
 const dec = Base(10);
 
-dec.root(2).value();   // returns "3.16227766...."
+dec.root(2).valueOf();     // returns "3.16227766...."
+dec.root(2.4).valueOf();   // returns "2.61015721...."
+```
+#### sqrt()
+The same as `root(2)`:
+```JavaScript
+const dec = Base(10);
+dec.root(2).valueOf();     // returns "3.16227766...."
+```
+#### cbrt()
+The same as `root(3)`:
+```JavaScript
+const dec = Base(125);
+dec.root(3).valueOf();     // returns "25"
+```
+### exp()
+Returns a new BaseNumber whose value is the base `e` (Euler's number, the base of the natural logarithm) exponential of the value of the instance
+```JavaScript
+x = Base(1)
+x.exp().valueOf()         // '2.7182818284590452354'
+```
+### log()
+Returns a new BaseNumber whose value is the base x logarithm of the value of the instance.
+If x is omitted, the base 10 logarithm of the instance will be returned.
+
+The ln() is the inverse of the [`exp()`](README.md/#exp()) function.
+```JavaScript
+x = Base(8)
+x.log().valueOf();             // '0.903089....' 
+
+y = Base("100", 16);
+y.log(2).valueOf();             // '8'
+```
+### ln()
+Returns a new BaseNumber whose value is the natural logarithm of the value of the instance.
+
+The ln() is the inverse of the [`exp()`](README.md/#exp()) function.
+```JavaScript
+x = Base(1)
+x.ln().valueOf();             // '0' 
+
+y = Base("7a.2", 16);
+y.ln().valueOf();             // '4.ce176fb4d0...'
+```
+### fact()
+Returns a new BaseNumber whose value is the factorial value of the instance.
+If the number is a float, it would be truncated to ist integer part
+
+The ln() is the inverse of the [`exp()`](README.md/#exp()) function.
+```JavaScript
+x = Base(3)
+x.fact().valueOf();             // '6' 
+
+y = Base(4.5345);
+y.fact().valueOf();             // '24'
 ```
 ## Chaining methods
-BaseNumber.js allows user to chain math and other operators. The list of operators that can be chained is the following:
-- `fixed()`
-- `newValue()`
-- `parseBase()`
-- `toDec()`
-- `toHex()`
-- `toBin()`
-- `toOct()`
-- `add()`
-- `subtract()`
-- `multiply()`
-- `divide()`
-- `pow()`
-- `root()`
-- `clone()`
+BaseNumber.js allows user to chain math and other operators that return a BaseNumber. The list of operators that can be chained is the following:
+- [`newValue()`)](README.md/#newValue())
+- [`round()`](README.md/#round())
+- [`trunc()`](README.md/#trunc())
+- [`clamp()`](README.md/#clamp())
+- [`abs()`](README.md/#abs())
+- [`neg()`](README.md/#neg())
+- [`floor()`](README.md/#floor())
+- [`ceil()`](README.md/#ceil())
+- [`toBase()`](README.md/#toBase())
+- [`toDec()`](README.md/#toDec())
+- [`toHex()`](README.md/#toHex())
+- [`toBin()`](README.md/#toBin())
+- [`toOct()`](README.md/#toOct())
+- [`add()`](README.md/#add())
+- [`subtract()`](README.md/#subtract())
+- [`multiply()`](README.md/#multiply())
+- [`divide()`](README.md/#divide())
+- [`pow()`](README.md/#pow())
+- [`root()`](README.md/#root())
+- [`sqrt()`](README.md/#sqrt())
+- [`cbrt()`](README.md/#cbrt())
+- [`exp()`](README.md/#exp())
+- [`log()`](README.md/#log())
+- [`ln()`](README.md/#ln())
+- [`cos()`](README.md/#cos())
+- [`sin()`](README.md/#sin())
+- [`tan()`](README.md/#tan())
+- [`fact()`](README.md/#fact())
+- [`clone()`](README.md/#clone())
 
 E.g:
 ```JavaScript
 const dec = Base(10);
 
-dec.add(5).subtract("f", 16).subtract(1).pow(2).toBin().value();   // returns "1"
+dec.add(5).subtract("f", 16).subtract(1).pow(2).toBin().toString();   // returns "1"
 ```
-## Clone numbers
-In order to make an operation without modifying the original instance, you can make use of the `clone()` method, which returns a new BaseNumber instance, remaining the original:
-```JavaScript
-const dec = Base(10);
-
-let result = dec.clone().add(5).value();   // Now result is equal to "15"
-
-dec.value();   // dec value is still equal to "10" in base 10
-```
-It can also be used to make a copy of the instance on another variable, so you can work with two instance that have the same value, but different references, it means that you can modify one without modifying the other:
+## clone()
+Returns a new BaseNumber instance, which is a copy of the original isntance:
 ```JavaScript
 const dec = Base(10);
 
 const copy = dec.clone();
+
+copy.toString()  // '10'
 ```
-## Comparing numbers with different bases
+## Comparing numbers
 BaseNumber.js allows user to make comparisons between instances or variables. Although following examples show only integer numbers, *all comparing operations are also available for float numbers*:
-### Checking equality:
+### equalTo():
 Call the `equalTo()` method to check equality between values. It has two parameters, second is optional. It may return true or false.
 ```JavaScript
 dec.equalTo(number[, base]);
@@ -322,18 +519,95 @@ dec.equalTo(15);   // returns true (base is 10 by default)
 
 hex.equalTo(15, 16);   // returns false (base is 16)
 ```
-### Higher Than
+### higherThan()
 Call the `higherThan()` method to check if an element is higher than the argument number. It has two parameters, second is optional. It may return true or false.
 ```JavaScript
 dec.higherThan(number[, base]);
 ```
 It works the same as the `equalTo()` method.
-### Lower Than
+### lowerThan()
 Call the `lowerThan()` method to check if an element is lower than the argument number. It has two parameters, second is optional. It may return true or false.
 ```JavaScript
 dec.lowerThan(number[, base]);
 ```
 It works the same as the `equalTo()` method.
+### isNeg()
+Returns true if the number is negative, else returns false:
+```JavaScript
+const x = Base("-10")
+const y = Base(-0);
+const z = Base("100101", 2);
+
+x.isNeg()   // true
+y.isNeg()   // true
+z.isNeg()   // false
+```
+### isPos()
+Returns true if the number is positive, else returns false:
+```JavaScript
+const x = Base("-10")
+const y = Base(-0);
+const z = Base("100101", 2);
+
+x.isPos()   // false
+y.isPos()   // false
+z.isPos()   // true
+```
+### isInt()
+Returns true if the number has not after-dot digits
+```JavaScript
+const x = Base("10.345")
+const y = Base(-0);
+const z = Base("100101", 2);
+
+x.isInt()   // false
+y.isInt()   // true
+z.isInt()   // true
+```
+### isFloat()
+Returns true if the number has after-dot digits
+```JavaScript
+const x = Base("10.345")
+const y = Base(-0);
+const z = Base("100101", 2);
+
+x.isFloat()   // true
+y.isFloat()   // false
+z.isFloat()   // false
+```
+### isZero()
+Returns true whether the instance is `0` or '-0`, else returns false:
+```JavaScript
+const x = Base("0")
+const y = Base(-0);
+const z = Base("100101", 2);
+
+x.isZero()   // true
+y.isZero()   // true
+z.isZero()   // false
+```
+### isNaN()
+Returns true whether the instance is `NaN`, else returns false:
+```JavaScript
+const x = Base("NaN", 8)
+const y = Base(NaN);
+const z = Base("100101", 2);
+
+x.isNaN()   // true
+y.isNaN()   // true
+z.isNaN()   // false
+```
+### isFinite()
+Returns true whether the instance is a finite value, else returns false. Non finite values are `NaN`, `Infinity` and `-Infinity`, see [Special values](README.md/#Special values) for more information:
+```JavaScript
+const x = Base("NaN", 8)
+const y = Base(Infinity);
+const z = Base("100101", 2);
+
+x.isFinite()   // false
+y.isFinite()   // false
+z.isFinite()   // true
+```
 ## Error debugging
 | Error                     | Detail   |
 | ---                       | ---      | 

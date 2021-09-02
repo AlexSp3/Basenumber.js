@@ -3,33 +3,61 @@ A cool BigDecimal library that allows you to work with numbers in different base
 
 - [Create a BaseNumber object](README.md/#create-a-basenumber-object)
    - [Signed numbers](README.md/#signed-numbers)
-   - [Obtain number value](README.md/#obtain-number-value)
-   - [Obtain number base](README.md/#obtain-number-base)
-- [Modify number instance](README.md/#modify-number-instance)
-   - [Modify value](README.md/#modify-value)
-   - [Parse Base](README.md/#parse-base)
-   - [Parse decimal](README.md/#parse-decimal)
-   - [Parse hexadecimal](README.md/#parse-hexadecimal)
-   - [Parse Octal](README.md/#parse-octal)
-   - [Parse Binary](README.md/#parse-binary)
-- [Working with float numbers](README.md/#working-with-float-numbers)
-   - [Fixed precision](README.md/#fixed-precision)
    - [Scientific notation](README.md/#scientific-notation)
-   - [IEEE754 Floating point](README.md/#ieee754-floating-point)
-- [Simple Math Operations](README.md/#simple-math-operations)
-   - [Addition](README.md/#addition)
-   - [Subtract](README.md/#subtract)
-   - [Multiply](README.md/#multiply)
-   - [Divide](README.md/#divide)
-   - [Exponent](README.md/#exponent)
-   - [Root](README.md/#root)
+   - [valueOf()](README.md/#valueOf())
+   - [toString()](README.md/#toString())
+   - [toNumber()](README.md/#toNumber())
+   - [base()](README.md/#base())
+   - [sign()](README.md/#sign())
+   - [newValue()](README.md/#newValue())
+   - [toBase()](README.md/#toBase())
+   - [toDec()](README.md/#toDec())
+   - [toHex()](README.md/#toHex())
+   - [toOct()](README.md/#toOct())
+   - [toBin()](README.md/#toBin())
+   - [trunc()](README.md/#trunc())
+   - [round()](README.md/#round())
+   - [toFixed()](README.md/#toFixed())
+   - [toPrecision()](README.md/#toPrecision())
+   - [toSignificantDigits() / toSD()](README.md/#toSignificantDigits()-toSD())
+   - [abs()](README.md/#abs())
+   - [ceil()](README.md/#ceil())
+   - [floor()](README.md/#floor())
+   - [clamp()](README.md/#clamp())
+   - [toExp()](README.md/#toExp())
+   - [neg()](README.md/#neg())
+   - [toIEEE754()](README.md/#toIEEE754())
+- [Math Operations](README.md/#math-operations)
+   - [add()](README.md/#addition)
+   - [subtract()](README.md/#subtract)
+   - [multiply()](README.md/#multiply)
+   - [divide()](README.md/#divide)
+   - [power()](README.md/#power)
+   - [root()](README.md/#root)
+   - [`sqrt()`](README.md/#sqrt())
+   - [`cbrt()`](README.md/#cbrt())
+   - [`exp()`](README.md/#exp())
+   - [`log()`](README.md/#log())
+   - [`ln()`](README.md/#ln())
+   - [`cos()`](README.md/#cos())
+   - [`sin()`](README.md/#sin())
+   - [`tan()`](README.md/#tan())
+   - [`fact()`](README.md/#fact())
 - [Chaining methods](README.md/#chaining-methods)
-- [Clone numbers](README.md/#clone-numbers)
-- [Comparing numbers with different bases](README.md/#comparing-numbers-with-different-bases)   
-   - [Checking equality](README.md/#checking-equality)
-   - [Higher Than](README.md/#higher-than)
-   - [Lower Than](README.md/#lower-than)
-- [Error debugging](README.md/#error-debugging)   
+- [clone()](README.md/#clone())
+- [Comparing numbers](README.md/#comparing-numbers)   
+   - [equalTo()](README.md/#equalTo())
+   - [higherThan()](README.md/#higherThan())
+   - [lowerThan()](README.md/#lowerThan())
+   - [isNeg()](README.md/#isNeg())
+   - [isPos()](README.md/#isPos())
+   - [isInt()](README.md/#isInt())
+   - [isFloat()](README.md/#isFloat())
+   - [isZero()](README.md/#isZero())
+   - [isNaN()](README.md/#isNaN())
+   - [isFinite()](README.md/#isFinite())
+   - [isBase()](README.md/#isBase())
+- [Special values](README.md/#special-values)   
 ---
 ## Create a BaseNumber object:
 Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
@@ -207,7 +235,7 @@ x.round(1).valueOf();     // returns "10.1"
 // exclusive is true, so the middle number would be round down
 x.round(1, true).valueOf();     // returns "10"
 ```
-## toFixed()
+### toFixed()
 | Argument    | Type    | Detail   |
 | ---         | ---     | ---      | 
 | `precision` | Number  | Required |
@@ -220,13 +248,13 @@ dec.toFixed(precision[, exclusive]);
 `exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#round()) for more info about this parameter.
 ```JavaScript
 
-x = Base("4.5394)
+x = Base("4.5394")
 
 x.toFixed();              // '4.5394'
 x.toFixed(10);            // '4.5394000000'
 x.toFixed(2);             // '4.54'
 ```
-## toPrecision()
+### toPrecision()
 | Argument    | Type    | Detail   |
 | ---         | ---     | ---      | 
 | `precision` | Number  | Required |
@@ -270,7 +298,7 @@ dec = Base(-99);
 dec.abs().valueOf()       // '99'
 ```
 ### ceil()
-Returns a new BaseNumber whose value is the value of the instance rounded to a whole number in the direction of positive [Infinity](README.md/#Special values).
+Returns a new BaseNumber whose value is the value of the instance rounded to a whole number in the direction of positive [Infinity](README.md/#special-values).
 ```JavaScript
 x = Base(1.3)
 x.ceil().valueOf()        // '2'
@@ -282,7 +310,7 @@ z = Base("7a.2", 16)
 z.ceil().valueOf()        // '7b'
 ```
 ### floor()
-Returns a new BaseNumber whose value is the value of the instance rounded to a whole number in the direction of negative [Infinity](README.md/#Special values).
+Returns a new BaseNumber whose value is the value of the instance rounded to a whole number in the direction of negative [Infinity](README.md/#special-values).
 ```JavaScript
 x = Base(1.3)
 x.ceil().valueOf()        // '1'
@@ -313,6 +341,15 @@ hex = Base("0.0f4ee21", 16)
 
 dec.toExp()                          // '9.87654321 e+3'
 hex.toExp()                          // 'f.4ee21 e-2'
+```
+### neg()
+Returns a new BaseNumber with the opposite value of the instance:
+```JavaScript
+x = Base(10)
+y = Base("-32", 16)
+
+x.neg().valueOf()          // '-10'
+y.neg().valueOf()          // '32'
 ```
 ### toIEEE754() Floating point representation
 BaseNumber.js includes a method in which a number in any base can be transfromed to IEEE754 representation. Call the `toIEEE754()` method, it returns an object with three keys: `exponent`, `mantissa` and `sign`:
@@ -363,31 +400,31 @@ Since the return value of the math functions is the modified instance, in order 
 dec.add(77).valueOf()   // returns the new value
 ```
 The remaining Math operations works exactly the same:
-### Subtract
+### subtract()
 ```JavaScript
 const dec = Base(10);
 
 dec.subtract(5).valueOf();   // returns "5"
 ```
-### Multiply
+### multiply()
 ```JavaScript
 const dec = Base(10);
 
 dec.multiply(5).valueOf();   // returns "50"
 ```
-### Divide
+### divide()
 ```JavaScript
 const dec = Base(10);
 
 dec.divide(5).valueOf();   // returns "2"
 ```
-### Power
+### pow()
 ```JavaScript
 const dec = Base(10);
 
 dec.pow(2).valueOf();   // returns "100"
 ```
-### Root
+### root()
 ```JavaScript
 const dec = Base(10);
 
@@ -598,7 +635,7 @@ y.isNaN()   // true
 z.isNaN()   // false
 ```
 ### isFinite()
-Returns true whether the instance is a finite value, else returns false. Non finite values are `NaN`, `Infinity` and `-Infinity`, see [Special values](README.md/#Special values) for more information:
+Returns true whether the instance is a finite value, else returns false. Non finite values are `NaN`, `Infinity` and `-Infinity`, see [Special values](README.md/#special-values) for more information:
 ```JavaScript
 const x = Base("NaN", 8)
 const y = Base(Infinity);
@@ -608,17 +645,36 @@ x.isFinite()   // false
 y.isFinite()   // false
 z.isFinite()   // true
 ```
-## Error debugging
-| Error                     | Detail   |
-| ---                       | ---      | 
-| `Invalid number (n)`        | There may be an strange extra character in your number that wasn´t expected, your number is `NaN`  |
-| `Number doesn´t match base` | Your number is in fact a number, but it has a symbol that is not valid in the base you are working |
-| `Target base is Not A Number` | base argument may be **null**, **undefined**, or contains a character that is not a valid digit |
-| `Base argument should be an integer between 2 and 36` |  |
-| `Precision argument should be an integer higher than 0` |  |
-| `Root argument cannot be 0` | Check if your root argument is **null**, **undefined** or **zero** |
-| `Cannot take the even root of a negative number` | If your root argument is even and your number instance is negative, the result would be an imaginary number. The library allows real numbers |
-| `Cannot divide by 0` |  |
----
+### isBase()
+Returns true whether the instance value is in x base.
+If x is omitted, it would be **10** by default:
+```JavaScript
+const x = Base("NaN", 8)
+const y = Base(Infinity);
+const z = Base("100101", 2);
+
+x.isBase(8)    // true
+y.isBase()     // true (base 10)
+z.isBase(16)   // false
+```
+## Special Values
+`±0`, `NaN` and `±Infinity` are valid BaseNumber values.
+
+All values that are not `NaN` in range (-Infinity, +Infinity) are considered finite values.
+
+```JavaScript
+x = Base("NaN", 8)
+y = Base(Infinity);
+z = Base("-0", 2);
+
+x.isNaN()          // True
+x.isFinite()       // False
+
+y.equalTo(1 / 0)   // True
+y.isFinite()       // False
+
+z.isNeg()          // True
+z.isFinite()       // True
+```
 
 - Open source [MIT License](LICENSE)

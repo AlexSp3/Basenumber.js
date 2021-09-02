@@ -60,6 +60,7 @@ A cool BigDecimal library that allows you to work with numbers in different base
 - [Configuration of the library](README.md/#Configuration-of-the-library) 
    - [`setDecimals()`](README.md/#setDecimals)
    - [`setAngle()`](README.md/#setAngle)
+   - [`noConflict()`](README.md/#noConflict)
 - [Constants](README.md/#constants)   
 - [Special values](README.md/#special-values)   
 ---
@@ -708,6 +709,21 @@ Base(90).cos().valueOf();        // 0
 Base.setAngle("radians");
 
 Base.Pi.divide(2).cos().valueOf();        // 0
+```
+### `noConflict()`
+In case the `Base` variable was used by another variable before loading the library, this function allows user to revert the `Base` variable to the value it had before, and returns the **BaseNumber** constructor:
+```Html
+<script> let Base = 1 </script>
+<script src='BaseNumber.js'></script>
+<script>
+  const x = Base("ff", 16)  
+   
+  const B = Base.noConflict()
+   
+  console.log( Base )     // 1
+   
+  const y = B(10)       
+</script>
 ```
 ## Constants
 BaseNumber has 4 precision constants values that you can implement in your projects.You can reach up to 1025 digits of precision. Each constant is also a BaseNumber instance:

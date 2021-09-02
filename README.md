@@ -4,59 +4,59 @@ A cool BigDecimal library that allows you to work with numbers in different base
 - [Create a BaseNumber object](README.md/#create-a-basenumber-object)
    - [Signed numbers](README.md/#signed-numbers)
    - [Scientific notation](README.md/#scientific-notation)
-   - [`valueOf()`](README.md/#valueOf())
-   - [`toString()`](README.md/#toString())
-   - [`toNumber()`](README.md/#toNumber())
-   - [`base()`](README.md/#base())
-   - [`sign()`](README.md/#sign())
-   - [`newValue()`](README.md/#newValue())
-   - [`toBase()`](README.md/#toBase())
-   - [`toDec()`](README.md/#toDec())
-   - [`toHex()`](README.md/#toHex())
-   - [`toOct()`](README.md/#toOct())
-   - [`toBin()`](README.md/#toBin())
-   - [`trunc()`](README.md/#trunc())
-   - [`round()`](README.md/#round())
-   - [`toFixed()`](README.md/#toFixed())
-   - [`toPrecision()`](README.md/#toPrecision())
-   - [`toSignificantDigits()` / `toSD()`](README.md/#toSignificantDigits()-toSD())
-   - [`abs()`](README.md/#abs())
-   - [`ceil()`](README.md/#ceil())
-   - [`floor()`](README.md/#floor())
-   - [`clamp()`](README.md/#clamp())
-   - [`toExp()`](README.md/#toExp())
-   - [`neg()`](README.md/#neg())
-   - [`toIEEE754()`](README.md/#toIEEE754())
+   - [`valueOf()`](README.md/#`valueOf()`)
+   - [`toString()`](README.md/#`toString()`)
+   - [`toNumber()`](README.md/#`toNumber()`)
+   - [`base()`](README.md/#`base()`)
+   - [`sign()`](README.md/#`sign()`)
+   - [`newValue()`](README.md/#`newValue()`)
+   - [`toBase()`](README.md/#`toBase()`)
+   - [`toDec()`](README.md/#`toDec()`)
+   - [`toHex()`](README.md/#`toHex()`)
+   - [`toOct()`](README.md/#`toOct()`)
+   - [`toBin()`](README.md/#`toBin()`)
+   - [`trunc()`](README.md/#`trunc()`)
+   - [`round()`](README.md/#`round()`)
+   - [`toFixed()`](README.md/#`toFixed()`)
+   - [`toPrecision()`](README.md/#`toPrecision()`)
+   - [`toSignificantDigits()` / `toSD()`](README.md/#`toSignificantDigits()`-`toSD()`)
+   - [`abs()`](README.md/#`abs()`)
+   - [`ceil()`](README.md/#`ceil()`)
+   - [`floor()`](README.md/#`floor()`)
+   - [`clamp()`](README.md/#`clamp()`)
+   - [`toExp()`](README.md/#`toExp()`)
+   - [`neg()`](README.md/#`neg()`)
+   - [`toIEEE754()`](README.md/#`toIEEE754()`-floating-point-representation)
 - [Math Operations](README.md/#math-operations)
-   - [`add()`](README.md/#addition)
-   - [`subtract()`](README.md/#subtract)
-   - [`multiply()`](README.md/#multiply)
-   - [`divide()`](README.md/#divide)
-   - [`power()`](README.md/#power)
-   - [`root()`](README.md/#root)
-   - [`sqrt()`](README.md/#sqrt())
-   - [`cbrt()`](README.md/#cbrt())
-   - [`exp()`](README.md/#exp())
-   - [`log()`](README.md/#log())
-   - [`ln()`](README.md/#ln())
-   - [`cos()`](README.md/#cos())
-   - [`sin()`](README.md/#sin())
-   - [`tan()`](README.md/#tan())
-   - [`fact()`](README.md/#fact())
+   - [`add()`](README.md/#`addition()`)
+   - [`subtract()`](README.md/#`subtract()`)
+   - [`multiply()`](README.md/#`multiply()`)
+   - [`divide()`](README.md/#`divide()`)
+   - [`power()`](README.md/#`power()`)
+   - [`root()`](README.md/#`root()`)
+   - [`sqrt()`](README.md/#`sqrt()`)
+   - [`cbrt()`](README.md/#`cbrt()`)
+   - [`exp()`](README.md/#`exp()`)
+   - [`log()`](README.md/#`log()`)
+   - [`ln()`](README.md/#`ln()`)
+   - [`cos()`](README.md/#`cos()`)
+   - [`sin()`](README.md/#`sin()`)
+   - [`tan()`](README.md/#`tan()`)
+   - [`fact()`](README.md/#`fact()`)
 - [Chaining methods](README.md/#chaining-methods)
-- [`clone()`](README.md/#clone())
+- [`clone()`](README.md/#`clone()`)
 - [Comparing numbers](README.md/#comparing-numbers)   
-   - [`equalTo()`](README.md/#equalTo())
-   - [`higherThan()`](README.md/#higherThan())
-   - [`lowerThan()`](README.md/#lowerThan())
-   - [`isNeg()`](README.md/#isNeg())
-   - [`isPos()`](README.md/#isPos())
-   - [`isInt()`](README.md/#isInt())
-   - [`isFloat()`](README.md/#isFloat())
-   - [`isZero()`](README.md/#isZero())
-   - [`isNaN()`](README.md/#isNaN())
-   - [`isFinite()`](README.md/#isFinite())
-   - [`isBase()`](README.md/#isBase())
+   - [`equalTo()`](README.md/#`equalTo()`)
+   - [`higherThan()`](README.md/#`higherThan()`)
+   - [`lowerThan()`](README.md/#lowerThan()`)
+   - [`isNeg()`](README.md/#`isNeg()`)
+   - [`isPos()`](README.md/#`isPos()`)
+   - [`isInt()`](README.md/#`isInt()`)
+   - [`isFloat()`](README.md/#`isFloat()`)
+   - [`isZero()`](README.md/#`isZero()`)
+   - [`isNaN()`](README.md/#`isNaN()`)
+   - [`isFinite()`](README.md/#`isFinite()`)
+   - [`isBase()`](README.md/#`isBase()`)
 - [Special values](README.md/#special-values)   
 ---
 ## Create a BaseNumber object:
@@ -244,8 +244,8 @@ Returns a string showing the number with `precision` decimals.
 ```JavaScript
 dec.toFixed(precision[, exclusive]);
 ```
-`precision` argument must be higher or equal to 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](README.md/#valueOf()).
-`exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#round()) for more info about this parameter.
+`precision` argument must be higher or equal to 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](README.md/#`valueOf()`).
+`exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#`round()`) for more info about this parameter.
 ```JavaScript
 
 x = Base("4.5394")
@@ -263,8 +263,8 @@ Returns a string showing the number rounded with `precision` digits.
 ```JavaScript
 dec.toPrecision(precision[, exclusive]);
 ```
-`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](README.md/#valueOf()). If `precision` is less than the number of digits necessary to represent the integer part of the value in normal notation, then exponential notation is used.
-`exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#round()) for more info about this parameter.
+`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](README.md/#`valueOf()`). If `precision` is less than the number of digits necessary to represent the integer part of the value in normal notation, then exponential notation is used.
+`exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#`round()`) for more info about this parameter.
 ```JavaScript
 
 x = Base("4765456.5394)
@@ -282,8 +282,8 @@ Returns a new BaseNumber whose value is the value of this instance rounded to `p
 ```JavaScript
 dec.toSignificantDigits(precision[, exclusive]);
 ```
-`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](README.md/#valueOf()).
-`exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#round()) for more info about this parameter.
+`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](README.md/#`valueOf()`).
+`exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#`round()`) for more info about this parameter.
 ```JavaScript
 dec = Base(9876.54321)
 
@@ -395,7 +395,7 @@ dec.add(77);     // Base by default is 10
 
 dec.add(77, 8);  // Base is 8
 ```
-Since the return value of the math functions is the modified instance, in order to take the value you need to add the [valueOf()](README.md/#valueOf()) method at the end of the operation.
+Since the return value of the math functions is the modified instance, in order to take the value you need to add the [valueOf()](README.md/#`valueOf()`) method at the end of the operation.
 ```JavaScript
 dec.add(77).valueOf()   // returns the new value
 ```
@@ -453,7 +453,6 @@ x.exp().valueOf()         // '2.7182818284590452354'
 Returns a new BaseNumber whose value is the base x logarithm of the value of the instance.
 If x is omitted, the base 10 logarithm of the instance will be returned.
 
-The ln() is the inverse of the [`exp()`](README.md/#exp()) function.
 ```JavaScript
 x = Base(8)
 x.log().valueOf();             // '0.903089....' 
@@ -464,7 +463,7 @@ y.log(2).valueOf();             // '8'
 ### `ln()`
 Returns a new BaseNumber whose value is the natural logarithm of the value of the instance.
 
-The ln() is the inverse of the [`exp()`](README.md/#exp()) function.
+The ln() is the inverse of the [`exp()`](README.md/#`exp()`) function.
 ```JavaScript
 x = Base(1)
 x.ln().valueOf();             // '0' 
@@ -476,7 +475,6 @@ y.ln().valueOf();             // '4.ce176fb4d0...'
 Returns a new BaseNumber whose value is the factorial value of the instance.
 If the number is a float, it would be truncated to ist integer part
 
-The ln() is the inverse of the [`exp()`](README.md/#exp()) function.
 ```JavaScript
 x = Base(3)
 x.fact().valueOf();             // '6' 
@@ -486,35 +484,35 @@ y.fact().valueOf();             // '24'
 ```
 ## Chaining methods
 BaseNumber.js allows user to chain math and other operators that return a BaseNumber. The list of operators that can be chained is the following:
-- [`newValue()`)](README.md/#newValue())
-- [`round()`](README.md/#round())
-- [`trunc()`](README.md/#trunc())
-- [`clamp()`](README.md/#clamp())
-- [`abs()`](README.md/#abs())
-- [`neg()`](README.md/#neg())
-- [`floor()`](README.md/#floor())
-- [`ceil()`](README.md/#ceil())
-- [`toBase()`](README.md/#toBase())
-- [`toDec()`](README.md/#toDec())
-- [`toHex()`](README.md/#toHex())
-- [`toBin()`](README.md/#toBin())
-- [`toOct()`](README.md/#toOct())
-- [`add()`](README.md/#add())
-- [`subtract()`](README.md/#subtract())
-- [`multiply()`](README.md/#multiply())
-- [`divide()`](README.md/#divide())
-- [`pow()`](README.md/#pow())
-- [`root()`](README.md/#root())
-- [`sqrt()`](README.md/#sqrt())
-- [`cbrt()`](README.md/#cbrt())
-- [`exp()`](README.md/#exp())
-- [`log()`](README.md/#log())
-- [`ln()`](README.md/#ln())
-- [`cos()`](README.md/#cos())
-- [`sin()`](README.md/#sin())
-- [`tan()`](README.md/#tan())
-- [`fact()`](README.md/#fact())
-- [`clone()`](README.md/#clone())
+- [`newValue()`)](README.md/#`newValue()`)
+- [`round()`](README.md/#`round()`)
+- [`trunc()`](README.md/#`trunc()`)
+- [`clamp()`](README.md/#`clamp()`)
+- [`abs()`](README.md/#`abs()`)
+- [`neg()`](README.md/#`neg()`)
+- [`floor()`](README.md/#`floor()`)
+- [`ceil()`](README.md/#`ceil()`)
+- [`toBase()`](README.md/#`toBase()`)
+- [`toDec()`](README.md/#`toDec()`)
+- [`toHex()`](README.md/#`toHex()`)
+- [`toBin()`](README.md/#`toBin()`)
+- [`toOct()`](README.md/#`toOct()`)
+- [`add()`](README.md/#`add()`)
+- [`subtract()`](README.md/#`subtract()`)
+- [`multiply()`](README.md/#`multiply()`)
+- [`divide()`](README.md/#`divide()`)
+- [`pow()`](README.md/#`pow()`)
+- [`root()`](README.md/#`root()`)
+- [`sqrt()`](README.md/#`sqrt()`)
+- [`cbrt()`](README.md/#`cbrt()`)
+- [`exp()`](README.md/#`exp()`)
+- [`log()`](README.md/#`log()`)
+- [`ln()`](README.md/#`ln()`)
+- [`cos()`](README.md/#`cos()`)
+- [`sin()`](README.md/#`sin()`)
+- [`tan()`](README.md/#`tan()`)
+- [`fact()`](README.md/#`fact()`)
+- [`clone()`](README.md/#`clone()`)
 
 E.g:
 ```JavaScript

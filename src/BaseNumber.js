@@ -1,7 +1,6 @@
 /* 
  * @Version: v0.1-alpha
  * 
- * @Author: Alexandro Palacios 
  * @Last_edit: 02/09/2021
  */
 

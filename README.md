@@ -287,7 +287,7 @@ dec.toPrecision(precision[, exclusive]);
 `exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](README.md/#round) for more info about this parameter.
 ```JavaScript
 
-x = Base("4765456.5394)
+x = Base("4765456.5394")
 
 x.toPrecision();              // '4765456.5394'
 x.toPrecision(15);             // '4765456.53940000'

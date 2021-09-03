@@ -722,7 +722,7 @@ Set the number of decimals you want to reach in the operations. Take into accoun
 Base.setDecimals(50);
 ```
 ### `setAngle()`
-Set the angle unit for trigonometric operations. there are two possible units: `"grades"` and `"radians"`. By **default**, the value is set as "grades":
+Set the angle unit for trigonometric operations. there are two possible units: `"grades"` and `"radians"`. By **default**, the value is set as `"grades"`:
 ```JavaScript
 
 Base.setAngle("grades");

@@ -717,12 +717,12 @@ z.isBase(16)   // false
 ```
 ## Configuration of the library
 ### `setDecimals()`
-Set the number of decimals you want to reach in the operations. Take into account that more decimals may affect time execution of the library. The maximum recommend number of decimals is **1000** without losing precision.
+Set the number of decimals you want to reach in the operations. Take into account that more decimals may affect time execution of the library. The maximum recommend number of decimals is **1000** without losing precision. By **default**, the value is set as **20**:
 ```JavaScript
 Base.setDecimals(50);
 ```
 ### `setAngle()`
-Set the angle unit for trigonometric operations. there are two possible units: `"grades"` and `"radians"`:
+Set the angle unit for trigonometric operations. there are two possible units: `"grades"` and `"radians"`. By **default**, the value is set as "grades":
 ```JavaScript
 
 Base.setAngle("grades");

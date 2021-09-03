@@ -148,9 +148,10 @@ hex.base();   // returns 16
 ### `sign()`
 Returns a value representinf the sign of the instance:
 | Sign  | Return |
+|---    |---     |
 | `+`   | _1_    |
 | `-`   | _-1_   |
-| `+0`  | 0      |
+| `+0`  | _0_    |
 | `-0`  | _-0_   |
 | `NaN` | _NaN_  |
 ### `newValue()`

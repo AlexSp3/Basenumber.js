@@ -154,6 +154,18 @@ Returns a value representinf the sign of the instance:
 | `+0`  | _0_    |
 | `-0`  | _-0_   |
 | `NaN` | _NaN_  |
+
+```JavaScript
+x = Base("-abc", 16)
+y = Base("NaN")
+z = Base("le5k1p", 36)
+
+x.sign()        // -1
+y.sign()        // NaN
+z.sign()        // 1
+Base(0).sign()  // 0
+Base(-0).sign() // -0
+```
 ### `newValue()`
 The `newValue` method allows user to modify the value of an instance. It takes two parameters, second is optional, and returns the same BaseNumber instance:
 | Argument | Type                     | Detail   |
@@ -413,46 +425,52 @@ dec.add(77).valueOf()   // returns the new value
 The remaining Math operations works exactly the same:
 ### `subtract()`
 ```JavaScript
-const dec = Base(10);
+dec = Base(10);
 
-dec.subtract(5).valueOf();   // returns "5"
+dec.subtract(5).valueOf();         // "5"
+dec.subtract("f", 16).valueOf();   // "-5"
 ```
 ### `multiply()`
 ```JavaScript
-const dec = Base(10);
+dec = Base(10);
+bin = Base(1010, 2)
 
-dec.multiply(5).valueOf();   // returns "50"
+dec.multiply(5).valueOf();     // "50"
+dec.multiply(bin).valueOf();   // "100"
 ```
 ### `divide()`
 ```JavaScript
-const dec = Base(10);
+dec = Base(10);
 
-dec.divide(5).valueOf();   // returns "2"
+dec.divide(5).valueOf();         // "2"
+dec.divide("a", 16).valueOf();   // "1"
 ```
 ### `pow()`
 ```JavaScript
-const dec = Base(10);
+dec = Base(10);
 
-dec.pow(2).valueOf();   // returns "100"
+dec.pow(2).valueOf();       // "100"
+dec.pow(10, 2).valueOf();   // "100"
 ```
 ### `root()`
 ```JavaScript
-const dec = Base(10);
+dec = Base(10);
 
-dec.root(2).valueOf();     // returns "3.16227766...."
-dec.root(2.4).valueOf();   // returns "2.61015721...."
+dec.root(2).valueOf();        // "3.16227766...."
+dec.root(2.4).valueOf();      // "2.61015721...."
+dec.root("10", 2).valueOf();  // "3.16227766...."
 ```
 ### `sqrt()`
 The same as `root(2)`:
 ```JavaScript
-const dec = Base(10);
-dec.root(2).valueOf();     // returns "3.16227766...."
+dec = Base(10);
+dec.sqrt().valueOf();     // "3.16227766...."
 ```
 ### `cbrt()`
 The same as `root(3)`:
 ```JavaScript
-const dec = Base(125);
-dec.root(3).valueOf();     // returns "25"
+dec = Base(125);
+dec.cbrt().valueOf();     // "5"
 ```
 ### `exp()`
 Returns a new BaseNumber whose value is the base `e` (Euler's number, the base of the natural logarithm) exponential of the instance
@@ -469,7 +487,8 @@ x = Base(8)
 x.log().valueOf();             // '0.903089....' 
 
 y = Base("100", 16);
-y.log(2).valueOf();             // '8'
+y.log(2).valueOf();             // '8' in base 16
+y.log("10", 2).valueOf();       // '8' in base 16 
 ```
 ### `ln()`
 Returns a new BaseNumber whose value is the natural logarithm of the instance.

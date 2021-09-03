@@ -19,7 +19,7 @@ A cool BigDecimal library that allows you to work with numbers in different base
    - [`round()`](README.md/#round)
    - [`toFixed()`](README.md/#toFixed)
    - [`toPrecision()`](README.md/#toPrecision)
-   - [`toSignificantDigits()` / `toSD()`](README.md/#toSignificantDigits-toSD)
+   - [`toSignificantDigits()` / `toSD()`](README.md/#toSignificantDigits-/-toSD)
    - [`abs()`](README.md/#abs)
    - [`ceil()`](README.md/#ceil)
    - [`floor()`](README.md/#floor)

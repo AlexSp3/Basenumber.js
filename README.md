@@ -70,7 +70,7 @@ A cool BigDecimal library that allows you to work with numbers in different base
 Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
 | Argument | Type                     | Detail   |
 | ---      | ---                      | ---      | 
-| `number` | Object / String / Number | Required |
+| `number` | BaseNumber / String / Number | Required |
 | `base`   | Number                   | Optional |
 ```JavaScript
 const dec = Base(10, 10);  // Base(number, base);
@@ -99,7 +99,7 @@ const oct = Base(10e+2, 8);  // equals to "1000" in base 8
 
 const hex = Base("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
 ```
-Notice that `e-` / `e+` is refer to scientific notation. **Omitting** the sign (`+` or `-`) may cause *errors or unexpected results*:
+Notice that `e-` / `e+` is referred to scientific notation. **Omitting** the sign (`+` or `-`) may cause *errors or unexpected results*:
 ```JavaScript
 const hex1 = Base("ff.e10e-2", 16);  // equals to "0.ffe10" in base 16
 
@@ -110,45 +110,47 @@ const dec = Base("10e2");   // Error, number doesn´t match base
 ### `valueOf()`
 Returns an String that may contain letters and numbers, `0` is a signed number :
 ```JavaScript
-const x = Base(-0);
-const y = Base(0);
-const z = Base("3a0", 16);
+x = Base(-0);
+y = Base(0);
+z = Base("3a0", 16);
 
-x.valueOf();  // returns "-0" in base 10
-y.valueOf();  // returns "0" in base 10
-z.valueOf();  // returns "3a0" in base 16
+x.valueOf();              // "-0"
+y.valueOf();              // "0"
+z.valueOf();              // "3a0"
+Base(Infinity).valueOf()  // "Infinity"
+Base(NaN).valueOf()       // "NaN"
 ```
 ### `toString()`
-Same as _valueOf()_ but 0 is not signed :
+Same as [`valueOf()`](README.md/#valueOf) but [0](README.md/#special-values) is not signed:
 ```JavaScript
 const x = Base(-0);
 const y = Base(0);
 
-x.valueOf();  // returns "0" in base 10
-y.valueOf();  // returns "0" in base 10
+x.valueOf();  // "0"
+y.valueOf();  // "0"
 ```
 ### `toNumber()`
 Returns the number representation of the instance. If the instance is in base different than **10**, the method would return the decimal representation of the instance
 ```JavaScript
-const dec = Base(10); 
-const hex = Base("a", 16);
-const pi = Base("3.1415926535897932384626433832795028841"); 
+dec = Base(10); 
+hex = Base("a", 16);
+pi = Base("3.1415926535897932384626433832795028841"); 
 
 dec.toNumber();   // returns 10
 hex.toNumber();   // returns 10
 pi.toNumber();    // returns 3.141592653589793
 ```
 ### `base()`
-Number base is save as an integer
+Number base is saved as an integer:
 ```JavaScript
-const dec = Base(10); 
-const hex = Base("f2", 16);
+dec = Base(10); 
+hex = Base("f2", 16);
 
-dec.base();   // returns 10
-hex.base();   // returns 16
+dec.base();   // 10
+hex.base();   // 16
 ```
 ### `sign()`
-Returns a value representinf the sign of the instance:
+Returns a value representing the sign of the instance:
 | Sign  | Return |
 |---    |---     |
 | `+`   | _1_    |
@@ -172,7 +174,7 @@ Base(-0).sign() // -0
 The `newValue` method allows user to modify the value of an instance. It takes two parameters, second is optional, and returns the same BaseNumber instance:
 | Argument | Type                     | Detail   |
 | ---      | ---                      | ---      | 
-| `number` | Object / String / Number | Required |
+| `number` | BaseNumber / String / Number | Required |
 | `base`   | Number                   | Optional |
 ```JavaScript
 dec.newValue(number[, base]);
@@ -204,9 +206,9 @@ const dec = Base(15);
 
 dec.toBase(16).valueOf();  // returns "f" (15 in hexadecimal)
 ```
-If base parameter is omitted, number would be parse in base **10** by default.
+If base parameter is omitted, number would be parsed in base **10** by default.
 ### `toDec()`
-Similar to the parseBase(), returns a value parsed in decimal base. It does modify the instance itself. It´s a way to improve code readlibility:
+Similar to `toBase()`, returns a value parsed in decimal base. It does modify the instance itself. It´s a way to improve code readlibility:
 ```JavaScript
 const hex = Base("f", 16);
 hex.toDec().valueOf();   // returns "15"
@@ -399,7 +401,7 @@ BaseNumber allows you to make math operations with normal variables or another B
 The addition method takes two arguments, last optional:
 | Argument     | Type                     | Detail   |
 | ---          | ---                      | ---      | 
-| `number`     | Object / String / Number | Required |
+| `number`     | BaseNumber / String / Number | Required |
 | `base`       | Number                   | Optional |
 
 ```JavaScript

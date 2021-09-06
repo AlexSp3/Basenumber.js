@@ -123,11 +123,11 @@ Base(NaN).valueOf()       // "NaN"
 ### `toString()`
 Same as [`valueOf()`](README.md/#valueOf) but [0](README.md/#special-values) is not signed:
 ```JavaScript
-const x = Base(-0);
-const y = Base(0);
+x = Base(-0);
+y = Base(0);
 
-x.valueOf();  // "0"
-y.valueOf();  // "0"
+x.toString();  // "0"
+y.toString();  // "0"
 ```
 ### `toNumber()`
 Returns the number representation of the instance. If the instance is in base different than **10**, the method would return the decimal representation of the instance
@@ -202,7 +202,7 @@ dec.valueOf() // returns "5" in base 10
 ### `toBase()`
 BaseNumber.js has its own method to parse a number into a new base. It returns a new BaseNumber:
 ```JavaScript
-const dec = Base(15);
+dec = Base(15);
 
 dec.toBase(16).valueOf();  // returns "f" (15 in hexadecimal)
 ```
@@ -210,28 +210,28 @@ If base parameter is omitted, number would be parsed in base **10** by default.
 ### `toDec()`
 Similar to `toBase()`, returns a value parsed in decimal base. It does modify the instance itself. It´s a way to improve code readlibility:
 ```JavaScript
-const hex = Base("f", 16);
+hex = Base("f", 16);
 hex.toDec().valueOf();   // returns "15"
 ```
 ### `toHex()`
 ```JavaScript
-const dec = Base(15);
+dec = Base(15);
 dec.toHex().valueOf();   // returns "f"
 ```
 ### `toOct()`
 ```JavaScript
-const dec = Base(10);
+dec = Base(10);
 dec.toOct().valueOf();   // returns "12"
 ```
 ### `toBin()`
 ```JavaScript
-const dec = Base(10.0625);
+dec = Base(10.0625);
 dec.toBin().valueOf();       // returns "1010.0001"
 ```
 ### `trunc()`
 Returns a new BaseNumber only with the integer part, similar to `parseInt()`
 ```JavaScript
-const dec = Base(10.0625);
+dec = Base(10.0625);
 dec.trunc().valueOf();       // returns "10"
 ```
 ### `round()`
@@ -244,12 +244,10 @@ It rounds a number according to the precision passed as an argument, rounding up
 dec.round(precision[, exclusive]);
 ```
 `precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would be **1** by default. `exclusive` argument allows user to decide how to round the middle number between 0 and the base. E.g: suppose a **base 9** number:
-```JavaScript
-const x = Base(10.04, 9);
-```
+
 The *4* digit is the middle number because base is an odd number (9), and the the possible symbols in the base are `[0, 1, 2, 3, (4), 5, 6, 7, 8]`.
 ```JavaScript
-const x = Base(10.04, 9);
+x = Base(10.04, 9);
 
 // by default, exclusive is false, so the middle number would be round up
 x.round(1).valueOf();     // returns "10.1"
@@ -409,8 +407,8 @@ dec.add(number[, base]);
 ```
 The `number` argument can be either a string/number variable or another BaseNumber instance. In case it´s a BaseNumber instance, `base` parameter would be equal to the number instance's `base`. E.g:
 ```JavaScript
-const dec = Base(10); 
-const hex = Base("ff", 16); 
+dec = Base(10); 
+hex = Base("ff", 16); 
 
 dec.add(hex);  // base argument is by default hex.base()
 
@@ -602,8 +600,8 @@ dec.equalTo(number[, base]);
 ```
 The `number` argument can be either a string/number variable or another BaseNumber instance. In case it´s a BaseNumber instance, `base` parameter would be equal to the number instance's `base`. E.g:
 ```JavaScript
-const dec = Base(15); 
-const hex = Base("f", 16);
+dec = Base(15); 
+hex = Base("f", 16);
 
 dec.equalTo(hex);   // returns true (base is hex.base())
 
@@ -611,8 +609,8 @@ hex.equalTo(dec);   // returns true (base is dec.base())
 ```
 In case number argument is a string/number variable, the `base` parameter would be **10** by default, unless you specify it:
 ```JavaScript
-const dec = Base(15); 
-const hex = Base("f", 16);
+dec = Base(15); 
+hex = Base("f", 16);
 
 dec.equalTo(15);   // returns true (base is 10 by default)
 
@@ -633,9 +631,9 @@ It works the same as the `equalTo()` method.
 ### `isNeg()`
 Returns true if the number is negative, else returns false:
 ```JavaScript
-const x = Base("-10")
-const y = Base(-0);
-const z = Base("100101", 2);
+x = Base("-10")
+y = Base(-0);
+z = Base("100101", 2);
 
 x.isNeg()   // true
 y.isNeg()   // true
@@ -655,9 +653,9 @@ z.isPos()   // true
 ### `isInt()`
 Returns true if the number has not after-dot digits
 ```JavaScript
-const x = Base("10.345")
-const y = Base(-0);
-const z = Base("100101", 2);
+x = Base("10.345")
+y = Base(-0);
+z = Base("100101", 2);
 
 x.isInt()   // false
 y.isInt()   // true
@@ -666,9 +664,9 @@ z.isInt()   // true
 ### `isFloat()`
 Returns true if the number has after-dot digits
 ```JavaScript
-const x = Base("10.345")
-const y = Base(-0);
-const z = Base("100101", 2);
+x = Base("10.345")
+y = Base(-0);
+z = Base("100101", 2);
 
 x.isFloat()   // true
 y.isFloat()   // false
@@ -677,9 +675,9 @@ z.isFloat()   // false
 ### `isZero()`
 Returns true whether the instance is `0` or '-0`, else returns false:
 ```JavaScript
-const x = Base("0")
-const y = Base(-0);
-const z = Base("100101", 2);
+x = Base("0")
+y = Base(-0);
+z = Base("100101", 2);
 
 x.isZero()   // true
 y.isZero()   // true
@@ -688,9 +686,9 @@ z.isZero()   // false
 ### `isNaN()`
 Returns true whether the instance is `NaN`, else returns false:
 ```JavaScript
-const x = Base("NaN", 8)
-const y = Base(NaN);
-const z = Base("100101", 2);
+x = Base("NaN", 8)
+y = Base(NaN);
+z = Base("100101", 2);
 
 x.isNaN()   // true
 y.isNaN()   // true
@@ -699,9 +697,9 @@ z.isNaN()   // false
 ### `isFinite()`
 Returns true whether the instance is a finite value, else returns false. Non finite values are `NaN`, `Infinity` and `-Infinity`, see [Special values](README.md/#special-values) for more information:
 ```JavaScript
-const x = Base("NaN", 8)
-const y = Base(Infinity);
-const z = Base("100101", 2);
+x = Base("NaN", 8)
+y = Base(Infinity);
+z = Base("100101", 2);
 
 x.isFinite()   // false
 y.isFinite()   // false
@@ -711,9 +709,9 @@ z.isFinite()   // true
 Returns true whether the instance value is in x base.
 If x is omitted, it would be **10** by default:
 ```JavaScript
-const x = Base("NaN", 8)
-const y = Base(Infinity);
-const z = Base("100101", 2);
+x = Base("NaN", 8)
+y = Base(Infinity);
+z = Base("100101", 2);
 
 x.isBase(8)    // true
 y.isBase()     // true (base 10)

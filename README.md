@@ -29,7 +29,7 @@ The minify version
 ```
 $ npm install basenumber.js
 ```
-```Html
+```Javascript
 const Base = require('basenumber.js');
 ```
 ## Examples
@@ -66,6 +66,33 @@ x.equalTo(y)              // false
 x.equalTo(Infinity)       // true
 x.higherThan("ffff", 16)  // true
 Base(0).equalTo(-0)       // true
+```
+## Base transformation
+When transforming from one base to another base, it returns a new **Basenumber**
+```Javascript
+x = Base(100);
+y = Base("f.f", 16);
+z = Base("n3sv6g", 36);
+
+x.toBase(2)    // '1100100'
+x.toBin()      // '1100100'
+x.toHex()      // '64'
+x.toBase(30)   // '3a'
+
+y.toBase(8)    // '17.74'
+y.toDec()      // '15.9375'
+
+z.toDec()      // '1397155624'
+z.toOct()      // '12321563450'
+z.toBin()      // '1010011010001101110011100101000'
+
+x.toBin().toDec()   // '100'
+```
+## Chaining methods
+```Javascript
+x = Base(100);
+
+x.add(5).subtract(80).add("101", 2).toHex().toString()    // '1e' 
 ```
 ## High precision values
 You can specify the number of digits after comma. This value is the same for any base

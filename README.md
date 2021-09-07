@@ -1,4 +1,5 @@
-# BaseNumber
+![basenumber.js](/resources/logo.png)
+
 A cool BigDecimal library that allows you to work with numbers in different bases from 2 to 36.
 
 *This is an **alpha** version*
@@ -33,7 +34,7 @@ A cool BigDecimal library that allows you to work with numbers in different base
    - [`add()`](README.md/#addition)
    - [`subtract()`](README.md/#subtract)
    - [`multiply()`](README.md/#multiply)
-   - [`divide()`](README.md/#divide)
+   - [`divide()`](README.md/#divide) 
    - [`power()`](README.md/#power)
    - [`root()`](README.md/#root)
    - [`sqrt()`](README.md/#sqrt)

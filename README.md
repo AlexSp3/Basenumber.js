@@ -5,7 +5,7 @@
 
 A Javascript **BigDecimal** library for arbitrary precision that allows you to work with numbers in different bases from **2 to 36**.
 
-Clear [documentation](https://github.com/alexpalapine2003/BaseNumber/wiki) and [speed tests](https://github.com/alexpalapine2003/BaseNumber/wiki).
+Clear [documentation](https://github.com/alexpalapine2003/BaseNumber/wiki) and [speed tests](https://github.com/alexpalapine2003/BaseNumber/wiki/Tests).
 
 ## Description
 * Allows integers, floating, and negative **2 to 36** base numbers.

@@ -7,7 +7,7 @@ A cool **arbitrary precision** library that allows you to work with numbers in d
 
 ## Description
 * Allows integers, floating, and negative **2 to 36** base numbers.
-* Work with Big Integers and Big Decimals.
+* Work with **Big Integers** and **Big Decimals**.
 * Specify the number of digits after comma.
 * Do base transformation in a easy and fast way.
 * Decimal `power` and nth `root` allowed.

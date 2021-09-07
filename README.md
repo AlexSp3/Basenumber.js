@@ -52,7 +52,7 @@ bin.lowerThan(dec)    // true
 copy.higherThan(hex)  // false
 ```
 
-Library allows Infinity and NaN as values
+Library allows `±0`, `NaN` and `±Infinity` as values
 ```Javascript
 x = Base(Infinity);
 y = Base(-Infinity);
@@ -65,6 +65,7 @@ z.isNaN()                 // true
 x.equalTo(y)              // false
 x.equalTo(Infinity)       // true
 x.higherThan("ffff", 16)  // true
+Base(0).equalTo(-0)       // true
 ```
 ## High precision values
 You can specify the number of digits after comma. This value is the same for any base

@@ -216,7 +216,19 @@ SOFTWARE.
 
                 //If b is a float do exp(b * ln(a))
             } else {
-                return naturalExponential(arith(b, naturalLogarithm(a), "m"));
+                const oldDecimals = decimals,
+                    extraDec = Math.floor((b * 1.3) * Math.log10(a));
+
+                if (decimals + extraDec > 1042) {
+                    err("'pow()'", "arguments are too big to reach the precision required")
+                }
+
+                B.setDecimals(decimals + extraDec);
+
+                const r = naturalExponential(arith(b, naturalLogarithm(a), "m"));
+
+                B.setDecimals(oldDecimals);
+                return r;
             }
 
         };
@@ -291,7 +303,7 @@ SOFTWARE.
             // Precision error. Result would not be correctly rounded since LN2 constant has only 1025 decimals
             const decRequired = decimals + b / 3.25;
             if (decRequired > 1042) {
-                err("'exp()'", "argument '" + x + "' is to big to reach the precision decimals required")
+                err("'exp()'", "argument '" + x + "' is too big to reach the precision required");
             }
 
             const oldDecimals = decimals;

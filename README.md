@@ -3,7 +3,7 @@
 ![version](/img/version.png)
 
 
-A cool **arbitrary precision** library that allows you to work with numbers in different bases from **2 to 36**.
+A Javascript **BigDecimal** library for arbitrary precision that allows you to work with numbers in different bases from **2 to 36**.
 
 ## Description
 * Allows integers, floating, and negative **2 to 36** base numbers.

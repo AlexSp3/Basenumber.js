@@ -78,13 +78,12 @@ x.ln()            // 1.100111000000010000011111011111101101100011010011001101101
 x.toDec().ln()    // 1.6094379124341003746007593332261876395256013542685177219126478914741789877076577646301338780931796111
 
 ```
-Basenumber has high precision constants, up to 1025 digits to include in your projects:
+Basenumber has **high precision constants**, up to **1025 digits** to include in your projects:
 ```Javascript
 Base.Pi      // '3.1415926535897932384626433832795028...'
 Base.e       // '2.7182818284590452353602874713526624...'
 Base.Ln2     // '0.6931471805599453094172321214581765...'
 Base.Ln10    // '2.3025850929940456840179914546843642...'
 ```
-## Decimals 
 ---
 Open source [MIT License](LICENSE)

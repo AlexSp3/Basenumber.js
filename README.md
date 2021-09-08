@@ -1,11 +1,11 @@
-![basenumber.js](https://github.com/alexpalapine2003/Basenumber.js/blob/gh-pages/resources/logo.png)
+![basenumber.js](https://github.com/AlexSp3/Basenumber.js/blob/gh-pages/resources/logo.png)
 
-![version](https://github.com/alexpalapine2003/Basenumber.js/blob/gh-pages/resources/version.png)
+![version](https://github.com/AlexSp3/Basenumber.js/blob/gh-pages/resources/version.png)
 
 
 A Javascript **BigDecimal** library for arbitrary precision that allows you to work with numbers in different bases from **2 to 36**.
 
-Clear [documentation](https://github.com/alexpalapine2003/BaseNumber/wiki) and [speed tests](https://github.com/alexpalapine2003/BaseNumber/wiki/Tests).
+Clear [documentation](https://github.com/AlexSp3/Basenumber.js/wiki) and [speed tests](https://github.com/AlexSp3/Basenumber.js/wiki/Tests).
 
 ## Description
 * Allows integers, floating, and negative **2 to 36** base numbers.
@@ -115,7 +115,7 @@ Base.Ln2     // '0.6931471805599453094172321214581765...'
 Base.Ln10    // '2.3025850929940456840179914546843642...'
 ```
 ## Website
-### [https://alexpalapine2003.github.io/Basenumber.js](https://alexpalapine2003.github.io/Basenumber.js)
+### [https://alexpalapine2003.github.io/Basenumber.js](https://alexsp3.github.io/Basenumber.js)
 
 ---
 Open source [MIT License](LICENSE)

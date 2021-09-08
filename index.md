@@ -8,7 +8,7 @@ Let´s start creating our first BaseNumber. The constructor uses two arguments (
 | `base`   | Number                       | Optional |
 
 &nbsp;
-```JavaScript
+```javaScript
 const dec = Base(10, 10);  // Base(number, base);
 
 const hex = Base("f2", 16);

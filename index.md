@@ -6,6 +6,7 @@ Let´s start creating our first BaseNumber. The constructor uses two arguments (
 | --- | --- | --- | 
 | `number` | BaseNumber / String / Number | Required |
 | `base`   | Number                       | Optional |
+
 &nbsp;
 
 ```JavaScript

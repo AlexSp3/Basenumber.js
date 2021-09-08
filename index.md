@@ -1,10 +1,12 @@
 ![basenumber.js](https://github.com/alexpalapine2003/BaseNumber/blob/main/img/logo.png)
 ## Create a BaseNumber object:
 Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
+
 | Argument | Type                     | Detail   |
 | ---      | ---                      | ---      | 
 | `number` | BaseNumber / String / Number | Required |
 | `base`   | Number                   | Optional |
+
 ```JavaScript
 const dec = Base(10, 10);  // Base(number, base);
 

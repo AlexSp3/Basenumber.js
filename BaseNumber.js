@@ -41,7 +41,10 @@ SOFTWARE.
     const PI = '3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989380952572010654858632788';
     const E = '2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274274663919320030599218174135966290435729003342952605956307381323286279434907632338298807531952510190115738341879307021540891499348841675092447614606680822648001684774118537423454424371075390777449920695517027618386062613313845830007520449338265602976067371132007093287091274437470472306969772093101416928368190255151086574637721112523897844250569536967707854499699679468644549059879316368892300987931277361782154249992295763514822082698951936680331825288693984964651058209392398294887933203625094431173012381970684161403970198376793206832823764648042953118023287825098194558153017567173613320698112509961818815930416903515988885193458072738667385894228792284998920868058257492796104841984443634632449684875602336248270419786232090021609902353043699418491463140934317381436405462531520961836908887070167683964243781405927145635490613031072085103837505101157477041718986106873969655212671546889570350354021234078498193343210681';
 
-    const numerals = '0123456789abcdefghijklmnñopqrstuvwxyz';
+    const numerals = '0123456789abcdefghijklmnopqrstuvwxyz';
+
+    const MAX_FLOAT_VALUE = "11111111111111111111111011111111100000111000000110101100100101000111000000100011101001111001111001000000000000000000000000000000";
+    const MAX_DOUBLE_VALUE = "11111111111111111111111111111111111111111111111111111011101011101000110110000001011001010011000011110011101000100011110110111111010111000000010111011000010110101101010111000110010010111000000100000110001100110001010011010001000111111010100001110110010011000110111011100100110110001010001110000001010000100111001101111001101000100110000100010000101000000100001100001000101111011100111010111111000110011101000101001100111001011110011001010000111101010010100100110111101101110110010101101110010010001100111101101010010010001101101001111110000111010011010000101111010110000001100011010001000100100000001010110001101000101010101100100011110101100111011110110100011001000111011110001110001011000100110100011010011011111001100111111101011" + "0".repeat(293);
 
     const err = (func, msg) => { throw "error [BaseNumber.js] in " + func + ": " + msg; }
 
@@ -72,6 +75,8 @@ SOFTWARE.
      *
      * If user writes a number with scientific notation the function 
      * simplify it to a string with 0 at the left or right
+     * 
+     * Remove trailing zeros and fix dot notation
      * 
      * @param (string)
      * @return string without notation
@@ -104,9 +109,12 @@ SOFTWARE.
             }
         }
         n = n.split("");
+        // remove extra '0' at right
         while (n[0] === "0" && n[1] !== ".") n.shift();
+        // add '0' at left if has a dot at index 0
         n[0] === "." && n.unshift("0");
-        while ((n[n.length - 1] === "0" || n[n.length - 1] === ".") && n.indexOf(".") >= 0) n.pop();
+        // remove extra '0' at right if is float, or extra '.'
+        while (n.indexOf(".") >= 0 && (n[n.length - 1] === "0" || n[n.length - 1] === ".")) n.pop();
         return (sign ? "-" : "") + (n.length ? n.join("") : "0");
     };
 
@@ -125,15 +133,30 @@ SOFTWARE.
      * make them the same length and add '0' on the left and on the right to
      * compare each character
      * 
+     * It catches special cases such as NaN and ±Infinity
+     * 
      * @param (string, string)
      * @return 1, -1 or 0 depends on the comparition result
      */
     function cmp(s1, s2) {
-        // Fix sign and add point in case there isn't
+
+        // Fix sign
         let sign1 = "",
             sign2 = "";
         s1[0] === "-" && (sign1 = "0") && (s1 = s1.slice(1));
         s2[0] === "-" && (sign2 = "0") && (s2 = s2.slice(1));
+
+        // check special values
+        if (s1.indexOf("Infinity") + 1) {
+            if (s1 === s2) return sign1 < sign2;
+            return sign1 ? -1 : 1;
+        }
+        if (s2.indexOf("Infinity") + 1) {
+            if (s1 === s2) return sign1 > sign2;
+            return sign2 ? 1 : -1;
+        }
+
+        //  add point in case there isn't
         s1 += s1.indexOf(".") < 0 ? ".0" : "";
         s2 += s2.indexOf(".") < 0 ? ".0" : "";
 
@@ -214,7 +237,7 @@ SOFTWARE.
 
                 return String(BigInt(a) ** BigInt(b)) + (tZeros ? "0".repeat(tZeros).repeat(b) : "");
 
-                //If b is a float do exp(b * ln(a))
+                //If 'a' or 'b' are floats do exp(b * ln(a))
             } else {
                 const oldDecimals = decimals,
                     extraDec = Math.floor((b * 1.3) * Math.log10(a));
@@ -375,11 +398,11 @@ SOFTWARE.
 
     function hyperbolicCosine(x) {
         // cosh(x) = 1 + x^2/2! + x^4/4! + x^6/6! + ...
-        if (cmp(x, "0.000000000001") == 1) {
+        if (cmp(x, "0.01") == 1) {
             // Argument reduction: cosh(x) = 1 - [ cosh^2(x/4) * (8 - 8*cohs^2(x/4)) ]
             const oldDecimals = decimals,
-                extraDec = Math.floor(arith(arith(x, "84", "s"), "2.8", "d"));
-            B.setDecimals(decimals + (extraDec > 0 ? extraDec : 0));
+                extraDec = Math.floor(x.split(".").length * 125) || 5;
+            B.setDecimals(decimals + extraDec);
             const cosh = hyperbolicCosine(arith(x, "4", "d")),
                 cosh2 = arith(cosh, cosh, "m"),
                 r = arith("1", arith(cosh2, arith("8", arith("8", cosh2, "m"), "s"), "m"), "s");
@@ -409,11 +432,11 @@ SOFTWARE.
 
     function hyperbolicSine(x) {
         // sinh(x) = x + x^3/3! + x^5/5! + x^7/7! + ...
-        if (cmp(x, "0.000000000001") == 1) {
+        if (cmp(x, "0.01") == 1) {
             // Argument reduction: sinh(x) = sinh(x/5) * [5 + (sinh^2(x/5) * (20 + 16sinh^2(x/5))) ]
             const oldDecimals = decimals,
-                extraDec = Math.floor(arith(arith(x, "84", "s"), "2.8", "d"));
-            B.setDecimals(decimals + (extraDec > 0 ? extraDec : 0));
+                extraDec = Math.floor((x.split(".").length / decimals) * 17800) || 5;
+            B.setDecimals(decimals + extraDec);
             const sinh = hyperbolicSine(arith(x, "5", "d")),
                 sinh2 = arith(sinh, sinh, "m"),
                 r = arith(sinh, arith("5", arith(sinh2, arith("20", arith("16", sinh2, "m"), "a"), "m"), "a"), "m");
@@ -486,6 +509,7 @@ SOFTWARE.
         decimals = n;
         shift = "0".repeat(decimals + 1);
     }
+
     B.setAngle = (value = 1) => {
         value = value.toLowerCase();
         if (value !== "degrees" && value !== "radians") {
@@ -507,6 +531,7 @@ SOFTWARE.
         const n = arg.map(e => new B(e.n || e, e.b || 10).toB());
         return n.reduce((max, e) => cmp(e.n, max.n) == 1 ? e : max, new B("-Infinity"));
     }
+
     B.min = (...arg) => {
         const n = arg.map(e => new B(e.n || e, e.b || 10).toB());
         return n.reduce((min, e) => cmp(e.n, min.n) == -1 ? e : min, new B("Infinity"));
@@ -536,12 +561,24 @@ SOFTWARE.
         P.f = (n.indexOf(".") + 1);
         P.s = (n[0] === "-");
 
+        /* Returns a new Basenumber with precision digits rounded using 'exclusive' if it'is true 
+         *
+         * Number of digits after comma DO NOT depend on the 'base'
+         * E.g.
+         * 
+         * Base(14.2309).round(3)    =>   '14.231'
+         * Base('f.a0ee').round(3)   =>   'f.a0f'
+         * 
+         */
+
         P.round = function(precision = 1, exclusive = false) {
-            const addOverflow = p => {
-                if (digits[p] == ".") addOverflow(p - 1);
+
+            // carry in case of overflow
+            const _addOne = p => {
+                if (digits[p] == ".") _addOne(p - 1);
                 else if (B.getNumber(digits[p]) + 1 == base) {
                     digits[p] = "0";
-                    p > 0 ? addOverflow(p - 1) : digits.unshift("1");
+                    p > 0 ? _addOne(p - 1) : digits.unshift("1");
                 } else {
                     digits[p] = numerals[B.getNumber(digits[p]) + 1];
                 }
@@ -551,7 +588,10 @@ SOFTWARE.
             const base = P.b;
             let digits = P.n.split("");
             sign === "-" && digits.shift();
+
+            // Non-finite?
             if (!P.isFinite()) return P.clone();
+
             precision = Math.min(precision, decimals);
             if (precision < 0 || isNaN(precision)) err("'round()'", "precision argument should be a number higher than -1");
 
@@ -560,19 +600,37 @@ SOFTWARE.
             if (typeof digits[dot + 1 + precision] === "undefined" ||
                 !P.f) return P.clone();
 
+            // Add +1 to the last precision digit if necessary
             (base - !!exclusive) - B.getNumber(digits[dot + 1 + precision]) <= (base - !!exclusive) / 2 &&
-                addOverflow(dot + precision);
+                _addOne(dot + precision);
+
+            // Truncate non-significant digits
             digits.splice(digits.indexOf(".") + 1 + precision);
             !precision && digits.splice(-1);
+
             return new B(sign + digits.join(""), P.b);
         }
 
+        /* Returns a String representing the number with 'precision' digits after comma
+         * Show extra '0' if needed
+         *
+         * Base(10).toFixed(3)            =>   '10.000'
+         * Base('9ff'00005)'.toFixed(1)   =>   '9ff.0'
+         * 
+         */
+
         P.toFixed = function(precision = P.n.split(".").concat("")[1].length, exclusive = false) {
+            // Non-finite?
             if (!P.isFinite()) return P.n;
+
             precision = Math.min(precision, decimals);
             if (precision < 0 || isNaN(precision)) err("'toFixed()'", "precision argument should be a number higher than -1");
+
+            // Round
             const n = P.round(precision, exclusive);
             const [ints, decs] = n.n.split(".").concat("");
+
+            // PadEnd to show extra '0'
             return ints + "." + decs.padEnd(precision, "0");
         }
 
@@ -627,46 +685,46 @@ SOFTWARE.
             target = new B(target, base).toB();
             // Some NaN, Infinity, Zero
             if (B.someZero(P, target) || B.someInf(P, target)) return new B(P.toB() + target, P.b);
-            return new B(arith(P.toB().n,
-                target.n, "a")).toB(P.b).round(decimals);
+
+            return new B(arith(P.toB().n, target.n, "a")).toB(P.b).round(decimals);
         }
 
         P.subtract = function(target, base = 10) {
             target = new B(target, base).toB();
             // Some NaN, Infinity, Zero
             if (B.someZero(P, target) || B.someInf(P, target)) return new B(P.toB() - target, P.b);
-            return new B(arith(P.toB().n,
-                target.n, "s")).toB(P.b).round(decimals);
+
+            return new B(arith(P.toB().n, target.n, "s")).toB(P.b).round(decimals);
         }
 
         P.multiply = function(target, base = 10) {
             target = new B(target, base).toB();
             // Some NaN, Infinity, Zero
             if (B.someZero(P, target) || B.someInf(P, target)) return new B(P.toB() * target, P.b);
-            return new B(arith(P.toB().n,
-                target.n, "m")).toB(P.b).round(decimals);
+
+            return new B(arith(P.toB().n, target.n, "m")).toB(P.b).round(decimals);
         }
 
         P.divide = function(target, base = 10) {
             target = new B(target, base).toB();
             // Some NaN, Infinity, Zero
             if (B.someZero(P, target) || B.someInf(P, target)) return new B(P.toB() / target, P.b);
-            return new B(arith(P.toB().n,
-                target.n, "d")).toB(P.b).round(decimals);
+
+            return new B(arith(P.toB().n, target.n, "d")).toB(P.b).round(decimals);
         }
         P.module = function(target, base = 10) {
             target = new B(target, base).toB();
             // Some NaN, Infinity, Zero
             if (B.someZero(P, target) || B.someInf(P, target)) return new B(P.toB() % target, P.b);
-            return new B(arith(P.toB().n,
-                target.n, "mod")).toB(P.b).round(decimals);
+
+            return new B(arith(P.toB().n, target.n, "mod")).toB(P.b).round(decimals);
         }
         P.pow = function(target, base = 10) {
             target = new B(target, base).toB();
             // Some NaN, Infinity, Zero
             if (B.someZero(P, target) || B.someInf(P, target)) return new B(Math.pow(P.toB(), target), P.b);
-            return new B(arith(P.toB().n,
-                target.n, "pow")).toB(P.b).round(decimals);
+
+            return new B(arith(P.toB().n, target.n, "pow")).toB(P.b).round(decimals);
         }
         P.root = function(target, base = 10) {
             target = new B(target, base).toB();
@@ -720,20 +778,53 @@ SOFTWARE.
             return P.s ? -1 : 1;
         }
 
+        /* Returns an object with 3 keys representing the floating point representation
+         * of the number in 32 or 64 bits. Sensitive to special values such as NaN or ±Infinity 
+         *
+         * NaN         = 1 11111111 11111111111111111111111
+         * Infinity    = 0 11111111 00000000000000000000000
+         * -Infinity   = 1 11111111 00000000000000000000000
+         * 
+         */
         P.toIEEE754 = function(bits64 = false) {
-            const bin = P.toB(2).n.split(""),
-                mantL = (bits64 ? 52 : 23),
+            let bin = P.toB(2).n,
+                sign = "0";
+            const mantL = (bits64 ? 52 : 23),
                 expL = (bits64 ? 11 : 8);
-            let sign = "0";
-            bin[0] === "-" && (sign = "1") && bin.shift();
+            // Determine sign
+            bin[0] === "-" && (sign = "1") && (bin = bin.slice(1));
+            // check for NaN
+            if (P.isNaN()) {
+                return { sign: "1", exponent: "1".repeat(expL), mantissa: "1".repeat(mantL) };
+            }
+
+            // check for non finite values
+            if (cmp(bin, bits64 ? MAX_DOUBLE_VALUE : MAX_FLOAT_VALUE) == 1) {
+                return { sign: sign, exponent: "1".repeat(expL), mantissa: "0".repeat(mantL) };
+            }
+
+            // Save comma index
             const dot = (P.f ? bin.indexOf(".") : bin.length);
-            bin.splice(dot, 1);
-            const exp = new B(bin.indexOf("1") >= 0 ? dot - bin.indexOf("1") - 1 + (bits64 ? 1023 : 127) : 0).toB(2).n.split("");
-            while (bin.indexOf("1") > 0) bin.shift();
-            bin.shift();
-            while (bin.length < mantL) bin.push("0");
-            while (exp.length < expL) exp.unshift("0");
-            return { sign: sign, exponent: exp.join("").substring(0, expL), mantissa: bin.join("").substring(0, mantL) };
+            // Remove comma
+            bin = bin.replace(".", "");
+            // Exponent: how many times did comma move
+            const _one = bin.indexOf("1");
+
+            let exp = new B(_one >= 0 ? dot - _one - 1 + (bits64 ? 1023 : 127) : 0);
+
+            // If negative, means exp = 0
+            if (exp.isNeg()) {
+                exp = "0";
+                bin = "0";
+            } else {
+                exp = exp.toB(2).n;
+
+                // Remove left zeros
+                while (bin.indexOf("1") > 0) bin = bin.slice(1);
+                bin = bin.slice(1);
+            }
+
+            return { sign: sign, exponent: exp.padStart(expL, "0").slice(0, expL), mantissa: bin.padEnd(mantL, "0").slice(0, mantL) };
         }
 
         P.clone = function() { return new B(P.n, P.b); } // new B(P) cause overflow
@@ -787,15 +878,15 @@ SOFTWARE.
             return (P.s ? "-" : "") + n[0] + "." + n.slice(1, digits) + " e" + (exp > -1 ? "+" + exp : exp);
         }
 
+        /*  ln(-n)        = NaN
+         *  ln(0)         = -Infinity
+         *  ln(-0)        = -Infinity
+         *  ln(1)         = 0
+         *  ln(Infinity)  = Infinity
+         *  ln(-Infinity) = NaN
+         *  ln(NaN)       = NaN
+         */
         P.ln = function() {
-            /*  ln(-n)        = NaN
-             *  ln(0)         = -Infinity
-             *  ln(-0)        = -Infinity
-             *  ln(1)         = 0
-             *  ln(Infinity)  = Infinity
-             *  ln(-Infinity) = NaN
-             *  ln(NaN)       = NaN
-             * */
             // If number is zero return -Infinity
             if (P.isZero()) return new B("-Infinity", P.b);
             // If negative return NaN
@@ -839,15 +930,13 @@ SOFTWARE.
             return r.round(decimals);
         }
 
+        /* cos(0)         = 1
+         * cos(-0)        = 1
+         * cos(Infinity)  = NaN
+         * cos(-Infinity) = NaN
+         * cos(NaN)       = NaN
+         */
         P.cosine = P.cos = function() {
-
-            /* cos(0)         = 1
-             * cos(-0)        = 1
-             * cos(Infinity)  = NaN
-             * cos(-Infinity) = NaN
-             * cos(NaN)       = NaN
-             * */
-
             if (P.isZero()) return new B("1", P.b);
             if (!P.isFinite()) return new B("NaN", P.b);
 
@@ -863,15 +952,13 @@ SOFTWARE.
             return r.round(decimals);
         }
 
+        /* sin(0)         = 0
+         * sin(-0)        = -0
+         * sin(Infinity)  = NaN
+         * sin(-Infinity) = NaN
+         * sin(NaN)       = NaN
+         */
         P.sine = P.sin = function() {
-
-            /* sin(0)         = 0
-             * sin(-0)        = -0
-             * sin(Infinity)  = NaN
-             * sin(-Infinity) = NaN
-             * sin(NaN)       = NaN
-             * */
-
             if (P.isZero()) return P.clone();
             if (!P.isFinite()) return new B("NaN", P.b);
 
@@ -887,17 +974,15 @@ SOFTWARE.
             return r.round(decimals);
         }
 
+        /* tan(0)         = 0
+         * tan(-0)        = -0
+         * tan(Infinity)  = NaN
+         * tan(-Infinity) = NaN
+         * tan(NaN)       = NaN
+         * tan(90)        = Infinity
+         * tan(-90)       = -Infinity
+         */
         P.tangent = P.tan = function() {
-
-            /* tan(0)         = 0
-             * tan(-0)        = -0
-             * tan(Infinity)  = NaN
-             * tan(-Infinity) = NaN
-             * tan(NaN)       = NaN
-             * tan(90)        = Infinity
-             * tan(-90)       = -Infinity
-             * */
-
             if (P.isZero()) return P.clone();
             if (!P.isFinite()) return new B("NaN", P.b);
 
@@ -927,22 +1012,21 @@ SOFTWARE.
             return r.round(decimals);
         }
 
+        /*
+         * cosh(0)         = 1
+         * cosh(-0)        = 1
+         * cosh(Infinity)  = Infinity
+         * cosh(-Infinity) = Infinity
+         * cosh(NaN)       = NaN
+         */
         P.hyperbolicCosine = P.cosh = function() {
-            /*
-             * cosh(0)         = 1
-             * cosh(-0)        = 1
-             * cosh(Infinity)  = Infinity
-             * cosh(-Infinity) = Infinity
-             * cosh(NaN)       = NaN
-             */
-
             if (P.isZero()) return new B("1", P.b);
             if (!P.isFinite()) return P.abs();
 
             // Fix precision decimals
             const oldDecimals = decimals,
                 x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((4 * decimals) / 100) || 2));
+            B.setDecimals(decimals + (Math.floor((4 * decimals) / 100) || 12));
 
             // If angle is in degrees transform to radians
             const r = new B(hyperbolicCosine(angles ? arith(arith(x, PI, "m"), "180", "d") : x)).toB(P.b);
@@ -951,21 +1035,20 @@ SOFTWARE.
             return r.round(decimals);
         }
 
+        /*
+         * sinh(0)         = 0
+         * sinh(-0)        = -0
+         * sinh(Infinity)  = Infinity
+         * sinh(-Infinity) = -Infinity
+         * sinh(NaN)       = NaN
+         */
         P.hyperbolicSine = P.sinh = function() {
-            /*
-             * sinh(0)         = 0
-             * sinh(-0)        = -0
-             * sinh(Infinity)  = Infinity
-             * sinh(-Infinity) = -Infinity
-             * sinh(NaN)       = NaN
-             */
-
             if (!P.isFinite() || P.isZero()) return P.clone();
 
             // Fix precision decimals
             const oldDecimals = decimals,
                 x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((4 * decimals) / 100) || 2));
+            B.setDecimals(decimals + (Math.floor((4 * decimals) / 100) || 12));
 
             // If angle is in degrees transform to radians
             const r = new B(hyperbolicSine(angles ? arith(arith(x, PI, "m"), "180", "d") : x)).toB(P.b);
@@ -974,17 +1057,16 @@ SOFTWARE.
             return r.round(decimals);
         }
 
+        /*
+         * tanh(0)         = 0
+         * tanh(-0)        = -0
+         * tanh(Infinity)  = 1
+         * tanh(-Infinity) = -1
+         * tanh(NaN)       = NaN
+         * 
+         * tanh(x) = sinh(x) / cosh(x)
+         */
         P.hyperbolicTangent = P.tanh = function() {
-            /*
-             * tanh(0)         = 0
-             * tanh(-0)        = -0
-             * tanh(Infinity)  = 1
-             * tanh(-Infinity) = -1
-             * tanh(NaN)       = NaN
-             * 
-             * tanh(x) = sinh(x) / cosh(x)
-             */
-
             if (P.isNaN() || P.isZero()) return P.clone();
             if (!P.isFinite()) {
                 if (P.s) return new B(-1, P.b);
@@ -994,7 +1076,7 @@ SOFTWARE.
             // Fix precision decimals
             const oldDecimals = decimals,
                 x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((4 * decimals) / 100) || 2));
+            B.setDecimals(decimals + (Math.floor((4 * decimals) / 100) || 12));
 
             // If angle is in degrees transform to radians
             const radians = angles ? arith(arith(x, PI, "m"), "180", "d") : x;
@@ -1005,26 +1087,25 @@ SOFTWARE.
             return r.round(decimals);
         }
 
+        /* acos(0)       = pi/2
+         * acos(-0)      = pi/2
+         * acos(1)       = 0
+         * acos(-1)      = pi
+         * acos(1/2)     = pi/3
+         * acos(-1/2)    = 2*pi/3
+         * acos(|x| > 1) = NaN
+         * acos(NaN)     = NaN
+         * 
+         * acos(x) = pi/2 - asin(x)
+         */
         P.inverseCosine = P.acos = function() {
-            /* acos(0)       = pi/2
-             * acos(-0)      = pi/2
-             * acos(1)       = 0
-             * acos(-1)      = pi
-             * acos(1/2)     = pi/3
-             * acos(-1/2)    = 2*pi/3
-             * acos(|x| > 1) = NaN
-             * acos(NaN)     = NaN
-             * 
-             * acos(x) = pi/2 - asin(x)
-             * */
-
             if (P.isNaN() || P.isZero()) return P.clone();
             if (cmp(P.abs().n, "1") == 1) return new B("NaN", P.b);
 
             // Fix precision decimals
             const oldDecimals = decimals,
                 x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((3 * decimals) / 100) || 3));
+            B.setDecimals(decimals + (Math.floor((3 * decimals) / 100) || 2));
 
             // Get angle in radians
             const radians = arith(arith("0.5", PI, "m"), arith("2", inverseTangent(arith(x, arith("1", arith(arith("1", arith(x, x, "m"), "s"), "2", "root"), "a"), "d")), "m"), "s");
@@ -1036,18 +1117,18 @@ SOFTWARE.
             return r.round(decimals);
         }
 
+        /* asin(0)       = 0
+         * asin(-0)      = -0
+         * asin(1/2)     = pi/6
+         * asin(-1/2)    = -pi/6
+         * asin(1)       = pi/2
+         * asin(-1)      = -pi/2
+         * asin(|x| > 1) = NaN
+         * asin(NaN)     = NaN
+         *              
+         * asin(x) = 2*atan(x/(1 + sqrt(1 - x^2)))
+         */
         P.inverseSine = P.asin = function() {
-            /* asin(0)       = 0
-             * asin(-0)      = -0
-             * asin(1/2)     = pi/6
-             * asin(-1/2)    = -pi/6
-             * asin(1)       = pi/2
-             * asin(-1)      = -pi/2
-             * asin(|x| > 1) = NaN
-             * asin(NaN)     = NaN
-             *              
-             * asin(x) = 2*atan(x/(1 + sqrt(1 - x^2)))
-             * */
             if (P.isNaN() || P.isZero()) return P.clone();
             if (cmp(P.abs().n, "1") == 1) return new B("NaN", P.b);
 
@@ -1066,18 +1147,17 @@ SOFTWARE.
             return r.round(decimals);
         }
 
+        /* atan(0)         = 0
+         * atan(-0)        = -0
+         * atan(1)         = pi/4
+         * atan(-1)        = -pi/4
+         * atan(Infinity)  = pi/2
+         * atan(-Infinity) = -pi/2
+         * atan(NaN)       = NaN
+         * 
+         * asinh(x) = ln(x + sqrt(x^2 + 1))
+         */
         P.inverseTangent = P.atan = function() {
-            /* atan(0)         = 0
-             * atan(-0)        = -0
-             * atan(1)         = pi/4
-             * atan(-1)        = -pi/4
-             * atan(Infinity)  = pi/2
-             * atan(-Infinity) = -pi/2
-             * atan(NaN)       = NaN
-             * 
-             * asinh(x) = ln(x + sqrt(x^2 + 1))
-             * */
-
             if (P.isNaN() || P.isZero()) return P.clone();
             if (!P.isFinite()) return new B(arith(PI, "2", "d"), P.b);
 
@@ -1096,15 +1176,14 @@ SOFTWARE.
             return r.round(decimals);
         }
 
+        /* acosh(x < 1)     = NaN
+         * acosh(NaN)       = NaN
+         * acosh(Infinity)  = Infinity
+         * acosh(1)         = 0
+         *
+         * acosh(x) = ln(x + sqrt(x^2 - 1))
+         */
         P.inverseHyperbolicCosine = P.acosh = function() {
-            /* acosh(x < 1)     = NaN
-             * acosh(NaN)       = NaN
-             * acosh(Infinity)  = Infinity
-             * acosh(1)         = 0
-             *
-             * acosh(x) = ln(x + sqrt(x^2 - 1))
-             */
-
             if (cmp(P.abs().n, "1") == -1 || P.isNaN()) return new B("NaN", P.b);
             if (!P.isFinite()) return P.clone();
 
@@ -1123,16 +1202,15 @@ SOFTWARE.
             return r.round(decimals);
         };
 
+        /* asinh(NaN)       = NaN
+         * asinh(Infinity)  = Infinity
+         * asinh(-Infinity) = -Infinity
+         * asinh(0)         = 0
+         * asinh(-0)        = -0
+         * 
+         * asinh(x) = ln(x + sqrt(x^2 + 1))
+         */
         P.inverseHyperbolicSine = P.asinh = function() {
-            /* asinh(NaN)       = NaN
-             * asinh(Infinity)  = Infinity
-             * asinh(-Infinity) = -Infinity
-             * asinh(0)         = 0
-             * asinh(-0)        = -0
-             * 
-             * asinh(x) = ln(x + sqrt(x^2 + 1))
-             */
-
             if (P.isZero() || !P.isFinite()) return P.clone();
 
             // Fix precision decimals
@@ -1150,19 +1228,18 @@ SOFTWARE.
             return r.round(decimals);
         };
 
+        /* atanh(|x| > 1)   = NaN
+         * atanh(NaN)       = NaN
+         * atanh(Infinity)  = NaN
+         * atanh(-Infinity) = NaN
+         * atanh(0)         = 0
+         * atanh(-0)        = -0
+         * atanh(1)         = Infinity
+         * atanh(-1)        = -Infinity 
+         *
+         * atanh(x) = 0.5 * ln((1 + x) / (1 - x))
+         */
         P.inverseHyperbolicTangent = P.atanh = function() {
-            /* atanh(|x| > 1)   = NaN
-             * atanh(NaN)       = NaN
-             * atanh(Infinity)  = NaN
-             * atanh(-Infinity) = NaN
-             * atanh(0)         = 0
-             * atanh(-0)        = -0
-             * atanh(1)         = Infinity
-             * atanh(-1)        = -Infinity 
-             *
-             * atanh(x) = 0.5 * ln((1 + x) / (1 - x))
-             */
-
             if (!P.isFinite() || cmp(P.abs().n, "1") == 1) return new B("NaN", P.b);
             if (P.isZero()) return P.clone();
             if (!cmp(P.abs().n, "1")) {

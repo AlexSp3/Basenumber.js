@@ -1011,8 +1011,6 @@ SOFTWARE.
          * atan(Infinity)  = pi/2
          * atan(-Infinity) = -pi/2
          * atan(NaN)       = NaN
-         * 
-         * atan(x) = ln(x + sqrt(x^2 + 1))
          */
         P.inverseTangent = P.atan = function() {
             if (P.isNaN() || P.isZero()) return P.clone();

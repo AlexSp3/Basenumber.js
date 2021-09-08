@@ -8,7 +8,6 @@ Let´s start creating our first BaseNumber. The constructor uses two arguments (
 | `base`   | Number                       | Optional |
 
 &nbsp;
-
 ```JavaScript
 const dec = Base(10, 10);  // Base(number, base);
 
@@ -96,8 +95,8 @@ Returns a value representing the sign of the instance:
 | `+0`  | _0_    |
 | `-0`  | _-0_   |
 | `NaN` | _NaN_  |
-&nbsp;
 
+&nbsp;
 ```JavaScript
 x = Base("-abc", 16)
 y = Base("NaN")
@@ -116,8 +115,8 @@ The `newValue` method allows user to modify the value of an instance. It takes t
 | --- | --- | --- | 
 | `number` | BaseNumber / String / Number | Required |
 | `base`   | Number                   | Optional |
-&nbsp;
 
+&nbsp;
 ```JavaScript
 dec.newValue(number[, base]);
 ```
@@ -183,8 +182,8 @@ It rounds a number according to the precision passed as an argument, rounding up
 | --- | --- | --- | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
-&nbsp;
 
+&nbsp;
 ```JavaScript
 dec.round(precision[, exclusive]);
 ```
@@ -206,8 +205,8 @@ x.round(1, true).valueOf();     // returns "10"
 | --- | --- | --- | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
-&nbsp;
 
+&nbsp;
 Returns a string showing the number with `precision` decimals.
 ```JavaScript
 dec.toFixed(precision[, exclusive]);
@@ -228,8 +227,8 @@ x.toFixed(2);             // '4.54'
 | --- | --- | --- | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
-&nbsp;
 
+&nbsp;
 Returns a string showing the number rounded with `precision` digits.
 ```JavaScript
 dec.toPrecision(precision[, exclusive]);
@@ -250,8 +249,8 @@ x.toPrecision(2);             // '4.8 e+6'
 | --- | --- | --- | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
-&nbsp;
 
+&nbsp;
 Returns a new BaseNumber whose value is the value of this instance rounded to `precision` significant digits.
 ```JavaScript
 dec.toSignificantDigits(precision[, exclusive]);
@@ -301,8 +300,8 @@ z.ceil().valueOf()        // '79'
 | --- | --- | --- | 
 | `min`       | BaseNumber  | Required |
 | `max`       | BaseNumber  | Optional |
-&nbsp;
 
+&nbsp;
 Returns a new BaseNumber whose value is the value of this instance clamped to the range delineated by min and max.
 ```JavaScript
 x = Base(5)
@@ -315,8 +314,8 @@ x.clamp(min, max).valueOf()    // '100'
 | Argument     | Type                     | Detail   |
 | --- | --- | --- | 
 | `precision`  | Number          | Optional |
-&nbsp;
 
+&nbsp;
 Returns a string representing the value of the instance rounded in exponential notation. Specify the number of digit after comma as an argument `precision`. By default `precision` is equal to the number of digits that are necessary to represent the number accurately.
 ```JavaScript
 dec = Base(9876.54321)
@@ -364,8 +363,8 @@ The addition method takes two arguments, last optional:
 | --- | --- | --- | 
 | `number`     | BaseNumber / String / Number | Required |
 | `base`       | Number                   | Optional |
-&nbsp;
 
+&nbsp;
 ```JavaScript
 dec.add(number[, base]);
 ```

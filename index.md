@@ -522,7 +522,7 @@ y.fact().valueOf();             // '24'
 ```
 ## Chaining methods
 BaseNumber.js allows user to chain math and other operators that return a BaseNumber. The list of operators that can be chained is the following:
-* [`newValue()`)](#newvalue)
+* [`newValue()`](#newvalue)
 * [`round()`](#round)
 * [`trunc()`](#trunc)
 * [`clamp()`](#clamp)

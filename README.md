@@ -22,11 +22,7 @@ Clear [documentation](https://github.com/AlexSp3/Basenumber.js/wiki) and [speed 
 ```Html
 <script src='path/basenumber.js'></script>
 ```
-The minify version
-```Html
-<script src='path/basenumber.min.js'></script>
-```
-The minify version in a CDN, to avoid downloading the repository:
+The **minify** version in a CDN, to avoid downloading the repository:
 ```Html
 <script src='https://cdn.jsdelivr.net/gh/AlexSp3/Basenumber.js@main/BaseNumber.min.js'></script>
 ```

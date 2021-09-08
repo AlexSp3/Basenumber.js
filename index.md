@@ -359,6 +359,7 @@ BaseNumber allows you to make math operations with normal variables or another B
 ### add()
 
 The addition method takes two arguments, last optional:
+
 | Argument     | Type                     | Detail   |
 | --- | --- | --- | 
 | `number`     | BaseNumber / String / Number | Required |

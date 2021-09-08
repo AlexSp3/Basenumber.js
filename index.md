@@ -3,9 +3,10 @@
 Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
 
 | Argument | Type                         | Detail   |
-| -------- | ---------------------------- | -------- | 
+| --- | --- | --- | 
 | `number` | BaseNumber / String / Number | Required |
 | `base`   | Number                       | Optional |
+
 
 ```JavaScript
 const dec = Base(10, 10);  // Base(number, base);
@@ -86,13 +87,15 @@ hex.base();   // 16
 ```
 ### sign()
 Returns a value representing the sign of the instance:
+
 | Sign  | Return |
-|---    |---     |
+| --- | --- |
 | `+`   | _1_    |
 | `-`   | _-1_   |
 | `+0`  | _0_    |
 | `-0`  | _-0_   |
 | `NaN` | _NaN_  |
+
 
 ```JavaScript
 x = Base("-abc", 16)
@@ -107,10 +110,13 @@ Base(-0).sign() // -0
 ```
 ### newValue()
 The `newValue` method allows user to modify the value of an instance. It takes two parameters, second is optional, and returns the same BaseNumber instance:
+
 | Argument | Type                     | Detail   |
-| ---      | ---                      | ---      | 
+| --- | --- | --- | 
 | `number` | BaseNumber / String / Number | Required |
 | `base`   | Number                   | Optional |
+
+
 ```JavaScript
 dec.newValue(number[, base]);
 ```
@@ -171,10 +177,13 @@ dec.trunc().valueOf();       // returns "10"
 ```
 ### round()
 It rounds a number according to the precision passed as an argument, rounding up or down depending the number (and user parameters). The method returns a new instance with decimals rounded:
+
 | Argument    | Type    | Detail   |
-| ---         | ---     | ---      | 
+| --- | --- | --- | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
+
+
 ```JavaScript
 dec.round(precision[, exclusive]);
 ```
@@ -191,10 +200,12 @@ x.round(1).valueOf();     // returns "10.1"
 x.round(1, true).valueOf();     // returns "10"
 ```
 ### toFixed()
+
 | Argument    | Type    | Detail   |
-| ---         | ---     | ---      | 
+| --- | --- | --- | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
+
 
 Returns a string showing the number with `precision` decimals.
 ```JavaScript
@@ -211,10 +222,12 @@ x.toFixed(10);            // '4.5394000000'
 x.toFixed(2);             // '4.54'
 ```
 ### toPrecision()
+
 | Argument    | Type    | Detail   |
-| ---         | ---     | ---      | 
+| --- | --- | --- | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
+
 
 Returns a string showing the number rounded with `precision` digits.
 ```JavaScript
@@ -231,10 +244,12 @@ x.toPrecision(15);             // '4765456.53940000'
 x.toPrecision(2);             // '4.8 e+6'
 ```
 ### toSignificantDigits() / toSD()
+
 | Argument    | Type    | Detail   |
-| ---         | ---     | ---      | 
+| --- | --- | --- | 
 | `precision` | Number  | Required |
 | `exclusive` | Boolean | Optional |
+
 
 Returns a new BaseNumber whose value is the value of this instance rounded to `precision` significant digits.
 ```JavaScript
@@ -280,10 +295,12 @@ z = Base("7a.2", 16)
 z.ceil().valueOf()        // '79'
 ```
 ### clamp()
+
 | Argument    | Type        | Detail   |
-| ---         | ---         | ---      | 
+| --- | --- | --- | 
 | `min`       | BaseNumber  | Required |
 | `max`       | BaseNumber  | Optional |
+
 
 Returns a new BaseNumber whose value is the value of this instance clamped to the range delineated by min and max.
 ```JavaScript
@@ -293,9 +310,11 @@ max = Base(150)
 x.clamp(min, max).valueOf()    // '100'
 ```
 ### toExponential() / toExp()
+
 | Argument     | Type                     | Detail   |
-| ---          | ---                      | ---      | 
+| --- | --- | --- | 
 | `precision`  | Number          | Optional |
+
 
 Returns a string representing the value of the instance rounded in exponential notation. Specify the number of digit after comma as an argument `precision`. By default `precision` is equal to the number of digits that are necessary to represent the number accurately.
 ```JavaScript
@@ -338,11 +357,13 @@ dec.toIEEE754();
 ## Math Operations
 BaseNumber allows you to make math operations with normal variables or another BaseNumber instance. Although following examples show only integer numbers, *all math operation are also available for float numbers*.:
 ### add()
+
 The addition method takes two arguments, last optional:
 | Argument     | Type                     | Detail   |
-| ---          | ---                      | ---      | 
+| --- | --- | --- | 
 | `number`     | BaseNumber / String / Number | Required |
 | `base`       | Number                   | Optional |
+
 
 ```JavaScript
 dec.add(number[, base]);

@@ -396,74 +396,6 @@ SOFTWARE.
         return r;
     }
 
-    function hyperbolicCosine(x) {
-        // cosh(x) = 1 + x^2/2! + x^4/4! + x^6/6! + ...
-        if (cmp(x, "0.01") == 1) {
-            // Argument reduction: cosh(x) = 1 - [ cosh^2(x/4) * (8 - 8*cohs^2(x/4)) ]
-            const oldDecimals = decimals,
-                extraDec = Math.floor(x.split(".").length * 125) || 5;
-            B.setDecimals(decimals + extraDec);
-            const cosh = hyperbolicCosine(arith(x, "4", "d")),
-                cosh2 = arith(cosh, cosh, "m"),
-                r = arith("1", arith(cosh2, arith("8", arith("8", cosh2, "m"), "s"), "m"), "s");
-            B.setDecimals(oldDecimals);
-            return r;
-        } else {
-            // Take hyperbolicCosine
-            let r = "1",
-                last = "x",
-                cur = 0,
-                fact = "1",
-                acc = arith(x, x, "m"),
-                sq = acc;
-            // Use Taylor series
-            for (let i = 2; cur <= r.length; i += 2) {
-                last = r;
-                // Get new factorial
-                fact = arith(fact, arith(String(i - 1), String(i), "m"), "m");
-                r = arith(r, arith(acc, fact, "d"), "a");
-                acc = arith(acc, sq, "m");
-                // Search for a digit that is not accurate
-                for (; cur <= r.length && last[cur] === r[cur]; cur++);
-            }
-            return r;
-        }
-    }
-
-    function hyperbolicSine(x) {
-        // sinh(x) = x + x^3/3! + x^5/5! + x^7/7! + ...
-        if (cmp(x, "0.01") == 1) {
-            // Argument reduction: sinh(x) = sinh(x/5) * [5 + (sinh^2(x/5) * (20 + 16sinh^2(x/5))) ]
-            const oldDecimals = decimals,
-                extraDec = Math.floor((x.split(".").length / decimals) * 17800) || 5;
-            B.setDecimals(decimals + extraDec);
-            const sinh = hyperbolicSine(arith(x, "5", "d")),
-                sinh2 = arith(sinh, sinh, "m"),
-                r = arith(sinh, arith("5", arith(sinh2, arith("20", arith("16", sinh2, "m"), "a"), "m"), "a"), "m");
-            B.setDecimals(oldDecimals);
-            return r;
-        } else {
-            // Take hyperbolicSine
-            let r = x,
-                last = "x",
-                cur = 0,
-                fact = "1",
-                sq = arith(x, x, "m"),
-                acc = x;
-            // Use Taylor series
-            for (let i = 3; cur <= r.length; i += 2) {
-                last = r;
-                acc = arith(acc, sq, "m");
-                // Get new factorial
-                fact = arith(fact, arith(String(i - 1), String(i), "m"), "m");
-                r = arith(r, arith(acc, fact, "d"), "a");
-                // Search for a digit that is not accurate
-                for (; cur <= r.length && last[cur] === r[cur]; cur++);
-            }
-            return r;
-        }
-    }
-
     function inverseTangent(x) {
         /*
          * Domain: [-Infinity, Infinity]
@@ -1012,81 +944,6 @@ SOFTWARE.
             return r.round(decimals);
         }
 
-        /*
-         * cosh(0)         = 1
-         * cosh(-0)        = 1
-         * cosh(Infinity)  = Infinity
-         * cosh(-Infinity) = Infinity
-         * cosh(NaN)       = NaN
-         */
-        P.hyperbolicCosine = P.cosh = function() {
-            if (P.isZero()) return new B("1", P.b);
-            if (!P.isFinite()) return P.abs();
-
-            // Fix precision decimals
-            const oldDecimals = decimals,
-                x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((4 * decimals) / 100) || 12));
-
-            // If angle is in degrees transform to radians
-            const r = new B(hyperbolicCosine(angles ? arith(arith(x, PI, "m"), "180", "d") : x)).toB(P.b);
-
-            B.setDecimals(oldDecimals);
-            return r.round(decimals);
-        }
-
-        /*
-         * sinh(0)         = 0
-         * sinh(-0)        = -0
-         * sinh(Infinity)  = Infinity
-         * sinh(-Infinity) = -Infinity
-         * sinh(NaN)       = NaN
-         */
-        P.hyperbolicSine = P.sinh = function() {
-            if (!P.isFinite() || P.isZero()) return P.clone();
-
-            // Fix precision decimals
-            const oldDecimals = decimals,
-                x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((4 * decimals) / 100) || 12));
-
-            // If angle is in degrees transform to radians
-            const r = new B(hyperbolicSine(angles ? arith(arith(x, PI, "m"), "180", "d") : x)).toB(P.b);
-
-            B.setDecimals(oldDecimals);
-            return r.round(decimals);
-        }
-
-        /*
-         * tanh(0)         = 0
-         * tanh(-0)        = -0
-         * tanh(Infinity)  = 1
-         * tanh(-Infinity) = -1
-         * tanh(NaN)       = NaN
-         * 
-         * tanh(x) = sinh(x) / cosh(x)
-         */
-        P.hyperbolicTangent = P.tanh = function() {
-            if (P.isNaN() || P.isZero()) return P.clone();
-            if (!P.isFinite()) {
-                if (P.s) return new B(-1, P.b);
-                return new B(1, P.b);
-            }
-
-            // Fix precision decimals
-            const oldDecimals = decimals,
-                x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((4 * decimals) / 100) || 12));
-
-            // If angle is in degrees transform to radians
-            const radians = angles ? arith(arith(x, PI, "m"), "180", "d") : x;
-
-            const r = new B(arith(hyperbolicSine(radians), hyperbolicCosine(radians), "d")).toB(P.b);
-
-            B.setDecimals(oldDecimals);
-            return r.round(decimals);
-        }
-
         /* acos(0)       = pi/2
          * acos(-0)      = pi/2
          * acos(1)       = 0
@@ -1155,7 +1012,7 @@ SOFTWARE.
          * atan(-Infinity) = -pi/2
          * atan(NaN)       = NaN
          * 
-         * asinh(x) = ln(x + sqrt(x^2 + 1))
+         * atan(x) = ln(x + sqrt(x^2 + 1))
          */
         P.inverseTangent = P.atan = function() {
             if (P.isNaN() || P.isZero()) return P.clone();
@@ -1168,92 +1025,6 @@ SOFTWARE.
 
             // Get angle in radians
             const radians = inverseTangent(x);
-
-            // Transform angle to degrees if necessary
-            const r = new B(angles ? arith(arith("180", radians, "m"), PI, "d") : radians).toB(P.b);
-
-            B.setDecimals(oldDecimals);
-            return r.round(decimals);
-        }
-
-        /* acosh(x < 1)     = NaN
-         * acosh(NaN)       = NaN
-         * acosh(Infinity)  = Infinity
-         * acosh(1)         = 0
-         *
-         * acosh(x) = ln(x + sqrt(x^2 - 1))
-         */
-        P.inverseHyperbolicCosine = P.acosh = function() {
-            if (cmp(P.abs().n, "1") == -1 || P.isNaN()) return new B("NaN", P.b);
-            if (!P.isFinite()) return P.clone();
-
-            // Fix precision decimals
-            const oldDecimals = decimals,
-                x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((3 * decimals) / 100) || 3));
-
-            // Get angle in radians
-            const radians = naturalLogarithm(arith(x, arith(arith(arith(x, x, "m"), "1", "s"), "2", "root"), "a"));
-
-            // Transform angle to degrees if necessary
-            const r = new B(angles ? arith(arith("180", radians, "m"), PI, "d") : radians).toB(P.b);
-
-            B.setDecimals(oldDecimals);
-            return r.round(decimals);
-        };
-
-        /* asinh(NaN)       = NaN
-         * asinh(Infinity)  = Infinity
-         * asinh(-Infinity) = -Infinity
-         * asinh(0)         = 0
-         * asinh(-0)        = -0
-         * 
-         * asinh(x) = ln(x + sqrt(x^2 + 1))
-         */
-        P.inverseHyperbolicSine = P.asinh = function() {
-            if (P.isZero() || !P.isFinite()) return P.clone();
-
-            // Fix precision decimals
-            const oldDecimals = decimals,
-                x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((3 * decimals) / 100) || 3));
-
-            // Get angle in radians
-            const radians = naturalLogarithm(arith(x, arith(arith(arith(x, x, "m"), "1", "a"), "2", "root"), "a"));
-
-            // Transform angle to degrees if necessary
-            const r = new B(angles ? arith(arith("180", radians, "m"), PI, "d") : radians).toB(P.b);
-
-            B.setDecimals(oldDecimals);
-            return r.round(decimals);
-        };
-
-        /* atanh(|x| > 1)   = NaN
-         * atanh(NaN)       = NaN
-         * atanh(Infinity)  = NaN
-         * atanh(-Infinity) = NaN
-         * atanh(0)         = 0
-         * atanh(-0)        = -0
-         * atanh(1)         = Infinity
-         * atanh(-1)        = -Infinity 
-         *
-         * atanh(x) = 0.5 * ln((1 + x) / (1 - x))
-         */
-        P.inverseHyperbolicTangent = P.atanh = function() {
-            if (!P.isFinite() || cmp(P.abs().n, "1") == 1) return new B("NaN", P.b);
-            if (P.isZero()) return P.clone();
-            if (!cmp(P.abs().n, "1")) {
-                if (P.isNeg()) return new B("-Infinity", P.b);
-                return new B("Infinity", P.b);
-            }
-
-            // Fix precision decimals
-            const oldDecimals = decimals,
-                x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((3 * decimals) / 100) || 3));
-
-            // Get angle in radians
-            const radians = arith("0.5", naturalLogarithm(arith(arith("1", x, "a"), arith("1", x, "s"), "d")), "m");
 
             // Transform angle to degrees if necessary
             const r = new B(angles ? arith(arith("180", radians, "m"), PI, "d") : radians).toB(P.b);

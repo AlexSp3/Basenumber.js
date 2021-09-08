@@ -1,6 +1,6 @@
-![basenumber.js](/img/logo.png)
+![basenumber.js](https://github.com/alexpalapine2003/Basenumber.js/blob/gh-pages/resources/logo.png)
 
-![version](/img/version.png)
+![version](https://github.com/alexpalapine2003/Basenumber.js/blob/gh-pages/resources/version.png)
 
 
 A Javascript **BigDecimal** library for arbitrary precision that allows you to work with numbers in different bases from **2 to 36**.

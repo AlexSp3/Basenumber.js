@@ -10,12 +10,13 @@ Clear [documentation](https://github.com/alexpalapine2003/BaseNumber/wiki) and [
 ## Description
 * Allows integers, floating, and negative **2 to 36** base numbers.
 * Work with **Big Integers** and **Big Decimals**.
-* Specify the number of digits after comma.
 * Do base transformation in a easy and fast way.
+* Specify the precision digits after comma.
 * Decimal `power` and nth `root` allowed.
 * Includes `toFixed`, `toExponential`, `toPrecision`, `toString` for basenumber instances, similar to javascript number methods.
 * Includes `floor`, `ceil`, `round`, `trunc`, `pow`, `sqrt`, `sign`, `exp`, `abs`, and **trigonometrics functions** similar to the [Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) object in javascript.
 * Includes high precision constants you can include in your project: `Pi`, `e`, `Ln10`, `Ln2`.
+* No dependencies.
 
 ## Use in browser
 ```Html
@@ -113,5 +114,8 @@ Base.e       // '2.7182818284590452353602874713526624...'
 Base.Ln2     // '0.6931471805599453094172321214581765...'
 Base.Ln10    // '2.3025850929940456840179914546843642...'
 ```
+## Website
+### [https://alexpalapine2003.github.io/Basenumber.js](https://alexpalapine2003.github.io/Basenumber.js)
+
 ---
 Open source [MIT License](LICENSE)

@@ -26,6 +26,10 @@ The minify version
 ```Html
 <script src='path/basenumber.min.js'></script>
 ```
+The minify version in a CDN, to avoid downloading the repository:
+```Html
+<script src='https://cdn.jsdelivr.net/gh/AlexSp3/Basenumber.js@main/BaseNumber.min.js'></script>
+```
 ## Use in Node.js:
 ```
 $ npm install basenumber.js

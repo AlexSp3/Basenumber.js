@@ -54,7 +54,7 @@ Base(Infinity).valueOf()  // "Infinity"
 Base(NaN).valueOf()       // "NaN"
 ```
 ### toString()
-Same as [`valueOf()`](#valueOf) but [0](#special-values) is not signed:
+Same as [`valueOf()`](#valueof) but [0](#special-values) is not signed:
 ```JavaScript
 x = Base(-0);
 y = Base(0);
@@ -198,7 +198,7 @@ Returns a string showing the number with `precision` decimals.
 ```JavaScript
 dec.toFixed(precision[, exclusive]);
 ```
-`precision` argument must be higher or equal to 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](#valueOf).
+`precision` argument must be higher or equal to 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](#valueof).
 `exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](#round) for more info about this parameter.
 ```JavaScript
 
@@ -218,7 +218,7 @@ Returns a string showing the number rounded with `precision` digits.
 ```JavaScript
 dec.toPrecision(precision[, exclusive]);
 ```
-`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](#valueOf). If `precision` is less than the number of digits necessary to represent the integer part of the value in normal notation, then exponential notation is used.
+`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](#valueof). If `precision` is less than the number of digits necessary to represent the integer part of the value in normal notation, then exponential notation is used.
 `exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](#round) for more info about this parameter.
 ```JavaScript
 
@@ -238,7 +238,7 @@ Returns a new BaseNumber whose value is the value of this instance rounded to `p
 ```JavaScript
 dec.toSignificantDigits(precision[, exclusive]);
 ```
-`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](#valueOf).
+`precision` argument must be higher than 0 to avoid errors. If `precision` arg. is omitted, it would returns the same as [valueOf()](#valueof).
 `exclusive` argument allows user to decide how to round the middle number between 0 and the base, see [round()](#round) for more info about this parameter.
 ```JavaScript
 dec = Base(9876.54321)
@@ -360,7 +360,7 @@ dec.add(77);     // Base by default is 10
 
 dec.add(77, 8);  // Base is 8
 ```
-Since the return value of the math functions is the modified instance, in order to take the value you need to add the [valueOf()](#valueOf) method at the end of the operation.
+Since the return value of the math functions is the modified instance, in order to take the value you need to add the [valueOf()](#valueof) method at the end of the operation.
 ```JavaScript
 dec.add(77).valueOf()   // returns the new value
 ```
@@ -445,7 +445,7 @@ y.ln().valueOf();             // '4.ce176fb4d0...'
 ```
 ### cos()
 Returns a new BaseNumber whose value is the cosine of the instance.
-The operation would depend of the angle unit, see [`setAngle()`](#setAngle).
+The operation would depend of the angle unit, see [`setAngle()`](#setangle).
 ```JavaScript
 x = Base(90)
 x.cos().valueOf();             // '0' 
@@ -455,7 +455,7 @@ y.cos().valueOf();             // '1'
 ```
 ### sin()
 Returns a new BaseNumber whose value is the sine of the instance.
-The operation would depend of the angle unit, see [`setAngle()`](#setAngle).
+The operation would depend of the angle unit, see [`setAngle()`](#setangle).
 ```JavaScript
 x = Base(90)
 x.sin().valueOf();             // '1' 
@@ -465,7 +465,7 @@ y.sin().valueOf();             // '0'
 ```
 ### tan()
 Returns a new BaseNumber whose value is the tangent of the instance.
-The operation would depend of the angle unit, see [`setAngle()`](#setAngle).
+The operation would depend of the angle unit, see [`setAngle()`](#setangle).
 ```JavaScript
 x = Base(90)
 x.tan().valueOf();             // 'Infinity' 
@@ -477,7 +477,7 @@ y.tan().valueOf();             // '0'
 Returns a new BaseNumber whose value is the inverse cosine of the instance.
 
 The argument range is **[-1, 1]**, else returns `NaN`.
-The result would depend of the angle unit, see [`setAngle()`](#setAngle).
+The result would depend of the angle unit, see [`setAngle()`](#setangle).
 ```JavaScript
 x = Base(1)
 x.acos().valueOf();             // '0' 
@@ -489,7 +489,7 @@ y.acos().valueOf();             // '90'
 Returns a new BaseNumber whose value is the inverse sine of the instance.
 
 The argument range is **[-1, 1]**, else returns `NaN`.
-The result would depend of the angle unit, see [`setAngle()`](#setAngle).
+The result would depend of the angle unit, see [`setAngle()`](#setangle).
 ```JavaScript
 x = Base(1)
 x.asin().valueOf();             // '90' 
@@ -501,7 +501,7 @@ y.asin().valueOf();             // '0'
 Returns a new BaseNumber whose value is the inverse tangent of the instance.
 
 The argument range is **[-Infinity, Infinity]**.
-The result would depend of the angle unit, see [`setAngle()`](#setAngle).
+The result would depend of the angle unit, see [`setAngle()`](#setangle).
 ```JavaScript
 x = Base(1)
 x.atan().valueOf();             // '45' 
@@ -522,7 +522,7 @@ y.fact().valueOf();             // '24'
 ```
 ## Chaining methods
 BaseNumber.js allows user to chain math and other operators that return a BaseNumber. The list of operators that can be chained is the following:
-* [`newValue()`)](#newValue)
+* [`newValue()`)](#newvalue)
 * [`round()`](#round)
 * [`trunc()`](#trunc)
 * [`clamp()`](#clamp)
@@ -530,11 +530,11 @@ BaseNumber.js allows user to chain math and other operators that return a BaseNu
 * [`neg()`](#neg)
 * [`floor()`](#floor)
 * [`ceil()`](#ceil)
-* [`toBase()`](#toBase)
-* [`toDec()`](#toDec)
-* [`toHex()`](#toHex)
-* [`toBin()`](#toBin)
-* [`toOct()`](#toOct)
+* [`toBase()`](#tobase)
+* [`toDec()`](#todec)
+* [`toHex()`](#tohex)
+* [`toBin()`](#tobin)
+* [`toOct()`](#tooct)
 * [`add()`](#add)
 * [`subtract()`](#subtract)
 * [`multiply()`](#multiply)

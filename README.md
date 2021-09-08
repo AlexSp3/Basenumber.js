@@ -119,7 +119,7 @@ Base.Ln2     // '0.6931471805599453094172321214581765...'
 Base.Ln10    // '2.3025850929940456840179914546843642...'
 ```
 ## Website
-### [https://alexpalapine2003.github.io/Basenumber.js](https://alexsp3.github.io/Basenumber.js)
+### [https://alexsp3.github.io/Basenumber.js](https://alexsp3.github.io/Basenumber.js)
 
 ---
 Open source [MIT License](LICENSE)

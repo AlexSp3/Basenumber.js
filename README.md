@@ -1,4 +1,4 @@
-![basenumber.js](https://github.com/AlexSp3/Basenumber.js/blob/gh-pages/resources/logo.png)
+![logo](https://user-images.githubusercontent.com/37636391/132720326-7f39d50a-a0e9-4668-a257-559ce2e552cb.png)
 
 <!---![Stars](https://img.shields.io/github/stars/AlexSp3/Basenumber.js)-->
 <!---![Downloads](https://img.shields.io/github/downloads/AlexSp3/Basenumber.js/total.svg)-->

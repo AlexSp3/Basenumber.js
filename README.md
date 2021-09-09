@@ -9,7 +9,7 @@
 ---
 A Javascript **BigDecimal** library for arbitrary precision that allows you to work with numbers in different bases from **2 to 36**.
 
-Clear [documentation](https://github.com/AlexSp3/Basenumber.js/wiki) and [speed tests](https://github.com/AlexSp3/Basenumber.js/wiki/Tests).
+Clear [**documentation**](https://github.com/AlexSp3/Basenumber.js/wiki) and [**speed tests**](https://github.com/AlexSp3/Basenumber.js/wiki/Tests).
 
 ## Description
 * Allows integers, floating, and negative **2 to 36** base numbers.
@@ -18,7 +18,7 @@ Clear [documentation](https://github.com/AlexSp3/Basenumber.js/wiki) and [speed 
 * Specify the precision digits after comma.
 * Decimal `power` and nth `root` allowed.
 * Includes `toFixed`, `toExponential`, `toPrecision`, `toString` for basenumber instances, similar to javascript number methods.
-* Includes `floor`, `ceil`, `round`, `trunc`, `pow`, `sqrt`, `sign`, `exp`, `abs`, and **trigonometrics functions** similar to the [Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) object in javascript.
+* Includes `floor`, `ceil`, `round`, `trunc`, `pow`, `sqrt`, `sign`, `exp`, `abs`, and **trigonometrics functions** similar to the [**Math**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) object in javascript.
 * Includes high precision constants you can include in your project: `Pi`, `e`, `Ln10`, `Ln2`.
 * No dependencies.
 * Based on native `BigInt` Javascript library.

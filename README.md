@@ -38,9 +38,9 @@ $ npm install basenumber.js
 ```Javascript
 const Base = require('basenumber.js');
 ```
-### Available methods
+<!--### Available methods
 
-![image](https://user-images.githubusercontent.com/37636391/132717467-f703dea5-b501-48d0-aa4f-d7c7c6890a5e.png)
+![image](https://user-images.githubusercontent.com/37636391/132717467-f703dea5-b501-48d0-aa4f-d7c7c6890a5e.png)-->
 
 
 ## Examples

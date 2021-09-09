@@ -1,4 +1,4 @@
-![basenumber.js](/resources/logo.png)
+![logo](https://user-images.githubusercontent.com/37636391/132720326-7f39d50a-a0e9-4668-a257-559ce2e552cb.png)
 ## Create a BaseNumber instance:
 Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
 

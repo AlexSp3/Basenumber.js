@@ -38,9 +38,29 @@ $ npm install basenumber.js
 ```Javascript
 const Base = require('basenumber.js');
 ```
-<!--### Available methods
+## Available methods
 
-![image](https://user-images.githubusercontent.com/37636391/132717467-f703dea5-b501-48d0-aa4f-d7c7c6890a5e.png)-->
+| Number / String methods  | Base convertion | Math operations | Comparison | Library configuration
+| ---: | --: | ---: | --: | --: |
+| [`abs()`](https://github.com/AlexSp3/Basenumber.js/wiki/#abs) | [`toBase()`](https://github.com/AlexSp3/Basenumber.js/wiki/#toBase) | [`acos()`](https://github.com/AlexSp3/Basenumber.js/wiki/#acos)  | [`equalTo()`](https://github.com/AlexSp3/Basenumber.js/wiki/#equalTo)  | [`setDecimals()`](https://github.com/AlexSp3/Basenumber.js/wiki/#setdecimals) |
+| [`ceil()`](https://github.com/AlexSp3/Basenumber.js/wiki/#ceil) | [`toDec()`](https://github.com/AlexSp3/Basenumber.js/wiki/#todec) | [`add()`](https://github.com/AlexSp3/Basenumber.js/wiki/#add)  | [`isBase()`](https://github.com/AlexSp3/Basenumber.js/wiki/#isBase)  | [`setAngle()`](https://github.com/AlexSp3/Basenumber.js/wiki/#setangle) |
+| [`clamp()`](https://github.com/AlexSp3/Basenumber.js/wiki/#clamp) | [`toHex()`](https://github.com/AlexSp3/Basenumber.js/wiki/#tohex) | [`asin()`](https://github.com/AlexSp3/Basenumber.js/wiki/#asin)  | [`isFinite()`](https://github.com/AlexSp3/Basenumber.js/wiki/#isFinite)  | [`noConflict()`](https://github.com/AlexSp3/Basenumber.js/wiki/#noConflict) |
+| [`floor()`](https://github.com/AlexSp3/Basenumber.js/wiki/#floor) | [`toOct()`](https://github.com/AlexSp3/Basenumber.js/wiki/#toOct) | [`atan()`](https://github.com/AlexSp3/Basenumber.js/wiki/#atan)  | [`isFloat()`](https://github.com/AlexSp3/Basenumber.js/wiki/#isFloat)  | |
+| [`neg()`](https://github.com/AlexSp3/Basenumber.js/wiki/#neg) | [`toBin()`](https://github.com/AlexSp3/Basenumber.js/wiki/#toBin) |  [`cbrt()`](https://github.com/AlexSp3/Basenumber.js/wiki/#cbrt)  | [`isInt()`](https://github.com/AlexSp3/Basenumber.js/wiki/#isInt)  | |
+| [`round()`](https://github.com/AlexSp3/Basenumber.js/wiki/#round) | | [`cos()`](https://github.com/AlexSp3/Basenumber.js/wiki/#cos)  | [`isNaN()`](https://github.com/AlexSp3/Basenumber.js/wiki/#isnan)  | |
+| [`toExponential()` / `toExp()`](https://github.com/AlexSp3/Basenumber.js/wiki/#toexponential--toexp) | | [`divide()`](https://github.com/AlexSp3/Basenumber.js/wiki/#divide)  | [`isNeg()`](https://github.com/AlexSp3/Basenumber.js/wiki/#isNeg)  | |
+| [`toFixed()`](https://github.com/AlexSp3/Basenumber.js/wiki/#tofixed)| | [`fact()`](https://github.com/AlexSp3/Basenumber.js/wiki/#fact)  | [`isPos()`](https://github.com/AlexSp3/Basenumber.js/wiki/#ispos)  | |
+| [`toNumber()`](https://github.com/AlexSp3/Basenumber.js/wiki/#tonumber) | | [`exp()`](https://github.com/AlexSp3/Basenumber.js/wiki/#exp)  | [`isZero()`](https://github.com/AlexSp3/Basenumber.js/wiki/#iszero)  | |
+| [`toPrecision()`](https://github.com/AlexSp3/Basenumber.js/wiki/#toprecision) | | [`ln()`](https://github.com/AlexSp3/Basenumber.js/wiki/#ln)  | [`lowerThan()`](https://github.com/AlexSp3/Basenumber.js/wiki/#lowerThan)  | |
+| [`toSignificantDigits()` / `toSD()`](https://github.com/AlexSp3/Basenumber.js/wiki/#tosignificant--tosd) | | [`log()`](https://github.com/AlexSp3/Basenumber.js/wiki/#log)  | |
+| [`toString()`](https://github.com/AlexSp3/Basenumber.js/wiki/#tostring) | | [`multiply()`](https://github.com/AlexSp3/Basenumber.js/wiki/#multiply)  | |
+| [`trunc()`](https://github.com/AlexSp3/Basenumber.js/wiki/#trunc) | | [`pow()`](https://github.com/AlexSp3/Basenumber.js/wiki/#pow)  | |
+|                                                                   | | [`root()`](https://github.com/AlexSp3/Basenumber.js/wiki/#root)  |  |
+|                                                                   | |[`sin()`](https://github.com/AlexSp3/Basenumber.js/wiki/#sin)  | |
+|                                                                   | | [`sqrt()`](https://github.com/AlexSp3/Basenumber.js/wiki/#sqrt)  | |
+|                                                                   | | [`subtract()`](https://github.com/AlexSp3/Basenumber.js/wiki/#subtract)  | |
+|                                                                   | |  [`tan()`](https://github.com/AlexSp3/Basenumber.js/wiki/#tan)  | |
+
 
 
 ## Examples

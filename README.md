@@ -120,7 +120,7 @@ Base.Ln2     // '0.6931471805599453094172321214581765...'
 Base.Ln10    // '2.3025850929940456840179914546843642...'
 ```
 ## Can I contribute?
-Of course you can! Contributers are necessary for mantaining and improve the library. If you want to contribute, do not hesitate to make a [pull request](https://github.com/AlexSp3/Basenumber.js/pulls). If you need some information on how to contribute on a Github project, [this](https://gist.github.com/MarcDiethelm/7303312) reading might be useful.
+Of course you can! Contributers are necessary for mantaining and improve the library. If you want to contribute, do not hesitate to make a [**pull request**](https://github.com/AlexSp3/Basenumber.js/pulls). If you need some information on how to contribute on a Github project, [**this reading**](https://gist.github.com/MarcDiethelm/7303312)  might be useful.
 ## Website
 ### [https://alexsp3.github.io/Basenumber.js](https://alexsp3.github.io/Basenumber.js)
 

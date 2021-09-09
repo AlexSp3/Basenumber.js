@@ -1,5 +1,5 @@
 ![basenumber.js](/resources/logo.png)
-## Create a BaseNumber object:
+## Create a BaseNumber instance:
 Let´s start creating our first BaseNumber. The constructor uses two arguments (last optional) to build the instance:
 
 | Argument | Type                         | Detail   |

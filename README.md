@@ -38,6 +38,11 @@ $ npm install basenumber.js
 ```Javascript
 const Base = require('basenumber.js');
 ```
+### Available methods
+
+![image](https://user-images.githubusercontent.com/37636391/132717467-f703dea5-b501-48d0-aa4f-d7c7c6890a5e.png)
+
+
 ## Examples
 Create a basenumber from a Number, String, or another basenumber
 ```Javascript

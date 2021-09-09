@@ -40,7 +40,7 @@ const Base = require('basenumber.js');
 ```
 ## Available methods
 
-| Number / String methods  | Base convertion | Math operations | Comparison | Library configuration
+| Number / String methods  | Base convertion | Math operations | Comparison | Library configuration |
 | ---: | --: | ---: | --: | --: |
 | [`abs()`](https://github.com/AlexSp3/Basenumber.js/wiki/#abs) | [`toBase()`](https://github.com/AlexSp3/Basenumber.js/wiki/#toBase) | [`acos()`](https://github.com/AlexSp3/Basenumber.js/wiki/#acos)  | [`equalTo()`](https://github.com/AlexSp3/Basenumber.js/wiki/#equalTo)  | [`setDecimals()`](https://github.com/AlexSp3/Basenumber.js/wiki/#setdecimals) |
 | [`ceil()`](https://github.com/AlexSp3/Basenumber.js/wiki/#ceil) | [`toDec()`](https://github.com/AlexSp3/Basenumber.js/wiki/#todec) | [`add()`](https://github.com/AlexSp3/Basenumber.js/wiki/#add)  | [`isBase()`](https://github.com/AlexSp3/Basenumber.js/wiki/#isBase)  | [`setAngle()`](https://github.com/AlexSp3/Basenumber.js/wiki/#setangle) |

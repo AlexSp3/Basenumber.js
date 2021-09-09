@@ -21,6 +21,7 @@ Clear [**documentation**](https://github.com/AlexSp3/Basenumber.js/wiki) and [**
 * Includes high precision constants you can include in your project: `Pi`, `e`, `Ln10`, `Ln2`.
 * No dependencies.
 * Based on native `BigInt` Javascript library.
+* Little more than **20kb** minified!
 
 ## Use in browser
 ```Html

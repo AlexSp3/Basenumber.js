@@ -7,7 +7,7 @@
 [![GitHub tag](https://img.shields.io/github/tag/AlexSp3/Basenumber.js.svg)](https://github.com/AlexSp3/Basenumber.js/releases)
 
 ---
-A Javascript **BigDecimal** library for arbitrary precision that allows you to work with numbers in different bases from **2 to 36**.
+A **BigDecimal** library for arbitrary precision that allows you to work with numbers in different bases from **2 to 36**.
 
 Clear [**documentation**](https://github.com/AlexSp3/Basenumber.js/wiki) and [**speed tests**](https://github.com/AlexSp3/Basenumber.js/wiki/Tests).
 

@@ -125,4 +125,4 @@ Of course you can! Contributers are necessary for mantaining and improve the lib
 ### [https://alexsp3.github.io/Basenumber.js](https://alexsp3.github.io/Basenumber.js)
 
 ---
-Open source [MIT License](LICENSE)
+Open source [**MIT License**](LICENSE)

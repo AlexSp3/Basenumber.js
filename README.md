@@ -119,6 +119,23 @@ z.toBin()      // '1010011010001101110011100101000'
 
 x.toBin().toDec()   // '100'
 ```
+## Round numbers in any base
+
+There isn't a built-in function that can round numbers in other base than 10. You can use the [`round()`](https://github.com/AlexSp3/Basenumber.js/wiki/#round) method in Basenumber.js
+
+```Javascript
+x = Base(9.417, 8)
+y = Base("5d10.af5", 16)
+
+x.round(2)     // '9.42' in base 8
+x.round(1)     // '9.4' in base 8
+x.round(0)     // '10' in base 8
+
+y.round(2)     // '5d10.af' in base 16
+y.round(1)     // '5d10.b' in base 16
+y.round(0)     // '5d11' in base 16
+```
+
 ## Chaining methods
 ```Javascript
 x = Base(100);

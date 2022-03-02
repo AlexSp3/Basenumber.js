@@ -1,18 +1,14 @@
 /*
 MIT License
-
 Copyright (c) 2021 alexpalapine2003
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -438,6 +434,11 @@ SOFTWARE.
     }
 
     B.setDecimals = (n) => {
+
+        // decimals must be >= 0
+        if (n < 0)
+            err("'Base.setDecimals()'", `Invalid decimals value ${value}`);
+
         decimals = n;
         shift = "0".repeat(decimals + 1);
     }
@@ -483,8 +484,11 @@ SOFTWARE.
     function B(n, base = 10) {
         if (!(this instanceof B)) return new B(n, base);
         if (n instanceof B) return n.clone();
+        if (n instanceof BigInt) n = n.toString();
+
         n = Normalize(n);
-        base = parseInt(base);
+        base = parseInt(base, 10);
+
         _catch(n, base, "'constructor()'");
         n = fixNott(n);
         const P = this;
@@ -493,13 +497,13 @@ SOFTWARE.
         P.f = (n.indexOf(".") + 1);
         P.s = (n[0] === "-");
 
-        /* Returns a new Basenumber with precision digits rounded using 'exclusive' if it'is true 
+        /* Returns a new Basenumber with precision digits rounded using 'exclusive' if it is true 
          *
          * Number of digits after comma DO NOT depend on the 'base'
          * E.g.
          * 
-         * Base(14.2309).round(3)    =>   '14.231'
-         * Base('f.a0ee').round(3)   =>   'f.a0f'
+         * Base(14.2309, 10).round(3)    =>   '14.231'
+         * Base('f.a0ee', 16).round(3)   =>   'f.a0f'
          * 
          */
 
@@ -516,24 +520,31 @@ SOFTWARE.
                 }
             };
 
-            const sign = (P.s ? "-" : "");
-            const base = P.b;
+            // Non-finite? or Non-float
+            if (!P.isFinite() || !P.f)
+                return P.clone();
+
+            const
+                sign = (P.s ? "-" : ""),
+                base = P.b;
+
             let digits = P.n.split("");
             sign === "-" && digits.shift();
 
-            // Non-finite?
-            if (!P.isFinite()) return P.clone();
+            if (precision < 0 || isNaN(precision))
+                err("'round()'", "precision argument should be a number higher than -1");
 
             precision = Math.min(precision, decimals);
-            if (precision < 0 || isNaN(precision)) err("'round()'", "precision argument should be a number higher than -1");
 
-            const dot = digits.indexOf(".");
+            const
+                dot = digits.indexOf("."),
+                nextDigit = digits[dot + 1 + precision];
 
-            if (typeof digits[dot + 1 + precision] === "undefined" ||
-                !P.f) return P.clone();
+            if (typeof nextDigit === "undefined")
+                return P.clone();
 
             // Add +1 to the last precision digit if necessary
-            (base - !!exclusive) - B.getNumber(digits[dot + 1 + precision]) <= (base - !!exclusive) / 2 &&
+            (base - !!exclusive) - B.getNumber(nextDigit) <= (base - !!exclusive) / 2 &&
                 _addOne(dot + precision);
 
             // Truncate non-significant digits
@@ -571,13 +582,19 @@ SOFTWARE.
         P.toPrecision = function(precision = P.abs().n.length - (P.f ? 1 : 0), exclusive = false) {
             if (!P.isFinite()) return P.n;
             precision = Math.min(precision, P.abs().trunc().n.length + decimals);
-            if (precision < 1 || isNaN(precision)) err("'toPrecision()'", "precision argument should be a number higher than 0");
-            let n = P.abs().n;
-            let dot = n.indexOf(".") + 1;
+            if (precision < 1 || isNaN(precision))
+                err("'toPrecision()'", "precision argument should be a number higher than 0");
+
+            let n = P.abs().n,
+                dot = n.indexOf(".") + 1;
+
             dot ? dot-- : dot = n.length;
+
             n = new B("0" + "." + n.replace(".", ""), P.b).round(precision, exclusive).n.slice(2).padEnd(dot > precision ? dot : precision, "0");
             n = n.substring(0, dot) + "." + n.slice(dot);
-            if (dot > precision ? dot : precision > n.length - 1) return new B((P.s ? "-" : "") + n, P.b).toExp();
+
+            if (dot > precision ? dot : precision > n.length - 1)
+                return new B((P.s ? "-" : "") + n, P.b).toExp();
             else {
                 n[n.length - 1] === "." && (n = n.substring(0, n.length - 1));
                 return (P.s ? "-" : "") + n;
@@ -587,11 +604,16 @@ SOFTWARE.
         P.toSignificantDigits = P.toSD = function(precision = P.abs().n.length - (P.f ? 1 : 0), exclusive = false) {
             if (!P.isFinite()) return P.n;
             precision = Math.min(precision, P.abs().trunc().n.length + decimals);
-            if (precision < 1 || isNaN(precision)) err("'toSignificantDigits()'", "precision argument should be a number higher than 0");
-            let n = P.abs().n;
-            let dot = n.indexOf(".") + 1;
+            if (precision < 1 || isNaN(precision))
+                err("'toSignificantDigits()'", "precision argument should be a number higher than 0");
+
+            let n = P.abs().n,
+                dot = n.indexOf(".") + 1;
+
             dot ? dot-- : dot = n.length;
+
             n = new B("0" + "." + n.replace(".", ""), P.b).round(precision, exclusive).n.slice(2).padEnd(dot, "0");
+
             return fixNott((P.s ? "-" : "") + n.substring(0, dot) + "." + n.slice(dot));
         }
 
@@ -827,7 +849,7 @@ SOFTWARE.
             if (!P.isFinite()) return P.clone();
             // Fix precision decimals
             const oldDecimals = decimals;
-            B.setDecimals(decimals + (Math.floor((1 * decimals) / 100) || 2));
+            B.setDecimals(decimals + (Math.floor(decimals / 100) || 2));
 
             const r = new B(naturalLogarithm(P.toB().n)).toB(P.b);
 
@@ -842,7 +864,7 @@ SOFTWARE.
             if (!P.isFinite()) return P.clone();
             // Fix precision decimals
             const oldDecimals = decimals;
-            B.setDecimals(decimals + (Math.floor((1 * decimals) / 100) || 2));
+            B.setDecimals(decimals + (Math.floor(decimals / 100) || 2));
 
             const r = new B(arith(naturalLogarithm(P.toB().n), naturalLogarithm(String(y)), "d")).toB(P.b);
 
@@ -855,7 +877,7 @@ SOFTWARE.
             if (!P.isFinite()) return P.clone();
             // Fix precision decimals
             const oldDecimals = decimals;
-            B.setDecimals(decimals + (Math.floor((1 * decimals) / 100) || 2));
+            B.setDecimals(decimals + (Math.floor(decimals / 100) || 2));
             const r = new B(naturalExponential(P.toB().n)).toB(P.b);
 
             B.setDecimals(oldDecimals);
@@ -875,7 +897,7 @@ SOFTWARE.
             // Fix precision decimals
             const oldDecimals = decimals,
                 x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((1 * decimals) / 100) || 2));
+            B.setDecimals(decimals + (Math.floor(decimals / 100) || 2));
 
             // If angle is in degrees transform to radians
             const r = new B(cosine(angles ? arith(arith(arith(x, PI, "m"), "180", "d"), "180", "mod") : arith(x, PI, "mod"))).toB(P.b);
@@ -897,7 +919,7 @@ SOFTWARE.
             // Fix precision decimals
             const oldDecimals = decimals,
                 x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((1 * decimals) / 100) || 2));
+            B.setDecimals(decimals + (Math.floor(decimals / 100) || 2));
 
             // If angle is in degrees transform to radians
             const r = new B(sine(angles ? arith(arith(arith(x, PI, "m"), "180", "d"), "180", "mod") : arith(x, PI, "mod"))).toB(P.b);
@@ -921,7 +943,7 @@ SOFTWARE.
             // Fix precision decimals
             const oldDecimals = decimals,
                 x = P.toB().n;
-            B.setDecimals(decimals + (Math.floor((1 * decimals) / 100) || 2));
+            B.setDecimals(decimals + (Math.floor(decimals / 100) || 2));
 
             // If angle is in degrees transform to radians
             const radians = angles ? arith(arith(arith(x, PI, "m"), "180", "d"), "180", "mod") : arith(x, PI, "mod");
@@ -1017,8 +1039,10 @@ SOFTWARE.
             if (!P.isFinite()) return new B(arith(PI, "2", "d"), P.b);
 
             // Fix precision decimals
-            const oldDecimals = decimals,
+            const
+                oldDecimals = decimals,
                 x = P.toB().n;
+
             B.setDecimals(decimals + (Math.floor((3 * decimals) / 100) || 3));
 
             // Get angle in radians
@@ -1035,14 +1059,14 @@ SOFTWARE.
             base = parseInt(base);
             if (P.b === base || !P.isFinite()) return P.clone();
             const n = P.abs().n;
-            _catch("0", base, "'parseBase()'");
+            _catch("0", base, "'toBase()'");
 
             // Fix precision decimals
             const oldDecimals = decimals;
-            B.setDecimals(decimals + (Math.floor((1 * decimals) / 100) || 2));
+            B.setDecimals(decimals + (Math.floor(decimals / 100) || 2));
 
             let acc = "1",
-                int = P.b === 10 ? n.split(".")[0] : n.split(".")[0].split("").reverse().reduce((a, d) => {
+                int = P.b === 10 ? n.split(".")[0] : n.split(".")[0].split("").reduceRight((a, d) => {
                     const r = String(BigInt(a) + BigInt(B.getNumber(d)) * BigInt(acc));
                     acc = String(BigInt(acc) * BigInt(P.b));
                     return r;
@@ -1090,6 +1114,7 @@ SOFTWARE.
         // Node and other environments that support module.exports.
     } else if (typeof module != 'undefined' && module.exports) {
         if (typeof Symbol == 'function' && typeof Symbol.iterator == 'symbol') {
+            const P = B.prototype;
             P[Symbol['for']('nodejs.util.inspect.custom')] = P.toString;
             P[Symbol.toStringTag] = 'Base';
         }

@@ -14,11 +14,11 @@ Clear [**documentation**](https://github.com/AlexSp3/Basenumber.js/wiki) and [**
 ## Description
 * Allows integers, floating, and negative **2 to 36** base numbers.
 * Work with **Big Integers** and **Big Decimals**.
-* Do base transformation in a easy and fast way.
+* Do base transformation in an easy and fast way.
 * Specify the precision digits after comma.
 * Decimal `power` and nth `root` allowed.
 * Includes `floor`, `ceil`, `round`, `trunc`, `pow`, `sqrt`, `sign`, `exp`, `abs`, and **trigonometrics functions** similar to the [**Math**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) object in javascript.
-* Includes high precision constants you can include in your project: `Pi`, `e`, `Ln10`, `Ln2`.
+* Includes high precision constants you can use in your project: `Pi`, `e`, `Ln10`, `Ln2`.
 * No dependencies.
 * Based on native `BigInt` Javascript library.
 * Little more than **20kb** minified!
@@ -164,7 +164,7 @@ Base.Ln10    // '2.3025850929940456840179914546843642...'
 ## Can I contribute?
 Of course you can! Contributers are necessary for mantaining and improve the library. If you want to contribute, do not hesitate to make a [**pull request**](https://github.com/AlexSp3/Basenumber.js/pulls). If you need some information on how to contribute on a Github project, [**this reading**](https://gist.github.com/MarcDiethelm/7303312)  might be useful.
 ## Website
-### [https://alexsp3.github.io/Basenumber.js](https://alexsp3.github.io/Basenumber.js)
+### [https://alexsp3.github.io/Basenumber.js](https://alexsp3.github.io/Basenumber.js) (outdated)
 
 ---
 Open source [**MIT License**](LICENSE)

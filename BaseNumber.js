@@ -318,18 +318,8 @@ SOFTWARE.
          * exp(x) = exp(a) * 2^b  where a = x - b * ln2, b = floor(x / ln2)
          */
         if (cmp(x, LN2) == 1) {
-            // Do floor
-            let b = arith(x, LN2, "d");
-            // if b has decimals
-            if (b.indexOf(".") + 1) {
-                b = b.split(".")[0];
-                // if b is negative
-                if (b[0] === "-") {
-                    let i = b.length - 1;
-                    for (; b[i] === "0"; i--) b[i] = "9";
-                    b[i] = String(b[i] - 1);
-                }
-            }
+            // Do floor, b is always a positive number
+            let b = arith(x, LN2, "d").split(".")[0];
 
             // Precision error. Result would not be correctly rounded since LN2 constant has only 1025 decimals
             const decRequired = decimals + b / 3.25;

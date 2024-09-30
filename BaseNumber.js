@@ -129,7 +129,8 @@ SOFTWARE.
      * make them the same length and add '0' on the left and on the right to
      * compare each character
      * 
-     * It catches special cases such as NaN and ±Infinity
+     * It catches +Infinity and -Infinity
+     * Using function with NaN returns non sense result
      * 
      * @param (string, string)
      * @return 1, -1 or 0 depends on the comparition result
@@ -137,19 +138,30 @@ SOFTWARE.
     function cmp(s1, s2) {
 
         // Fix sign
-        let sign1 = "",
-            sign2 = "";
-        s1[0] === "-" && (sign1 = "0") && (s1 = s1.slice(1));
-        s2[0] === "-" && (sign2 = "0") && (s2 = s2.slice(1));
+        let sign1 = "1", sign2 = "1";
+
+        if (s1[0] === "-") {
+            sign1 = "0";
+            s1 = s1.slice(1);
+        } else if (s1[0] === "+") {
+            s1 = s1.slice(1);
+        }
+
+        if (s2[0] === "-") {
+            sign2 = "0";
+            s2 = s2.slice(1);
+        } else if (s2[0] === "+") {
+            s2 = s2.slice(1);
+        }
+
 
         // check special values
-        if (s1.indexOf("Infinity") + 1) {
-            if (s1 === s2) return sign1 < sign2;
-            return sign1 ? -1 : 1;
-        }
-        if (s2.indexOf("Infinity") + 1) {
+        if (s1 === "Infinity") {
             if (s1 === s2) return sign1 > sign2;
-            return sign2 ? 1 : -1;
+            return sign1 === "0" ? -1 : 1;
+        }
+        if (s2 === "Infinity") {
+            return sign2 === "0" ? 1 : -1;
         }
 
         //  add point in case there isn't
